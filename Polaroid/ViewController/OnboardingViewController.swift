@@ -62,8 +62,7 @@ final class OnboardingViewController: BaseViewController {
 extension OnboardingViewController {
     @objc private func startButtonClicked(){
         let nicknameVC = NicknameViewController()
-        
-        transitionScene(PolaroidTabBarController())
-//        navigationController?.pushViewController(nicknameVC, animated: true)
+        nicknameVC.viewModel.viewType = .add
+        navigationController?.pushViewController(nicknameVC, animated: true)
     }
 }

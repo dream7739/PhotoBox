@@ -21,6 +21,5 @@ final class Observable<T> {
     
     func bind(_ closure : @escaping (T) -> Void){
         self.closure = closure
-        closure(value)
     }
 }

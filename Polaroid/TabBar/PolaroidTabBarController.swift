@@ -22,7 +22,7 @@ final class PolaroidTabBarController: UITabBarController {
         let likePhotoVC = UINavigationController(rootViewController: PhotoLikeViewController())
         
         let topic = UITabBarItem(title: nil, image: UIImage(named: "tap_trend_inactive"), tag: 0)
-        topic.selectedImage = UIImage(named: "tap_trend")
+        topic.selectedImage = UIImage(named: "tab_trend")
         topicPhotoVC.tabBarItem = topic
         
         let search = UITabBarItem(title: nil, image: UIImage(named: "tab_search_inactive"), tag: 1)

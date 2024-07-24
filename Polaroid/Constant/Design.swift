@@ -13,3 +13,23 @@ enum FontType {
     static let tertiary = UIFont.systemFont(ofSize: 14)
     static let quaternary = UIFont.systemFont(ofSize: 13)
 }
+
+enum ProfileType:String, CaseIterable {
+    case profile_0
+    case profile_1
+    case profile_2
+    case profile_3
+    case profile_4
+    case profile_5
+    case profile_6
+    case profile_7
+    case profile_8
+    case profile_9
+    case profile_10
+    case profile_11
+    
+    static var randomTitle: String {
+        return ProfileType.allCases.randomElement()!.rawValue
+    }
+
+}

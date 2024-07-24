@@ -19,8 +19,9 @@ final class NicknameViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        bindData()
+        navigationItem.title = Navigation.profile.title
+        configureAction()
+        bindData()
     }
     
     override func configureHierarchy() {
@@ -56,122 +57,94 @@ final class NicknameViewController: BaseViewController {
     }
     
     override func configureUI() {
-        if let profileImage = viewModel.profileImage {
-            profileView.profileImage.image = UIImage(named: profileImage)
+        switch viewModel.viewType {
+        case .add:
+            nicknameField.text = ""
+        case .edit:
+            addSaveBarButton()
+            viewModel.inputNickname.value = UserManager.nickname
+            nicknameField.text = UserManager.nickname
+            completeButton.isHidden = true
         }
-        
-//        switch viewModel.viewType {
-//        case .add:
-//            nicknameField.text = ""
-//        case .edit:
-//            addSaveBarButton()
-////            viewModel.inputNickname.value = UserManager.nickname
-////            nicknameField.text = UserManager.nickname
-//            completeButton.isHidden = true
-//        }
         
         nicknameField.placeholder = "닉네임을 입력해주세요 :)"
         nicknameField.clearButtonMode = .whileEditing
         validLabel.font = FontType.tertiary
         completeButton.setTitle("완료", for: .normal)
-        
-//        let tapRecognizer = UITapGestureRecognizer(
-//            target: self,
-//            action: #selector(profileImageClicked)
-//        )
-        
-//        profileView.addGestureRecognizer(tapRecognizer)
-        
-        nicknameField.addTarget(
-            self,
-            action: #selector(textFieldChanged),
-            for: .editingChanged
-        )
-        
-        nicknameField.addTarget(
-            self,
-            action: #selector(completeButtonClicked),
-            for: .editingDidEndOnExit
-        )
-        
-        completeButton.addTarget(
-            self,
-            action: #selector(completeButtonClicked),
-            for: .touchUpInside
-        )
     }
-  
     
-   
+    private func configureAction(){
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileImageClicked))
+        profileView.addGestureRecognizer(tapRecognizer)
+        
+        nicknameField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
+        nicknameField.addTarget(self, action: #selector(completeButtonClicked), for: .editingDidEndOnExit)
+        
+        completeButton.addTarget(self, action: #selector(completeButtonClicked), for: .touchUpInside)
+    }
 }
 
 extension NicknameViewController {
-//    private func bindData(){
-//        
-//        viewModel.inputViewDidLoadTrigger.value = ()
-//        
-//        viewModel.outputNicknameText.bind { [weak self] value in
-//            self?.validLabel.text = value
-//        }
-//        
-//        viewModel.outputNicknameValid.bind { [weak self] value in
-//            if value {
-//                self?.nicknameField.setLineColor(type: .valid)
-//                self?.validLabel.textColor = ColorType.black
-//            }else{
-//                self?.nicknameField.setLineColor(type: .inValid)
-//                self?.validLabel.textColor = ColorType.theme
-//            }
-//        }
-//        
-//        viewModel.outputSaveButton.bind { [weak self] _ in
-//            if let type = self?.viewModel.viewType {
-//                switch type {
-//                case .add:
-//                    self?.transitionScene(ShopTabBarController())
-//                case .edit:
-//                    if self != nil {
-//                        self!.transition(self!, .pop)
-//                    }
-//                }
-//            }
-//            
-//        }
-//    }
+    private func bindData(){
+        viewModel.outputProfileImage.bind { [weak self] value in
+            guard let value = value else { return }
+            self?.profileView.profileImage.image = UIImage(named: value)
+        }
+        
+        viewModel.outputNicknameText.bind { [weak self] value in
+            self?.validLabel.text = value
+        }
+        
+        viewModel.outputNicknameValid.bind { [weak self] value in
+            if value {
+                self?.nicknameField.setLineColor(type: .valid)
+                self?.validLabel.textColor = .black
+            }else{
+                self?.nicknameField.setLineColor(type: .inValid)
+                self?.validLabel.textColor = .theme_blue
+            }
+        }
+        
+        viewModel.outputSaveButton.bind { [weak self] value in
+            if let type = self?.viewModel.viewType {
+                switch type {
+                case .add:
+                    self?.transitionScene(PolaroidTabBarController())
+                case .edit:
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
+        
+        viewModel.inputViewDidLoadTrigger.value = ()
+
+    }
     
-//    @objc
-//    private func profileImageClicked(){
-//        let vc = ProfileViewController()
-//        vc.profileImageSender = { [weak self] profile in
-//            self?.viewModel.profileImage = profile
-//            self?.profileView.profileImage.image = UIImage(named: profile ?? "")
-//        }
-//        vc.viewType = viewModel.viewType
-//        vc.profileImage = viewModel.profileImage
-//        transition(vc, .push)
-//    }
+    @objc private func profileImageClicked(){
+        let profileVC = ProfileViewController()
+        profileVC.profileImageSender = { [weak self] profile in
+            self?.viewModel.outputProfileImage.value = profile
+            self?.profileView.profileImage.image = UIImage(named: profile ?? "")
+        }
+        profileVC.viewType = viewModel.viewType
+        profileVC.profileImage = viewModel.outputProfileImage.value
+        navigationController?.pushViewController(profileVC, animated: true)
+    }
     
-    @objc
-    private func textFieldChanged(){
+    @objc private func textFieldChanged(){
         viewModel.inputNickname.value = nicknameField.text!.trimmingCharacters(in: .whitespaces)
     }
     
-    @objc
-    private func completeButtonClicked(){
+    @objc private func completeButtonClicked(){
         viewModel.inputSaveButton.value = ()
+        let profileVC = ProfileViewController()
+        navigationController?.pushViewController(profileVC, animated: true)
     }
 }
 
 extension NicknameViewController {
-   
-    
     private func addSaveBarButton(){
-        let save = UIBarButtonItem(
-            title: "저장",
-            style: .plain,
-            target: self,
-            action: #selector(completeButtonClicked)
-        )
+        let save = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(completeButtonClicked))
         save.tintColor = .black
         navigationItem.rightBarButtonItem = save
     }
