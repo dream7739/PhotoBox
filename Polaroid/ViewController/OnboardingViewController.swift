@@ -23,8 +23,8 @@ final class OnboardingViewController: BaseViewController {
     override func configureLayout() {
         titleImage.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(60)
-            make.width.equalTo(270)
-            make.height.equalTo(60)
+            make.width.equalTo(290)
+            make.height.equalTo(80)
             make.centerX.equalTo(view.safeAreaLayoutGuide)
         }
         
@@ -62,6 +62,8 @@ final class OnboardingViewController: BaseViewController {
 extension OnboardingViewController {
     @objc private func startButtonClicked(){
         let nicknameVC = NicknameViewController()
-        navigationController?.pushViewController(nicknameVC, animated: true)
+        
+        transitionScene(PolaroidTabBarController())
+//        navigationController?.pushViewController(nicknameVC, animated: true)
     }
 }

@@ -17,24 +17,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="launch" translatesAutoresizingMaskIntoConstraints="NO" id="aVL-gt-1ur">
-                                <rect key="frame" x="33" y="144" width="322" height="115"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch" translatesAutoresizingMaskIntoConstraints="NO" id="aVL-gt-1ur">
+                                <rect key="frame" x="51.666666666666657" y="119" width="290" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="290" id="5jo-p1-6dP"/>
+                                    <constraint firstAttribute="height" constant="80" id="EiA-or-AM1"/>
+                                </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="launchImage" translatesAutoresizingMaskIntoConstraints="NO" id="Nt4-ms-pHc">
-                                <rect key="frame" x="70" y="322" width="248" height="293"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchImage" translatesAutoresizingMaskIntoConstraints="NO" id="Nt4-ms-pHc">
+                                <rect key="frame" x="66.666666666666686" y="237" width="260" height="364"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="260" id="BFV-rE-hym"/>
+                                    <constraint firstAttribute="width" secondItem="Nt4-ms-pHc" secondAttribute="height" multiplier="1:1.4" id="mV8-0i-oPZ"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="홍정민" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ldK-r6-wAb">
-                                <rect key="frame" x="172" y="678" width="45" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="홍정민" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ldK-r6-wAb">
+                                <rect key="frame" x="170.66666666666666" y="609" width="52" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ldK-r6-wAb" firstAttribute="top" secondItem="Nt4-ms-pHc" secondAttribute="bottom" constant="8" id="0Iz-AV-rXe"/>
+                            <constraint firstItem="Nt4-ms-pHc" firstAttribute="top" secondItem="aVL-gt-1ur" secondAttribute="bottom" constant="38" id="7kM-4F-XFO"/>
+                            <constraint firstItem="aVL-gt-1ur" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="8IW-DN-w8W"/>
+                            <constraint firstItem="Nt4-ms-pHc" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Rwj-68-K9a"/>
+                            <constraint firstItem="ldK-r6-wAb" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="fXW-ql-anB"/>
+                            <constraint firstItem="aVL-gt-1ur" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="o7M-be-KEV"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>

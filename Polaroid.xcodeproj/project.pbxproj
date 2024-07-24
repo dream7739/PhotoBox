@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		888698412C50E13C003AEDC6 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698402C50E13C003AEDC6 /* UnderLineTextField.swift */; };
+		888698432C50E274003AEDC6 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698422C50E274003AEDC6 /* NicknameViewModel.swift */; };
+		888698462C50E281003AEDC6 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698452C50E281003AEDC6 /* Observable.swift */; };
+		888698482C50E403003AEDC6 /* PolaroidTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698472C50E403003AEDC6 /* PolaroidTabBarController.swift */; };
+		8886984B2C50E452003AEDC6 /* PhotoLikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8886984A2C50E452003AEDC6 /* PhotoLikeViewController.swift */; };
+		8886984E2C50E4EA003AEDC6 /* Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8886984D2C50E4EA003AEDC6 /* Design.swift */; };
+		888698502C50E5A7003AEDC6 /* TopicPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8886984F2C50E5A7003AEDC6 /* TopicPhotoViewController.swift */; };
+		888698522C50E5CB003AEDC6 /* PhotoSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698512C50E5CB003AEDC6 /* PhotoSearchViewController.swift */; };
+		889760122C4E630F00E4AAB5 /* RoundProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889760112C4E630F00E4AAB5 /* RoundProfileView.swift */; };
+		889760142C4E632100E4AAB5 /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889760132C4E632100E4AAB5 /* RoundImageView.swift */; };
 		88E47EC52C4E46580065527A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 88E47EC42C4E46580065527A /* SnapKit */; };
 		88E47EC82C4E465F0065527A /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 88E47EC72C4E465F0065527A /* Toast */; };
 		88E47ECB2C4E466A0065527A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 88E47ECA2C4E466A0065527A /* Alamofire */; };
@@ -18,7 +28,7 @@
 		88E47EDD2C4E598F0065527A /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E47EDC2C4E598F0065527A /* NicknameViewController.swift */; };
 		88E936B92C4E42C60079DF68 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E936B82C4E42C60079DF68 /* AppDelegate.swift */; };
 		88E936BB2C4E42C60079DF68 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E936BA2C4E42C60079DF68 /* SceneDelegate.swift */; };
-		88E936BD2C4E42C60079DF68 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E936BC2C4E42C60079DF68 /* ViewController.swift */; };
+		88E936BD2C4E42C60079DF68 /* SearchPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E936BC2C4E42C60079DF68 /* SearchPhotoViewController.swift */; };
 		88E936C22C4E42C70079DF68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88E936C12C4E42C70079DF68 /* Assets.xcassets */; };
 		88E936C52C4E42C70079DF68 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 88E936C42C4E42C70079DF68 /* Base */; };
 		88E936CD2C4E42E20079DF68 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 88E936CC2C4E42E20079DF68 /* .gitignore */; };
@@ -27,6 +37,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		888698402C50E13C003AEDC6 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
+		888698422C50E274003AEDC6 /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
+		888698452C50E281003AEDC6 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		888698472C50E403003AEDC6 /* PolaroidTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolaroidTabBarController.swift; sourceTree = "<group>"; };
+		8886984A2C50E452003AEDC6 /* PhotoLikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLikeViewController.swift; sourceTree = "<group>"; };
+		8886984D2C50E4EA003AEDC6 /* Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Design.swift; sourceTree = "<group>"; };
+		8886984F2C50E5A7003AEDC6 /* TopicPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotoViewController.swift; sourceTree = "<group>"; };
+		888698512C50E5CB003AEDC6 /* PhotoSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSearchViewController.swift; sourceTree = "<group>"; };
+		889760112C4E630F00E4AAB5 /* RoundProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundProfileView.swift; sourceTree = "<group>"; };
+		889760132C4E632100E4AAB5 /* RoundImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundImageView.swift; sourceTree = "<group>"; };
 		88E47ED32C4E471A0065527A /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		88E47ED52C4E47890065527A /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		88E47ED72C4E588B0065527A /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -35,7 +55,7 @@
 		88E936B52C4E42C60079DF68 /* Polaroid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Polaroid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88E936B82C4E42C60079DF68 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		88E936BA2C4E42C60079DF68 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		88E936BC2C4E42C60079DF68 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		88E936BC2C4E42C60079DF68 /* SearchPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhotoViewController.swift; sourceTree = "<group>"; };
 		88E936C12C4E42C70079DF68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		88E936C42C4E42C70079DF68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		88E936C62C4E42C70079DF68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -59,6 +79,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		888698442C50E27C003AEDC6 /* Observable */ = {
+			isa = PBXGroup;
+			children = (
+				888698452C50E281003AEDC6 /* Observable.swift */,
+			);
+			path = Observable;
+			sourceTree = "<group>";
+		};
+		888698492C50E406003AEDC6 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				888698472C50E403003AEDC6 /* PolaroidTabBarController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		8886984C2C50E4DD003AEDC6 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				8886984D2C50E4EA003AEDC6 /* Design.swift */,
+			);
+			path = Constant;
+			sourceTree = "<group>";
+		};
 		88E47ED22C4E47120065527A /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +114,9 @@
 			isa = PBXGroup;
 			children = (
 				88E47EDA2C4E58A00065527A /* RoundButton.swift */,
+				889760112C4E630F00E4AAB5 /* RoundProfileView.swift */,
+				889760132C4E632100E4AAB5 /* RoundImageView.swift */,
+				888698402C50E13C003AEDC6 /* UnderLineTextField.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -94,6 +141,9 @@
 		88E936B72C4E42C60079DF68 /* Polaroid */ = {
 			isa = PBXGroup;
 			children = (
+				8886984C2C50E4DD003AEDC6 /* Constant */,
+				888698492C50E406003AEDC6 /* TabBar */,
+				888698442C50E27C003AEDC6 /* Observable */,
 				88E47ED92C4E589B0065527A /* CustomView */,
 				88E47ED22C4E47120065527A /* Model */,
 				88E936D42C4E44850079DF68 /* Base */,
@@ -103,7 +153,6 @@
 				88E936CE2C4E43E80079DF68 /* ViewController */,
 				88E936B82C4E42C60079DF68 /* AppDelegate.swift */,
 				88E936BA2C4E42C60079DF68 /* SceneDelegate.swift */,
-				88E936BC2C4E42C60079DF68 /* ViewController.swift */,
 				88E936C12C4E42C70079DF68 /* Assets.xcassets */,
 				88E936C32C4E42C70079DF68 /* LaunchScreen.storyboard */,
 				88E936C62C4E42C70079DF68 /* Info.plist */,
@@ -114,8 +163,12 @@
 		88E936CE2C4E43E80079DF68 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				88E936BC2C4E42C60079DF68 /* SearchPhotoViewController.swift */,
 				88E47ED72C4E588B0065527A /* OnboardingViewController.swift */,
 				88E47EDC2C4E598F0065527A /* NicknameViewController.swift */,
+				8886984A2C50E452003AEDC6 /* PhotoLikeViewController.swift */,
+				8886984F2C50E5A7003AEDC6 /* TopicPhotoViewController.swift */,
+				888698512C50E5CB003AEDC6 /* PhotoSearchViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -131,6 +184,7 @@
 		88E936D02C4E43FA0079DF68 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				888698422C50E274003AEDC6 /* NicknameViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -235,14 +289,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				888698502C50E5A7003AEDC6 /* TopicPhotoViewController.swift in Sources */,
+				888698412C50E13C003AEDC6 /* UnderLineTextField.swift in Sources */,
+				888698462C50E281003AEDC6 /* Observable.swift in Sources */,
 				88E47EDB2C4E58A00065527A /* RoundButton.swift in Sources */,
+				888698482C50E403003AEDC6 /* PolaroidTabBarController.swift in Sources */,
+				888698522C50E5CB003AEDC6 /* PhotoSearchViewController.swift in Sources */,
 				88E936D62C4E44B60079DF68 /* BaseViewController.swift in Sources */,
-				88E936BD2C4E42C60079DF68 /* ViewController.swift in Sources */,
+				88E936BD2C4E42C60079DF68 /* SearchPhotoViewController.swift in Sources */,
 				88E936B92C4E42C60079DF68 /* AppDelegate.swift in Sources */,
 				88E47ED82C4E588B0065527A /* OnboardingViewController.swift in Sources */,
+				889760142C4E632100E4AAB5 /* RoundImageView.swift in Sources */,
+				8886984E2C50E4EA003AEDC6 /* Design.swift in Sources */,
 				88E936D32C4E440A0079DF68 /* ReusableProtocol.swift in Sources */,
 				88E47EDD2C4E598F0065527A /* NicknameViewController.swift in Sources */,
+				889760122C4E630F00E4AAB5 /* RoundProfileView.swift in Sources */,
+				888698432C50E274003AEDC6 /* NicknameViewModel.swift in Sources */,
 				88E936BB2C4E42C60079DF68 /* SceneDelegate.swift in Sources */,
+				8886984B2C50E452003AEDC6 /* PhotoLikeViewController.swift in Sources */,
 				88E47ED42C4E471A0065527A /* BaseCollectionViewCell.swift in Sources */,
 				88E47ED62C4E47890065527A /* UIColor+.swift in Sources */,
 			);

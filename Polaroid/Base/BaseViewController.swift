@@ -20,4 +20,11 @@ class BaseViewController: UIViewController {
     func configureHierarchy(){ }
     func configureLayout(){ }
     func configureUI(){ }
+    
+    func transitionScene<T: UIViewController>(_ viewController: T){
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        let sceneDelegate = windowScene?.delegate as? SceneDelegate
+        sceneDelegate?.window?.rootViewController = viewController
+        sceneDelegate?.window?.makeKeyAndVisible()
+    }
 }

@@ -22,5 +22,4 @@ class BaseCollectionViewCell: UICollectionViewCell {
     func configureLayout(){ }
     func configureUI(){ }
     
-  
 }
