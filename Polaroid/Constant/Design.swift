@@ -14,6 +14,12 @@ enum FontType {
     static let quaternary = UIFont.systemFont(ofSize: 13)
 }
 
+enum ImageType {
+    static let like_circle = UIImage(named: "like_circle")!
+    static let like_circle_inactive = UIImage(named: "like_circle_inactive")!
+    static let sort = UIImage(named: "sort")
+}
+
 enum ProfileType:String, CaseIterable {
     case profile_0
     case profile_1

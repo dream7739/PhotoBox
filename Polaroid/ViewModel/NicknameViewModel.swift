@@ -29,8 +29,6 @@ final class NicknameViewModel{
             }else{
                 self?.outputProfileImage.value = UserManager.profileImage
             }
-            
-            
         }
         
         inputNickname.bind { [weak self] value in
