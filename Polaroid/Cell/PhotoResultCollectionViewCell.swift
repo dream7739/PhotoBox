@@ -96,40 +96,22 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
 
         starCountLabel.textColor = .white
         starCountLabel.font = FontType.quaternary
-        starCountLabel.text = "1111"
         
-        likeButton.backgroundColor = .brown
         likeImage.image = ImageType.like_circle_inactive
     }
     
 }
 
 extension PhotoResultCollectionViewCell {
-//    func configureData(_ data: Shop){
-//        photoImage.kf.indicatorType = .activity
-//        itemImage.kf.setImage(with: URL(string: data.image))
-//        
-//        companyLabel.text = data.mallName
-//        
-//        if let keyword {
-//            nameLabel.attributedText = data.titleDescription.highLightKeyword(keyword)
-//        }else{
-//            nameLabel.text = data.titleDescription
-//        }
-//        
-//        priceLabel.text = data.priceDescription
-//    }
-    
-    func cancelDownload(){
-        photoImage.kf.cancelDownloadTask()
+    func configureData(_ data: PhotoSearchResults){
+        photoImage.kf.setImage(with: URL(string: data.urls.raw))
+        starCountLabel.text = data.likes.formatted(.number)
     }
     
-    @objc
-    func likeButtonClicked(){
+    
+    @objc func likeButtonClicked(){
         guard let indexPath else { return }
-        
         isClicked.toggle()
-        
         delegate?.likeButtonClicked(indexPath, isClicked)
 
     }

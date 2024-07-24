@@ -10,7 +10,6 @@ import SnapKit
 
 final class SearchPhotoViewController: BaseViewController {
     private let searchBar = UISearchBar()
-    
     private var sortButton: UIButton!
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
     
@@ -29,6 +28,7 @@ final class SearchPhotoViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = Navigation.searchPhoto.title
+        configureSearchBar()
         bindData()
     }
     
@@ -63,11 +63,11 @@ final class SearchPhotoViewController: BaseViewController {
         searchBar.placeholder = "검색할 사진을 입력해주세요"
         
         sortButton.changesSelectionAsPrimaryAction = true
-        
-        sortButton.configuration?.title = "관련순"
+        sortButton.configuration?.title = SortCondition.relevant.title
         sortButton.configuration?.image = ImageType.sort
         sortButton.configuration?.baseForegroundColor = .black
         sortButton.configuration?.background.cornerRadius = 14
+        sortButton.configuration?.baseBackgroundColor = .white
         sortButton.configuration?.background.strokeColor = .light_gray
         sortButton.configuration?.background.strokeWidth = 1
         
@@ -75,30 +75,65 @@ final class SearchPhotoViewController: BaseViewController {
         collectionView.dataSource = self
         collectionView.register(PhotoResultCollectionViewCell.self, forCellWithReuseIdentifier: PhotoResultCollectionViewCell.identifier)
     }
-    
-    private func toggleSortButton(){
-        if sortButton.isSelected {
-            sortButton.configuration?.title = "최신순"
-            sortButton.configuration?.baseBackgroundColor = .white
-        }else{
-            sortButton.configuration?.title = "관련순"
-            sortButton.configuration?.baseBackgroundColor = .white
+  
+}
+
+extension SearchPhotoViewController {
+    enum SortCondition: String {
+        case latest
+        case relevant
+        
+        var title: String {
+            switch self {
+            case .latest:
+                return "최신순"
+            case .relevant:
+                return "관련순"
+            }
         }
     }
     
     private func bindData(){
-        
-        
+        viewModel.outputSearchPhotoResult.bind { [weak self] value in
+            self?.collectionView.reloadData()
+        }
+    }
+    
+    private func toggleSortButton(){
+        if sortButton.isSelected {
+            sortButton.configuration?.title = SortCondition.latest.title
+        }else{
+            sortButton.configuration?.title = SortCondition.relevant.title
+        }
+    }
+    
+    private func configureSearchBar(){
+        searchBar.delegate = self
+    }
+    
+}
+
+extension SearchPhotoViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let inputText = searchBar.text ?? ""
+        viewModel.inputSearchText.value = inputText
     }
 }
 
 extension SearchPhotoViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        guard let response = viewModel.outputSearchPhotoResult.value else { return 0 }
+        return response.results.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoResultCollectionViewCell.identifier, for: indexPath) as? PhotoResultCollectionViewCell else { return UICollectionViewCell() }
+        guard let response = viewModel.outputSearchPhotoResult.value else {
+            return UICollectionViewCell()
+        }
+        
+        let data = response.results[indexPath.item]
+        cell.configureData(data)
         return cell
     }
 }
