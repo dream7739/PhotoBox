@@ -9,9 +9,9 @@ import Foundation
 
 final class TopicPhotoViewModel {
     var inputViewDidLoadTrigger = Observable(())
-    var outputGoldenHourReulst: [PhotoSearchResults] = []
-    var outputBusinessWorkReulst: [PhotoSearchResults] = []
-    var outputArchitectureInteriorReulst:[PhotoSearchResults] = []
+    var outputGoldenHourReulst: [PhotoResult] = []
+    var outputBusinessWorkReulst: [PhotoResult] = []
+    var outputArchitectureInteriorReulst:[PhotoResult] = []
     var outputUpdateSnapshotTrigger = Observable(())
     
     init(){
@@ -31,7 +31,7 @@ extension TopicPhotoViewModel {
         let group = DispatchGroup()
         
         group.enter()
-        NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.goldenHour.topicID)), response: [PhotoSearchResults].self) { [weak self] response in
+        NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.goldenHour.topicID)), response: [PhotoResult].self) { [weak self] response in
             switch response {
             case .success(let value):
                 self?.outputGoldenHourReulst = value
@@ -42,7 +42,7 @@ extension TopicPhotoViewModel {
         }
         
         group.enter()
-        NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.businessWork.topicID)), response: [PhotoSearchResults].self) { [weak self] response in
+        NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.businessWork.topicID)), response: [PhotoResult].self) { [weak self] response in
             switch response {
             case .success(let value):
                 self?.outputBusinessWorkReulst = value
@@ -53,7 +53,7 @@ extension TopicPhotoViewModel {
         }
         
         group.enter()
-        NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.architectureInterior.topicID)), response: [PhotoSearchResults].self) { [weak self] response in
+        NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.architectureInterior.topicID)), response: [PhotoResult].self) { [weak self] response in
             switch response {
             case .success(let value):
                 self?.outputArchitectureInteriorReulst = value

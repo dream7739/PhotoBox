@@ -13,5 +13,3 @@ struct PhotoSearchRequest {
     let per_page = 20
     let order_by: String
 }
-
-

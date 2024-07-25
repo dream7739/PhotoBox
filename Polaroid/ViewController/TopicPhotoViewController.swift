@@ -30,7 +30,7 @@ final class TopicPhotoViewController: BaseViewController {
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
     
     private let sectionHeader = "section-element-kind-header"
-    private var dataSource: UICollectionViewDiffableDataSource<Section, PhotoSearchResults>!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, PhotoResult>!
     
     let viewModel = TopicPhotoViewModel()
     
@@ -99,7 +99,7 @@ final class TopicPhotoViewController: BaseViewController {
 
 extension TopicPhotoViewController {
     private func bindData(){
-        viewModel.inputViewDidLoadTrigger.value = ()
+//        viewModel.inputViewDidLoadTrigger.value = ()
         
         viewModel.outputUpdateSnapshotTrigger.bind { [weak self] _ in
             self?.updateSnapshot()
@@ -107,7 +107,7 @@ extension TopicPhotoViewController {
     }
     
     private func configureDataSource(){
-        let registeration = UICollectionView.CellRegistration<PhotoResultCollectionViewCell, PhotoSearchResults> { cell, indexPath, itemIdentifier in
+        let registeration = UICollectionView.CellRegistration<PhotoResultCollectionViewCell, PhotoResult> { cell, indexPath, itemIdentifier in
             cell.keyword = "\(itemIdentifier)"
         }
         
@@ -128,7 +128,7 @@ extension TopicPhotoViewController {
     }
     
     private func updateSnapshot(){
-        var snapshot = NSDiffableDataSourceSnapshot<Section, PhotoSearchResults>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, PhotoResult>()
         snapshot.appendSections(Section.allCases)
         snapshot.appendItems(viewModel.outputGoldenHourReulst, toSection: .goldenHour)
         snapshot.appendItems(viewModel.outputBusinessWorkReulst, toSection: .businessWork)

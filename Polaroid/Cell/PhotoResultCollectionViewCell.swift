@@ -102,7 +102,7 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
 }
 
 extension PhotoResultCollectionViewCell {
-    func configureData(_ data: PhotoSearchResults){
+    func configureData(_ data: PhotoResult){
         photoImage.kf.setImage(with: URL(string: data.urls.small))
         starCountLabel.text = data.likes.formatted(.number)
     }
