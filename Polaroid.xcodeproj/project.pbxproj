@@ -26,6 +26,9 @@
 		8886986A2C513251003AEDC6 /* PhotoSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698692C513251003AEDC6 /* PhotoSearchRequest.swift */; };
 		8886986C2C5134D4003AEDC6 /* PhotoSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8886986B2C5134D4003AEDC6 /* PhotoSearchResponse.swift */; };
 		8886986E2C5134EE003AEDC6 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8886986D2C5134EE003AEDC6 /* NetworkManager.swift */; };
+		888FE8722C52644A00DB7046 /* TitleSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888FE8712C52644A00DB7046 /* TitleSupplementaryView.swift */; };
+		888FE8742C5266DA00DB7046 /* TopicPhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888FE8732C5266DA00DB7046 /* TopicPhotoViewModel.swift */; };
+		888FE8762C52672A00DB7046 /* TopicPhotoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888FE8752C52672A00DB7046 /* TopicPhotoRequest.swift */; };
 		889760122C4E630F00E4AAB5 /* RoundProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889760112C4E630F00E4AAB5 /* RoundProfileView.swift */; };
 		889760142C4E632100E4AAB5 /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889760132C4E632100E4AAB5 /* RoundImageView.swift */; };
 		88E47EC52C4E46580065527A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 88E47EC42C4E46580065527A /* SnapKit */; };
@@ -66,6 +69,9 @@
 		888698692C513251003AEDC6 /* PhotoSearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSearchRequest.swift; sourceTree = "<group>"; };
 		8886986B2C5134D4003AEDC6 /* PhotoSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSearchResponse.swift; sourceTree = "<group>"; };
 		8886986D2C5134EE003AEDC6 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		888FE8712C52644A00DB7046 /* TitleSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleSupplementaryView.swift; sourceTree = "<group>"; };
+		888FE8732C5266DA00DB7046 /* TopicPhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotoViewModel.swift; sourceTree = "<group>"; };
+		888FE8752C52672A00DB7046 /* TopicPhotoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotoRequest.swift; sourceTree = "<group>"; };
 		889760112C4E630F00E4AAB5 /* RoundProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundProfileView.swift; sourceTree = "<group>"; };
 		889760132C4E632100E4AAB5 /* RoundImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundImageView.swift; sourceTree = "<group>"; };
 		88E47ED32C4E471A0065527A /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -157,6 +163,7 @@
 			children = (
 				888698692C513251003AEDC6 /* PhotoSearchRequest.swift */,
 				8886986B2C5134D4003AEDC6 /* PhotoSearchResponse.swift */,
+				888FE8752C52672A00DB7046 /* TopicPhotoRequest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -168,6 +175,7 @@
 				889760112C4E630F00E4AAB5 /* RoundProfileView.swift */,
 				889760132C4E632100E4AAB5 /* RoundImageView.swift */,
 				888698402C50E13C003AEDC6 /* UnderLineTextField.swift */,
+				888FE8712C52644A00DB7046 /* TitleSupplementaryView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -241,6 +249,7 @@
 			children = (
 				888698422C50E274003AEDC6 /* NicknameViewModel.swift */,
 				8886985D2C510D66003AEDC6 /* SearchPhotoViewModel.swift */,
+				888FE8732C5266DA00DB7046 /* TopicPhotoViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -351,10 +360,13 @@
 				888698502C50E5A7003AEDC6 /* TopicPhotoViewController.swift in Sources */,
 				888698412C50E13C003AEDC6 /* UnderLineTextField.swift in Sources */,
 				888698462C50E281003AEDC6 /* Observable.swift in Sources */,
+				888FE8722C52644A00DB7046 /* TitleSupplementaryView.swift in Sources */,
 				888698602C511953003AEDC6 /* PhotoResultCollectionViewCell.swift in Sources */,
 				88E47EDB2C4E58A00065527A /* RoundButton.swift in Sources */,
 				888698482C50E403003AEDC6 /* PolaroidTabBarController.swift in Sources */,
 				888698652C512EE2003AEDC6 /* APIKey.swift in Sources */,
+				888FE8742C5266DA00DB7046 /* TopicPhotoViewModel.swift in Sources */,
+				888FE8762C52672A00DB7046 /* TopicPhotoRequest.swift in Sources */,
 				88E936D62C4E44B60079DF68 /* BaseViewController.swift in Sources */,
 				88E936BD2C4E42C60079DF68 /* SearchPhotoViewController.swift in Sources */,
 				88E936B92C4E42C60079DF68 /* AppDelegate.swift in Sources */,

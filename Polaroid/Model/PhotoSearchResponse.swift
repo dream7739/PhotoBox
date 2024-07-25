@@ -13,7 +13,7 @@ struct PhotoSearchResponse: Decodable {
     var results: [PhotoSearchResults]
 }
 
-struct PhotoSearchResults: Decodable {
+struct PhotoSearchResults: Decodable, Hashable {
     let id: String
     let created_at: String
     let width: Int
@@ -21,19 +21,18 @@ struct PhotoSearchResults: Decodable {
     let urls: ImageLink
     let likes: Int
     let user: User
-    
 }
 
-struct ImageLink: Decodable {
+struct ImageLink: Decodable, Hashable {
     let raw: String
     let small: String
 }
 
-struct User: Decodable {
+struct User: Decodable, Hashable {
     let name: String
     let profile_image: ProfileImage
 }
 
-struct ProfileImage: Decodable {
+struct ProfileImage: Decodable, Hashable {
     let medium: String
 }

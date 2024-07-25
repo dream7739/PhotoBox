@@ -91,7 +91,7 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
         starStackView.backgroundColor = .deep_gray
         
         starImage.image = UIImage(systemName: "star.fill")
-        starImage.tintColor = .yellow
+        starImage.tintColor = .systemYellow
 
         starCountLabel.textColor = .white
         starCountLabel.font = FontType.quaternary

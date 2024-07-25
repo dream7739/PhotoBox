@@ -10,7 +10,7 @@ import Alamofire
 
 
 final class NetworkManager {
-    static var shared = NetworkManager()
+    static let shared = NetworkManager()
     private init(){ }
     
     func callRequest<T: Decodable>(request: NetworkRequest, response: T.Type, completion: @escaping (Result<T, Error>) -> Void){
