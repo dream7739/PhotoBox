@@ -8,20 +8,17 @@
 import Foundation
 
 final class SearchPhotoViewModel {
-//    var inputViewDidLoadTrigger = Observable(())
     var inputSortCondition = Observable(SearchPhotoViewController.SortCondition.relevant)
     var inputSearchText = Observable("")
     var outputSearchPhotoResult: Observable<PhotoSearchResponse?> = Observable(nil)
+    
+    var page = 1
     
     init(){
         transform()
     }
     
     private func transform(){
-//        inputViewDidLoadTrigger.bind { [weak self] _ in
-//            self?.callSearchPhotoAPI()
-//        }
-        
         inputSortCondition.bind { [weak self] _ in
             self?.callSearchPhotoAPI()
         }
@@ -36,14 +33,18 @@ final class SearchPhotoViewModel {
 }
 
 extension SearchPhotoViewModel {
-    private func callSearchPhotoAPI(){
-        let photoSearchRequest = PhotoSearchRequest(query: inputSearchText.value, page: 1, order_by: inputSortCondition.value.rawValue)
+    func callSearchPhotoAPI(){
+        let photoSearchRequest = PhotoSearchRequest(query: inputSearchText.value, page: page, order_by: inputSortCondition.value.rawValue)
         let request = NetworkRequest.photoSearch(photoSearchRequest)
         
         NetworkManager.shared.callRequest(request: request, response: PhotoSearchResponse.self) { [weak self] response in
             switch response {
             case .success(let value):
-                self?.outputSearchPhotoResult.value = value
+                if self?.page == 1 {
+                    self?.outputSearchPhotoResult.value = value
+                }else{
+                    self?.outputSearchPhotoResult.value?.results.append(contentsOf: value.results)
+                }
             case .failure(let error):
                 print(error)
             }

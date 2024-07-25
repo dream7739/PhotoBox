@@ -73,6 +73,7 @@ final class SearchPhotoViewController: BaseViewController {
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.prefetchDataSource = self
         collectionView.register(PhotoResultCollectionViewCell.self, forCellWithReuseIdentifier: PhotoResultCollectionViewCell.identifier)
     }
   
@@ -138,3 +139,16 @@ extension SearchPhotoViewController: UICollectionViewDataSource, UICollectionVie
     }
 }
 
+extension SearchPhotoViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        guard let data = viewModel.outputSearchPhotoResult.value else { return }
+        
+        for indexPath in indexPaths {
+            if indexPath.item == data.results.count - 4 && viewModel.page < data.total_pages {
+                viewModel.page += 1
+                viewModel.callSearchPhotoAPI()
+                
+            }
+        }
+    }
+}

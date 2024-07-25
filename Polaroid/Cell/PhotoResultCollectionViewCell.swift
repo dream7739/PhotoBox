@@ -82,7 +82,6 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
     func configureUI() {
         photoImage.contentMode = .scaleAspectFill
         photoImage.clipsToBounds = true
-        photoImage.backgroundColor = .red
         
         starStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8)
         starStackView.isLayoutMarginsRelativeArrangement = true
@@ -104,7 +103,7 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
 
 extension PhotoResultCollectionViewCell {
     func configureData(_ data: PhotoSearchResults){
-        photoImage.kf.setImage(with: URL(string: data.urls.raw))
+        photoImage.kf.setImage(with: URL(string: data.urls.small))
         starCountLabel.text = data.likes.formatted(.number)
     }
     
