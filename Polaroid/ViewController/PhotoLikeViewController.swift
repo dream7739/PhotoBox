@@ -49,7 +49,7 @@ final class PhotoLikeViewController: BaseViewController {
     override func configureUI() {
         sortButton.changesSelectionAsPrimaryAction = true
         sortButton.configuration = .sortButtonConfig
-        sortButton.configuration?.title = LikeCondition.latest.title
+        sortButton.configuration?.title = LikeCondition.earliest.title
         
         collectionView.keyboardDismissMode = .onDrag
         collectionView.delegate = self
@@ -69,10 +69,10 @@ extension PhotoLikeViewController {
     
     private func toggleSortButton(){
         if sortButton.isSelected {
-            sortButton.configuration?.title = LikeCondition.earliest.title
+            sortButton.configuration?.title = LikeCondition.latest.title
             viewModel.inputSortButtonClicked.value = .earliest
         }else{
-            sortButton.configuration?.title = LikeCondition.latest.title
+            sortButton.configuration?.title = LikeCondition.earliest.title
             viewModel.inputSortButtonClicked.value = .latest
         }
     }
@@ -110,7 +110,7 @@ extension PhotoLikeViewController: UICollectionViewDataSource, UICollectionViewD
         guard let result = viewModel.outputPhotoLikeResult.value  else { return }
         let data = result[indexPath.item]    
         let inputData = data.convertPhotoResult()       
-        photoDetailVC.viewModel.inputPhotoResult.value = inputData
+        photoDetailVC.viewModel.inputPhotoResult = inputData
         navigationController?.pushViewController(photoDetailVC, animated: true)
     }
 }

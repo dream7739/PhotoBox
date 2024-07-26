@@ -13,8 +13,18 @@ final class FeedHeaderView: UIView {
     private let userProfileImage = UIImageView()
     private let usernameLabel = UILabel()
     private let createDateLabel = UILabel()
-    private let heartButton = UIButton()
+    let heartButton = UIButton()
     private let heartImage = UIImageView()
+    
+    var isClicked: Bool = false {
+        didSet {
+            if isClicked {
+                heartImage.image = UIImage(systemName: "heart.fill")
+            }else{
+                heartImage.image = UIImage(systemName: "heart")
+            }
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)

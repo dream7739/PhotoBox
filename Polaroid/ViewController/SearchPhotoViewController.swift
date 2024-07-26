@@ -22,11 +22,18 @@ final class SearchPhotoViewController: BaseViewController {
         bindData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+    }
+    
     override func configureHierarchy() {
         let toggleAction = UIAction(title: "") { _ in
             self.toggleSortButton()
         }
-        sortButton = UIButton.init(configuration: .plain(), primaryAction: toggleAction)
+        sortButton = UIButton.init(configuration: .plain(), primaryAction:  UIAction { _ in
+            self.toggleSortButton()
+        })
         
         view.addSubview(searchBar)
         view.addSubview(sortButton)
@@ -53,13 +60,8 @@ final class SearchPhotoViewController: BaseViewController {
         searchBar.placeholder = "검색할 사진을 입력해주세요"
         
         sortButton.changesSelectionAsPrimaryAction = true
-        sortButton.configuration?.title = SearchCondition.relevant.title
-        sortButton.configuration?.image = ImageType.sort
-        sortButton.configuration?.baseForegroundColor = .black
-        sortButton.configuration?.background.cornerRadius = 14
-        sortButton.configuration?.baseBackgroundColor = .white
-        sortButton.configuration?.background.strokeColor = .light_gray
-        sortButton.configuration?.background.strokeWidth = 1
+        sortButton.configuration = .sortButtonConfig
+        sortButton.configuration?.title = SearchCondition.latest.title
         
         collectionView.keyboardDismissMode = .onDrag 
         collectionView.delegate = self
@@ -80,9 +82,11 @@ extension SearchPhotoViewController {
     
     private func toggleSortButton(){
         if sortButton.isSelected {
-            sortButton.configuration?.title = SearchCondition.latest.title
-        }else{
             sortButton.configuration?.title = SearchCondition.relevant.title
+            viewModel.inputSortCondition.value = SearchCondition.latest
+        }else{
+            sortButton.configuration?.title = SearchCondition.latest.title
+            viewModel.inputSortCondition.value = SearchCondition.relevant
         }
     }
     
@@ -127,10 +131,9 @@ extension SearchPhotoViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(#function)
         let photoDetailVC = PhotoDetailViewController()
         guard let data = viewModel.outputSearchPhotoResult.value else { return }
-        photoDetailVC.viewModel.inputPhotoResult.value = data.results[indexPath.item]
+        photoDetailVC.viewModel.inputPhotoResult = data.results[indexPath.item]
         navigationController?.pushViewController(photoDetailVC, animated: true)
     }
 }
@@ -140,10 +143,8 @@ extension SearchPhotoViewController: UICollectionViewDataSourcePrefetching {
         guard let data = viewModel.outputSearchPhotoResult.value else { return }
         
         for indexPath in indexPaths {
-            if indexPath.item == data.results.count - 4 && viewModel.page < data.total_pages {
-                viewModel.page += 1
-                viewModel.callSearchPhotoAPI()
-                
+            if indexPath.item == data.results.count - 4 && viewModel.inputSearchPageCount.value < data.total_pages {
+                viewModel.inputSearchPageCount.value += 1
             }
         }
     }

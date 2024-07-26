@@ -144,7 +144,7 @@ extension TopicPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = dataSource.itemIdentifier(for: indexPath)
         let photoDetailVC = PhotoDetailViewController()
-        photoDetailVC.viewModel.inputPhotoResult.value = item
+        photoDetailVC.viewModel.inputPhotoResult = item
         navigationController?.pushViewController(photoDetailVC, animated: true)
     }
 }

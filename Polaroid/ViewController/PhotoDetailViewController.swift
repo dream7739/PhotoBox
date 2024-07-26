@@ -30,6 +30,11 @@ final class PhotoDetailViewController: BaseViewController {
         super.viewDidLoad()
         bindData()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.inputViewWillAppearTrigger.value = ()
+    }
 
     override func configureHierarchy() {
         view.addSubview(headerView)
@@ -115,22 +120,36 @@ final class PhotoDetailViewController: BaseViewController {
         downloadTextLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         downloadTextLabel.textColor = .deep_gray
         downloadTextLabel.textAlignment = .right
+        
+        headerView.heartButton.addTarget(self, action: #selector(heartButtonClicked), for: .touchUpInside)
     }
     
+    @objc func heartButtonClicked(){
+        headerView.isClicked.toggle()
+        viewModel.inputHeartButtonClicked.value = headerView.isClicked
+    }
     
 }
 
 extension PhotoDetailViewController {
     private func bindData(){
+        
         viewModel.outputPhotoStatResult.bind { [weak self] value in
             guard let data = value else { return }
             self?.configurePhotoData()
             self?.configureStatData(data)
         }
+        
+        viewModel.outputPhotoIsLiked.bind { [weak self] value in
+            self?.headerView.isClicked = value
+        }
+        
+        viewModel.inputViewDidLoadTrigger.value = ()
+
     }
     
     private func configurePhotoData(){
-        guard let value = viewModel.inputPhotoResult.value else { return }
+        guard let value = viewModel.inputPhotoResult else { return }
         
         headerView.configureHeaderView(profileImage: value.user.profile_image.medium, userName: value.user.name, createDate: value.created_at)
 
