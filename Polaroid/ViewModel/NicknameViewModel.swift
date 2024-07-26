@@ -11,11 +11,16 @@ final class NicknameViewModel{
     var inputViewDidLoadTrigger: Observable<Void?> = Observable(nil)
     var outputProfileImage: Observable<String?> = Observable(nil)
     var inputNickname: Observable<String> = Observable("")
-    var outputNicknameText: Observable<String> = Observable("")
-    var outputNicknameValid: Observable<Bool> = Observable(false)
-    var inputSaveButton: Observable<Void?> = Observable(nil)
-    var outputSaveButton: Observable<Void?> = Observable(nil)
+    var outputNicknameValidText: Observable<String> = Observable("")
+    var outputNicknameIsValid: Observable<Bool> = Observable(false)
+    var inputMbtiButtonClicked: Observable<Int> = Observable(0)
+    var outputMbtiButtonClicked: Observable<[(Int, Bool)]> = Observable([])
+    var outputSaveButtonIsEnabled: Observable<Bool> = Observable(false)
+    var inputSaveButtonClicked: Observable<Void?> = Observable(nil)
+    var outputSaveButtonClicked: Observable<Void?> = Observable(nil)
     
+    var mbti = ["E", "I", "S", "N", "T", "F", "J", "P"]
+    var mbtiButtonClicked = Array.init(repeating: false, count: 8)
     var viewType: ViewType = .add
     
     init(){
@@ -29,43 +34,69 @@ final class NicknameViewModel{
             }else{
                 self?.outputProfileImage.value = UserManager.profileImage
             }
+            
+            if !UserManager.nickname.isEmpty {
+                self?.inputNickname.value = UserManager.nickname
+            }
         }
         
         inputNickname.bind { [weak self] value in
             do {
-                self?.outputNicknameValid.value = try self?.validateUserInput(value) ?? false
-                self?.outputNicknameText.value = "사용 가능한 닉네임입니다 :)"
-            }catch NicknameError.isEmpty {
-                self?.outputNicknameValid.value = false
-                self?.outputNicknameText.value =  NicknameError.isEmpty.localizedDescription
+                self?.outputNicknameIsValid.value = try self?.validateUserInput(value) ?? false
+                self?.outputNicknameValidText.value = "사용 가능한 닉네임입니다 :)"
             }catch NicknameError.countLimit {
-                self?.outputNicknameValid.value = false
-                self?.outputNicknameText.value =  NicknameError.countLimit.localizedDescription
+                self?.outputNicknameIsValid.value = false
+                self?.outputNicknameValidText.value =  NicknameError.countLimit.localizedDescription
             }catch NicknameError.isNumber{
-                self?.outputNicknameValid.value = false
-                self?.outputNicknameText.value = NicknameError.isNumber.localizedDescription
+                self?.outputNicknameIsValid.value = false
+                self?.outputNicknameValidText.value = NicknameError.isNumber.localizedDescription
             }catch NicknameError.isSpecialChar {
-                self?.outputNicknameValid.value = false
-                self?.outputNicknameText.value = NicknameError.isSpecialChar.localizedDescription
+                self?.outputNicknameIsValid.value = false
+                self?.outputNicknameValidText.value = NicknameError.isSpecialChar.localizedDescription
             }catch {
                 print(#function, "error occured")
             }
+            
+            self?.examineSaveButtonEnable()
         }
         
-        inputSaveButton.bind { [weak self] value in
-            if let _ = self?.outputNicknameValid.value {
-                self?.saveUserDefaultsData(self?.viewType ?? .add)
-                self?.outputSaveButton.value = ()
+        inputMbtiButtonClicked.bind { [weak self] value in
+            let compareValue: Int
+            
+            if value.isMultiple(of: 2) {
+                compareValue = value + 1
+            }else{
+                compareValue = value - 1
             }
+            
+            let compareClicked = self?.mbtiButtonClicked[compareValue] ?? false
+            
+            if compareClicked {
+                self?.mbtiButtonClicked[compareValue].toggle()
+                self?.mbtiButtonClicked[value].toggle()
+            }else{
+                self?.mbtiButtonClicked[value].toggle()
+            }
+            
+            self?.outputMbtiButtonClicked.value = [
+                (value, self?.mbtiButtonClicked[value] ?? false),
+                (compareValue, self?.mbtiButtonClicked[compareValue] ?? false)
+            ]
+            
+            self?.examineSaveButtonEnable()
+        }
+        
+        inputSaveButtonClicked.bind { [weak self] _ in
+            self?.saveUserDefaultsData()
+            self?.outputSaveButtonClicked.value = ()
         }
     }
     
 }
 
 extension NicknameViewModel {
-    enum NicknameError: Error, LocalizedError {
+    private enum NicknameError: Error, LocalizedError {
         case countLimit
-        case isEmpty
         case isSpecialChar
         case isNumber
         
@@ -73,8 +104,6 @@ extension NicknameViewModel {
             switch self {
             case .countLimit:
                 return "2글자 이상 10글자 미만으로 설정주세요"
-            case .isEmpty:
-                return "닉네임을 입력해주세요"
             case .isSpecialChar:
                 return "닉네임에 @, #, $, %는 포함할 수 없어요"
             case .isNumber:
@@ -83,13 +112,8 @@ extension NicknameViewModel {
         }
     }
     
- 
     @discardableResult
     private func validateUserInput(_ input: String) throws -> Bool {
-        guard !input.isEmpty else{
-            throw NicknameError.isEmpty
-        }
-        
         guard input.count >= 2 && input.count <= 10 else {
             throw NicknameError.countLimit
         }
@@ -105,21 +129,38 @@ extension NicknameViewModel {
         return true
     }
     
-    private func saveUserDefaultsData(_ viewType: ViewType){
-        switch viewType {
-        case .add:
-            UserManager.isUser = true
-            UserManager.nickname = inputNickname.value
-            if let profileImage = outputProfileImage.value {
-                UserManager.profileImage = profileImage
-            }
-        case .edit:
-            UserManager.nickname = inputNickname.value
-            if let profileImage = outputProfileImage.value {
-                UserManager.profileImage = profileImage
-            }
+    private func examineSaveButtonEnable(){
+        let mbtiCount = mbtiButtonClicked.filter{ $0 }.count
+        
+        if outputNicknameIsValid.value && mbtiCount == 4{
+            outputSaveButtonIsEnabled.value = true
+        }else{
+            outputSaveButtonIsEnabled.value = false
         }
     }
+    
+    private func saveUserDefaultsData(){
+        UserManager.isUser = true
+        UserManager.nickname = inputNickname.value
+        if let profileImage = outputProfileImage.value {
+            UserManager.profileImage = profileImage
+        }
+        
+        UserManager.mbti = createMbtiString()
+    }
+    
+    private func createMbtiString() -> String {
+        var mbtiString = ""
+        
+        for idx in 0..<mbtiButtonClicked.count{
+            if mbtiButtonClicked[idx] {
+                mbtiString += mbti[idx]
+            }
+        }
+        
+        return mbtiString
+    }
+    
     
 }
 

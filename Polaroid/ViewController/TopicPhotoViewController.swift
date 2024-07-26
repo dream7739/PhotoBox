@@ -99,7 +99,7 @@ final class TopicPhotoViewController: BaseViewController {
 
 extension TopicPhotoViewController {
     private func bindData(){
-//        viewModel.inputViewDidLoadTrigger.value = ()
+        viewModel.inputViewDidLoadTrigger.value = ()
         
         viewModel.outputUpdateSnapshotTrigger.bind { [weak self] _ in
             self?.updateSnapshot()

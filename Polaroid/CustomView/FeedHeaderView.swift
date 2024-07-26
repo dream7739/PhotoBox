@@ -75,7 +75,6 @@ final class FeedHeaderView: UIView {
     private func configureUI(){
         userProfileImage.clipsToBounds = true
         userProfileImage.contentMode = .scaleAspectFill
-        userProfileImage.image = UIImage(systemName: "star.fill")
         
         usernameLabel.font = FontType.tertiary
         

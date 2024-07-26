@@ -71,6 +71,7 @@ final class SearchPhotoViewController: BaseViewController {
         sortButton.configuration?.background.strokeColor = .light_gray
         sortButton.configuration?.background.strokeWidth = 1
         
+        collectionView.keyboardDismissMode = .onDrag 
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.prefetchDataSource = self

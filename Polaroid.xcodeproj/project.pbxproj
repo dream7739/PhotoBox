@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		887A2DDE2C53475D001207A9 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 88E47ED02C4E46C30065527A /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		888698412C50E13C003AEDC6 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698402C50E13C003AEDC6 /* UnderLineTextField.swift */; };
 		888698432C50E274003AEDC6 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698422C50E274003AEDC6 /* NicknameViewModel.swift */; };
 		888698462C50E281003AEDC6 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698452C50E281003AEDC6 /* Observable.swift */; };
@@ -35,6 +36,7 @@
 		888FE8822C52899100DB7046 /* PhotoStatRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888FE8812C52899100DB7046 /* PhotoStatRequest.swift */; };
 		888FE8842C528AA900DB7046 /* PhotoStatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888FE8832C528AA900DB7046 /* PhotoStatResponse.swift */; };
 		888FE8862C528BA300DB7046 /* PhotoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888FE8852C528BA300DB7046 /* PhotoDetailViewModel.swift */; };
+		888FE8882C52961C00DB7046 /* RoundToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888FE8872C52961C00DB7046 /* RoundToggleButton.swift */; };
 		889760122C4E630F00E4AAB5 /* RoundProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889760112C4E630F00E4AAB5 /* RoundProfileView.swift */; };
 		889760142C4E632100E4AAB5 /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889760132C4E632100E4AAB5 /* RoundImageView.swift */; };
 		88E47EC52C4E46580065527A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 88E47EC42C4E46580065527A /* SnapKit */; };
@@ -55,6 +57,20 @@
 		88E936D32C4E440A0079DF68 /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E936D22C4E440A0079DF68 /* ReusableProtocol.swift */; };
 		88E936D62C4E44B60079DF68 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E936D52C4E44B60079DF68 /* BaseViewController.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		887A2DDF2C53475D001207A9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				887A2DDE2C53475D001207A9 /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		888698402C50E13C003AEDC6 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
@@ -84,6 +100,7 @@
 		888FE8812C52899100DB7046 /* PhotoStatRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoStatRequest.swift; sourceTree = "<group>"; };
 		888FE8832C528AA900DB7046 /* PhotoStatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoStatResponse.swift; sourceTree = "<group>"; };
 		888FE8852C528BA300DB7046 /* PhotoDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewModel.swift; sourceTree = "<group>"; };
+		888FE8872C52961C00DB7046 /* RoundToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundToggleButton.swift; sourceTree = "<group>"; };
 		889760112C4E630F00E4AAB5 /* RoundProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundProfileView.swift; sourceTree = "<group>"; };
 		889760132C4E632100E4AAB5 /* RoundImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundImageView.swift; sourceTree = "<group>"; };
 		88E47ED32C4E471A0065527A /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -192,6 +209,7 @@
 				888698402C50E13C003AEDC6 /* UnderLineTextField.swift */,
 				888FE8712C52644A00DB7046 /* TitleSupplementaryView.swift */,
 				888FE87D2C527BEE00DB7046 /* FeedHeaderView.swift */,
+				888FE8872C52961C00DB7046 /* RoundToggleButton.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -299,6 +317,7 @@
 				88E936B12C4E42C60079DF68 /* Sources */,
 				88E936B22C4E42C60079DF68 /* Frameworks */,
 				88E936B32C4E42C60079DF68 /* Resources */,
+				887A2DDF2C53475D001207A9 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -374,6 +393,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				888FE8882C52961C00DB7046 /* RoundToggleButton.swift in Sources */,
 				8886985E2C510D66003AEDC6 /* SearchPhotoViewModel.swift in Sources */,
 				888698502C50E5A7003AEDC6 /* TopicPhotoViewController.swift in Sources */,
 				888698412C50E13C003AEDC6 /* UnderLineTextField.swift in Sources */,
@@ -556,6 +576,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6ZWU3ZJ8BG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Polaroid/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Polaroid;
@@ -589,6 +610,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6ZWU3ZJ8BG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Polaroid/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Polaroid;
