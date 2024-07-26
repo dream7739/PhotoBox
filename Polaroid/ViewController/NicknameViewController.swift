@@ -26,18 +26,16 @@ final class NicknameViewController: BaseViewController {
     private let jButton = RoundToggleButton(title: "J")
     private let pButton = RoundToggleButton(title: "P")
     private let completeButton = RoundButton()
-    lazy private var mbtiButtonList = [eButton, iButton, sButton, nButton,
-                                       tButton, fButton, jButton, pButton]
+    lazy private var mbtiButtonList = [eButton, iButton, sButton, nButton, tButton, fButton, jButton, pButton]
     
     
     let viewModel = NicknameViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = Navigation.profile.title
-        configureViewType()
-        configureAction()
         bindData()
+        configureAction()
+        configureViewType()
     }
     
     override func configureHierarchy() {
@@ -131,7 +129,7 @@ final class NicknameViewController: BaseViewController {
         }
         
         completeButton.addTarget(self, action: #selector(completeButtonClicked), for: .touchUpInside)
-    
+        
     }
 }
 
@@ -139,18 +137,37 @@ extension NicknameViewController {
     private func configureViewType(){
         switch viewModel.viewType {
         case .add:
+            navigationItem.title = Navigation.profile.title
             nicknameField.text = ""
         case .edit:
+            navigationItem.title = Navigation.editProfile.title
             nicknameField.text = UserManager.nickname
             configureSaveBarButtonItem()
             completeButton.isHidden = true
+            configureMbtiButton()
         }
     }
     
     private func configureSaveBarButtonItem(){
         let save = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(completeButtonClicked))
-        save.tintColor = .black
+        save.isEnabled = false
+        save.tintColor = .dark_gray
         navigationItem.rightBarButtonItem = save
+    }
+    
+    private func configureMbtiButton(){
+        var mbtiIndexList: [Int] = []
+        for mbtiCharacter in UserManager.mbti {
+            for idx in 0..<viewModel.mbti.count {
+                if String(mbtiCharacter) == viewModel.mbti[idx]{
+                    mbtiIndexList.append(idx)
+                }
+            }
+        }
+        
+        mbtiIndexList.forEach { value in
+            mbtiButtonClicked(sender: mbtiButtonList[value])
+        }
     }
     
     private func bindData(){
@@ -177,9 +194,13 @@ extension NicknameViewController {
             if value {
                 self?.completeButton.isEnabled = true
                 self?.completeButton.backgroundColor = .theme_blue
+                self?.navigationItem.rightBarButtonItem?.isEnabled = true
+                self?.navigationItem.rightBarButtonItem?.tintColor = .black
             }else{
                 self?.completeButton.isEnabled = false
                 self?.completeButton.backgroundColor = .dark_gray
+                self?.navigationItem.rightBarButtonItem?.isEnabled = false
+                self?.navigationItem.rightBarButtonItem?.tintColor = .dark_gray
             }
         }
         
@@ -189,6 +210,7 @@ extension NicknameViewController {
                 case .add:
                     self?.transitionScene(PolaroidTabBarController())
                 case .edit:
+                    self?.viewModel.profileUpdateTrigger?()
                     self?.navigationController?.popViewController(animated: true)
                 }
             }
@@ -205,7 +227,7 @@ extension NicknameViewController {
         }
         
         viewModel.inputViewDidLoadTrigger.value = ()
-
+        
     }
     
     @objc private func profileImageClicked(){
@@ -221,13 +243,11 @@ extension NicknameViewController {
     
     @objc private func textFieldChanged(){
         let inputText = nicknameField.text!.trimmingCharacters(in: .whitespaces)
-            viewModel.inputNickname.value = inputText
+        viewModel.inputNickname.value = inputText
     }
     
     @objc private func completeButtonClicked(){
         viewModel.inputSaveButtonClicked.value = ()
-        let profileVC = ProfileViewController()
-        navigationController?.pushViewController(profileVC, animated: true)
     }
     
     @objc private func mbtiButtonClicked(sender: RoundToggleButton){

@@ -22,6 +22,7 @@ final class NicknameViewModel{
     var mbti = ["E", "I", "S", "N", "T", "F", "J", "P"]
     var mbtiButtonClicked = Array.init(repeating: false, count: 8)
     var viewType: ViewType = .add
+    var profileUpdateTrigger: (() -> Void)?
     
     init(){
         transform()
@@ -82,7 +83,7 @@ final class NicknameViewModel{
                 (value, self?.mbtiButtonClicked[value] ?? false),
                 (compareValue, self?.mbtiButtonClicked[compareValue] ?? false)
             ]
-            
+                        
             self?.examineSaveButtonEnable()
         }
         

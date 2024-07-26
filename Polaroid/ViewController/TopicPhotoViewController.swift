@@ -94,8 +94,20 @@ final class TopicPhotoViewController: BaseViewController {
         titleLabel.text = Navigation.topicPhoto.title
         
         profileImage.image = UIImage(named: UserManager.profileImage)
+        profileImage.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileImageClicked))
+        profileImage.addGestureRecognizer(tapGesture)
         
         collectionView.delegate = self
+    }
+    
+    @objc private func profileImageClicked(){
+        let nicknameVC = NicknameViewController()
+        nicknameVC.viewModel.viewType = .edit
+        nicknameVC.viewModel.profileUpdateTrigger = { [weak self] in
+            self?.profileImage.image = UIImage(named: UserManager.profileImage)
+        }
+        navigationController?.pushViewController(nicknameVC, animated: true)
     }
 }
 
