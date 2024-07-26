@@ -6,15 +6,21 @@
 //
 
 import Foundation
+import RealmSwift
 
 final class SearchPhotoViewModel {
     var inputSortCondition = Observable(SearchPhotoViewController.SortCondition.relevant)
     var inputSearchText = Observable("")
     var outputSearchPhotoResult: Observable<PhotoSearchResponse?> = Observable(nil)
+    var inputLikeButtonClicked = Observable(false)
+    var inputLikeButtonIndexPath = Observable(0)
     
+    private let repository = RealmRepository()
     var page = 1
     
     init(){
+        print(repository.getRealmURL())
+        
         transform()
     }
     
@@ -27,6 +33,14 @@ final class SearchPhotoViewModel {
             let text = value.trimmingCharacters(in: .whitespaces)
             if !text.isEmpty {
                 self?.callSearchPhotoAPI()
+            }
+        }
+        
+        inputLikeButtonClicked.bind { [weak self] value in
+            if value {
+                self?.savePhotoToRealm()
+            }else{
+                self?.deletePhotoFromRealm()
             }
         }
     }
@@ -49,5 +63,19 @@ extension SearchPhotoViewModel {
                 print(error)
             }
         }
+    }
+    
+    private func savePhotoToRealm(){
+        guard let data = outputSearchPhotoResult.value else { return }
+        let item = data.results[inputLikeButtonIndexPath.value]
+        repository.addLike(item)
+    }
+    
+    private func deletePhotoFromRealm(){
+        guard let data = outputSearchPhotoResult.value else {
+            return
+        }
+        let item = data.results[inputLikeButtonIndexPath.value]
+        repository.deleteLike(item.id)
     }
 }

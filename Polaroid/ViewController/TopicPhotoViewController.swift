@@ -108,7 +108,6 @@ extension TopicPhotoViewController {
     
     private func configureDataSource(){
         let registeration = UICollectionView.CellRegistration<PhotoResultCollectionViewCell, PhotoResult> { cell, indexPath, itemIdentifier in
-            cell.keyword = "\(itemIdentifier)"
         }
         
         let headerRegistration = UICollectionView.SupplementaryRegistration<TitleSupplementaryView>(elementKind: sectionHeader) { supplementaryView, string, indexPath in

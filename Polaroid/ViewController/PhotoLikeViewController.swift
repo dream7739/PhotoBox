@@ -9,6 +9,10 @@ import UIKit
 import SnapKit
 
 final class PhotoLikeViewController: BaseViewController {
-    
+ 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.title = Navigation.likePhoto.title
+    }
 }
 

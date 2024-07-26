@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		887A2DDE2C53475D001207A9 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 88E47ED02C4E46C30065527A /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		887A2DE22C538ADB001207A9 /* RealmRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE12C538ADB001207A9 /* RealmRepository.swift */; };
+		887A2DE42C538AEB001207A9 /* RealmLikeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE32C538AEB001207A9 /* RealmLikeModel.swift */; };
 		888698412C50E13C003AEDC6 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698402C50E13C003AEDC6 /* UnderLineTextField.swift */; };
 		888698432C50E274003AEDC6 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698422C50E274003AEDC6 /* NicknameViewModel.swift */; };
 		888698462C50E281003AEDC6 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698452C50E281003AEDC6 /* Observable.swift */; };
@@ -73,6 +75,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		887A2DE12C538ADB001207A9 /* RealmRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmRepository.swift; sourceTree = "<group>"; };
+		887A2DE32C538AEB001207A9 /* RealmLikeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmLikeModel.swift; sourceTree = "<group>"; };
 		888698402C50E13C003AEDC6 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
 		888698422C50E274003AEDC6 /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		888698452C50E281003AEDC6 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
@@ -136,6 +140,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		887A2DE02C538AD1001207A9 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				887A2DE12C538ADB001207A9 /* RealmRepository.swift */,
+				887A2DE32C538AEB001207A9 /* RealmLikeModel.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
 		888698442C50E27C003AEDC6 /* Observable */ = {
 			isa = PBXGroup;
 			children = (
@@ -234,6 +247,7 @@
 		88E936B72C4E42C60079DF68 /* Polaroid */ = {
 			isa = PBXGroup;
 			children = (
+				887A2DE02C538AD1001207A9 /* Database */,
 				888698662C5131DF003AEDC6 /* Network */,
 				8886985A2C50F1FE003AEDC6 /* Manager */,
 				888698552C50EAF4003AEDC6 /* Cell */,
@@ -395,6 +409,7 @@
 			files = (
 				888FE8882C52961C00DB7046 /* RoundToggleButton.swift in Sources */,
 				8886985E2C510D66003AEDC6 /* SearchPhotoViewModel.swift in Sources */,
+				887A2DE22C538ADB001207A9 /* RealmRepository.swift in Sources */,
 				888698502C50E5A7003AEDC6 /* TopicPhotoViewController.swift in Sources */,
 				888698412C50E13C003AEDC6 /* UnderLineTextField.swift in Sources */,
 				888FE8822C52899100DB7046 /* PhotoStatRequest.swift in Sources */,
@@ -406,6 +421,7 @@
 				888698652C512EE2003AEDC6 /* APIKey.swift in Sources */,
 				888FE8742C5266DA00DB7046 /* TopicPhotoViewModel.swift in Sources */,
 				888FE8762C52672A00DB7046 /* TopicPhotoRequest.swift in Sources */,
+				887A2DE42C538AEB001207A9 /* RealmLikeModel.swift in Sources */,
 				88E936D62C4E44B60079DF68 /* BaseViewController.swift in Sources */,
 				88E936BD2C4E42C60079DF68 /* SearchPhotoViewController.swift in Sources */,
 				88E936B92C4E42C60079DF68 /* AppDelegate.swift in Sources */,

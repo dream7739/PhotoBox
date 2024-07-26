@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import RealmSwift
 import SnapKit
 
 protocol ResultLikeDelegate: AnyObject {
@@ -22,7 +23,6 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
     private let likeButton = UIButton()
     
     weak var delegate: ResultLikeDelegate?
-    var keyword: String?
     var indexPath: IndexPath?
     var isClicked: Bool = false {
         didSet {
@@ -33,6 +33,8 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
             }
         }
     }
+    
+    private let repository = RealmRepository()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -75,7 +77,7 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
         
         likeImage.snp.makeConstraints { make in
             make.trailing.bottom.equalTo(contentView.safeAreaLayoutGuide).inset(8)
-            make.size.equalTo(40)
+            make.size.equalTo(30)
         }
     }
     
@@ -105,6 +107,7 @@ extension PhotoResultCollectionViewCell {
     func configureData(_ data: PhotoResult){
         photoImage.kf.setImage(with: URL(string: data.urls.small))
         starCountLabel.text = data.likes.formatted(.number)
+        isClicked = repository.isExistLike(id: data.id)
     }
     
     
@@ -112,6 +115,5 @@ extension PhotoResultCollectionViewCell {
         guard let indexPath else { return }
         isClicked.toggle()
         delegate?.likeButtonClicked(indexPath, isClicked)
-
     }
 }

@@ -112,7 +112,13 @@ extension SearchPhotoViewController {
     private func configureSearchBar(){
         searchBar.delegate = self
     }
-    
+}
+
+extension SearchPhotoViewController: ResultLikeDelegate {
+    func likeButtonClicked(_ indexPath: IndexPath, _ isClicked: Bool) {
+        viewModel.inputLikeButtonIndexPath.value = indexPath.item
+        viewModel.inputLikeButtonClicked.value = isClicked
+    }
 }
 
 extension SearchPhotoViewController: UISearchBarDelegate {
@@ -134,8 +140,12 @@ extension SearchPhotoViewController: UICollectionViewDataSource, UICollectionVie
             return UICollectionViewCell()
         }
         
+        cell.indexPath = indexPath
+        cell.delegate = self
+        
         let data = response.results[indexPath.item]
         cell.configureData(data)
+
         return cell
     }
     
