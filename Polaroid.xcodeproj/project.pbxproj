@@ -10,6 +10,10 @@
 		887A2DDE2C53475D001207A9 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 88E47ED02C4E46C30065527A /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		887A2DE22C538ADB001207A9 /* RealmRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE12C538ADB001207A9 /* RealmRepository.swift */; };
 		887A2DE42C538AEB001207A9 /* RealmLikeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE32C538AEB001207A9 /* RealmLikeModel.swift */; };
+		887A2DE62C53C71F001207A9 /* UICollectionViewLayout+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE52C53C71F001207A9 /* UICollectionViewLayout+.swift */; };
+		887A2DE82C53C84E001207A9 /* PhotoLikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE72C53C84E001207A9 /* PhotoLikeViewModel.swift */; };
+		887A2DEA2C53C95E001207A9 /* UIButton.Configuration+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE92C53C95E001207A9 /* UIButton.Configuration+.swift */; };
+		887A2DEC2C53CB5D001207A9 /* Condition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DEB2C53CB5D001207A9 /* Condition.swift */; };
 		888698412C50E13C003AEDC6 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698402C50E13C003AEDC6 /* UnderLineTextField.swift */; };
 		888698432C50E274003AEDC6 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698422C50E274003AEDC6 /* NicknameViewModel.swift */; };
 		888698462C50E281003AEDC6 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698452C50E281003AEDC6 /* Observable.swift */; };
@@ -77,6 +81,10 @@
 /* Begin PBXFileReference section */
 		887A2DE12C538ADB001207A9 /* RealmRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmRepository.swift; sourceTree = "<group>"; };
 		887A2DE32C538AEB001207A9 /* RealmLikeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmLikeModel.swift; sourceTree = "<group>"; };
+		887A2DE52C53C71F001207A9 /* UICollectionViewLayout+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewLayout+.swift"; sourceTree = "<group>"; };
+		887A2DE72C53C84E001207A9 /* PhotoLikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLikeViewModel.swift; sourceTree = "<group>"; };
+		887A2DE92C53C95E001207A9 /* UIButton.Configuration+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton.Configuration+.swift"; sourceTree = "<group>"; };
+		887A2DEB2C53CB5D001207A9 /* Condition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Condition.swift; sourceTree = "<group>"; };
 		888698402C50E13C003AEDC6 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
 		888698422C50E274003AEDC6 /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		888698452C50E281003AEDC6 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
@@ -170,6 +178,7 @@
 			children = (
 				8886984D2C50E4EA003AEDC6 /* Design.swift */,
 				888698582C50EC04003AEDC6 /* Display.swift */,
+				887A2DEB2C53CB5D001207A9 /* Condition.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -300,6 +309,7 @@
 				8886985D2C510D66003AEDC6 /* SearchPhotoViewModel.swift */,
 				888FE8732C5266DA00DB7046 /* TopicPhotoViewModel.swift */,
 				888FE8852C528BA300DB7046 /* PhotoDetailViewModel.swift */,
+				887A2DE72C53C84E001207A9 /* PhotoLikeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -308,6 +318,8 @@
 			isa = PBXGroup;
 			children = (
 				88E47ED52C4E47890065527A /* UIColor+.swift */,
+				887A2DE52C53C71F001207A9 /* UICollectionViewLayout+.swift */,
+				887A2DE92C53C95E001207A9 /* UIButton.Configuration+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -421,10 +433,12 @@
 				888698652C512EE2003AEDC6 /* APIKey.swift in Sources */,
 				888FE8742C5266DA00DB7046 /* TopicPhotoViewModel.swift in Sources */,
 				888FE8762C52672A00DB7046 /* TopicPhotoRequest.swift in Sources */,
+				887A2DE82C53C84E001207A9 /* PhotoLikeViewModel.swift in Sources */,
 				887A2DE42C538AEB001207A9 /* RealmLikeModel.swift in Sources */,
 				88E936D62C4E44B60079DF68 /* BaseViewController.swift in Sources */,
 				88E936BD2C4E42C60079DF68 /* SearchPhotoViewController.swift in Sources */,
 				88E936B92C4E42C60079DF68 /* AppDelegate.swift in Sources */,
+				887A2DEC2C53CB5D001207A9 /* Condition.swift in Sources */,
 				88E47ED82C4E588B0065527A /* OnboardingViewController.swift in Sources */,
 				889760142C4E632100E4AAB5 /* RoundImageView.swift in Sources */,
 				888698682C5131E7003AEDC6 /* NetworkRequest.swift in Sources */,
@@ -434,11 +448,13 @@
 				8886986E2C5134EE003AEDC6 /* NetworkManager.swift in Sources */,
 				8886986A2C513251003AEDC6 /* PhotoSearchRequest.swift in Sources */,
 				8886985C2C50F206003AEDC6 /* UserDefaultsManager.swift in Sources */,
+				887A2DEA2C53C95E001207A9 /* UIButton.Configuration+.swift in Sources */,
 				888FE8862C528BA300DB7046 /* PhotoDetailViewModel.swift in Sources */,
 				888698572C50EAFC003AEDC6 /* ProfileCollectionViewCell.swift in Sources */,
 				888698592C50EC04003AEDC6 /* Display.swift in Sources */,
 				889760122C4E630F00E4AAB5 /* RoundProfileView.swift in Sources */,
 				888FE87C2C527B8F00DB7046 /* PhotoDetailViewController.swift in Sources */,
+				887A2DE62C53C71F001207A9 /* UICollectionViewLayout+.swift in Sources */,
 				888698432C50E274003AEDC6 /* NicknameViewModel.swift in Sources */,
 				888FE87E2C527BEE00DB7046 /* FeedHeaderView.swift in Sources */,
 				88E936BB2C4E42C60079DF68 /* SceneDelegate.swift in Sources */,

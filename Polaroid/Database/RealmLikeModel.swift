@@ -24,7 +24,7 @@ class PhotoInfo: Object {
         self.created_at = created_at
         self.width = width
         self.height = height
-        self.user = user
+        self.likes = likes
         self.regDate = Date()
     }
 

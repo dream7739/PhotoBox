@@ -11,19 +11,9 @@ import SnapKit
 final class SearchPhotoViewController: BaseViewController {
     private let searchBar = UISearchBar()
     private var sortButton: UIButton!
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .createBasicLayout(view))
     
     let viewModel = SearchPhotoViewModel()
-    
-    private func createLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewFlowLayout()
-        let spacing: CGFloat = 2
-        layout.minimumLineSpacing = spacing
-        layout.minimumInteritemSpacing = spacing
-        let width = (view.bounds.width - spacing) / 2
-        layout.itemSize = CGSize(width: width , height: width * 1.3)
-        return layout
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,19 +71,6 @@ final class SearchPhotoViewController: BaseViewController {
 }
 
 extension SearchPhotoViewController {
-    enum SortCondition: String {
-        case latest
-        case relevant
-        
-        var title: String {
-            switch self {
-            case .latest:
-                return "최신순"
-            case .relevant:
-                return "관련순"
-            }
-        }
-    }
     
     private func bindData(){
         viewModel.outputSearchPhotoResult.bind { [weak self] value in

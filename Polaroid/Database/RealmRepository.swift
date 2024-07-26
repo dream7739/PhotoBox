@@ -25,6 +25,8 @@ final class RealmRepository {
             likes: data.likes
         )
         
+        print(item.likes)
+        
         item.urls.append(ImageInfo(raw: data.urls.raw, small: data.urls.small))
         item.user.append(UserInfo(name: data.user.name, profile_image: data.user.profile_image.medium))
         

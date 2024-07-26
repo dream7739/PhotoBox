@@ -105,11 +105,35 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
 
 extension PhotoResultCollectionViewCell {
     func configureData(_ data: PhotoResult){
-        photoImage.kf.setImage(with: URL(string: data.urls.small))
+        if let url = URL(string: data.urls.small){
+            photoImage.kf.setImage(with: url)
+        }else{
+            photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
+
+        }
+        
         starCountLabel.text = data.likes.formatted(.number)
         isClicked = repository.isExistLike(id: data.id)
     }
     
+    func configureData(_ data: PhotoInfo){
+        if let urlString = data.urls.first?.small, let url = URL(string: urlString) {
+            photoImage.kf.setImage(with: url)
+        }else{
+            photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
+        }
+        
+        starCountLabel.text = data.likes.formatted(.number)
+        isClicked = repository.isExistLike(id: data.id)
+    }
+    
+    func setImageCornerRadius(){
+        photoImage.layer.cornerRadius = 10
+    }
+    
+    func setLikeImageHidden(){
+        likeImage.isHidden = true
+    }
     
     @objc func likeButtonClicked(){
         guard let indexPath else { return }

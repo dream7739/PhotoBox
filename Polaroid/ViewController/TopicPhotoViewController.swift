@@ -38,15 +38,15 @@ final class TopicPhotoViewController: BaseViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(270))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(250))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = .fixed(6)
         
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(40))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(30))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: sectionHeader, alignment: .top)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20)
         section.orthogonalScrollingBehavior = .continuous
         section.boundarySupplementaryItems = [sectionHeader]
         section.interGroupSpacing = 6
@@ -94,6 +94,8 @@ final class TopicPhotoViewController: BaseViewController {
         titleLabel.text = Navigation.topicPhoto.title
         
         profileImage.image = UIImage(named: UserManager.profileImage)
+        
+        collectionView.delegate = self
     }
 }
 
@@ -108,6 +110,8 @@ extension TopicPhotoViewController {
     
     private func configureDataSource(){
         let registeration = UICollectionView.CellRegistration<PhotoResultCollectionViewCell, PhotoResult> { cell, indexPath, itemIdentifier in
+            cell.setImageCornerRadius()
+            cell.setLikeImageHidden()
         }
         
         let headerRegistration = UICollectionView.SupplementaryRegistration<TitleSupplementaryView>(elementKind: sectionHeader) { supplementaryView, string, indexPath in
@@ -133,5 +137,14 @@ extension TopicPhotoViewController {
         snapshot.appendItems(viewModel.outputBusinessWorkReulst, toSection: .businessWork)
         snapshot.appendItems(viewModel.outputArchitectureInteriorReulst, toSection: .architectureInterior)
         dataSource.apply(snapshot)
+    }
+}
+
+extension TopicPhotoViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = dataSource.itemIdentifier(for: indexPath)
+        let photoDetailVC = PhotoDetailViewController()
+        photoDetailVC.viewModel.inputPhotoResult.value = item
+        navigationController?.pushViewController(photoDetailVC, animated: true)
     }
 }
