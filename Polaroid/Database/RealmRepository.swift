@@ -25,8 +25,6 @@ final class RealmRepository {
             likes: data.likes
         )
         
-        print(item.likes)
-        
         item.urls.append(ImageInfo(raw: data.urls.raw, small: data.urls.small))
         item.user.append(UserInfo(name: data.user.name, profile_image: data.user.profile_image.medium))
         
@@ -43,6 +41,15 @@ final class RealmRepository {
         return realm.objects(PhotoInfo.self).sorted(byKeyPath: "regDate", ascending: false)
     }
     
+    func fetchAll(_ condition: LikeCondition) -> Results<PhotoInfo>{
+        switch condition {
+        case .latest:
+            return realm.objects(PhotoInfo.self).sorted(byKeyPath: "regDate", ascending: false)
+        case .earliest:
+            return realm.objects(PhotoInfo.self).sorted(byKeyPath: "regDate", ascending: true)
+        }
+    }
+    
     func deleteLike(_ photoId: String) {
         if let item = realm.object(ofType: PhotoInfo.self, forPrimaryKey: photoId){
             do{
@@ -54,16 +61,6 @@ final class RealmRepository {
             }catch{
                 print("deleteLike Failed")
             }
-        }
-    }
-    
-    func deleteLike(_ item: PhotoInfo) {
-        do{
-            try realm.write {
-                realm.delete(item)
-            }
-        }catch{
-            print("deleLike Failed")
         }
     }
     

@@ -30,6 +30,29 @@ class PhotoInfo: Object {
 
 }
 
+extension PhotoInfo {
+    func convertPhotoResult() -> PhotoResult {
+        let photoResult = PhotoResult(
+            id: id,
+            created_at: created_at,
+            width: width,
+            height: height,
+            urls: ImageLink(
+                raw: urls.first?.raw ?? "",
+                small: urls.first?.small ?? ""
+            ),
+            likes: likes,
+            user: User(
+                name: user.first?.name ?? "",
+                profile_image: ProfileImage(
+                    medium: user.first?.profile_image ?? ""
+                )
+            )
+        )
+        return photoResult
+    }
+}
+
 class ImageInfo: Object {
     @Persisted(primaryKey: true) var objectId: ObjectId
     @Persisted var raw: String

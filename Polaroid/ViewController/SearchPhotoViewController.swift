@@ -53,7 +53,7 @@ final class SearchPhotoViewController: BaseViewController {
         searchBar.placeholder = "검색할 사진을 입력해주세요"
         
         sortButton.changesSelectionAsPrimaryAction = true
-        sortButton.configuration?.title = SortCondition.relevant.title
+        sortButton.configuration?.title = SearchCondition.relevant.title
         sortButton.configuration?.image = ImageType.sort
         sortButton.configuration?.baseForegroundColor = .black
         sortButton.configuration?.background.cornerRadius = 14
@@ -80,9 +80,9 @@ extension SearchPhotoViewController {
     
     private func toggleSortButton(){
         if sortButton.isSelected {
-            sortButton.configuration?.title = SortCondition.latest.title
+            sortButton.configuration?.title = SearchCondition.latest.title
         }else{
-            sortButton.configuration?.title = SortCondition.relevant.title
+            sortButton.configuration?.title = SearchCondition.relevant.title
         }
     }
     

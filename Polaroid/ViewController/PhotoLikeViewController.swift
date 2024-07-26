@@ -49,7 +49,7 @@ final class PhotoLikeViewController: BaseViewController {
     override func configureUI() {
         sortButton.changesSelectionAsPrimaryAction = true
         sortButton.configuration = .sortButtonConfig
-        sortButton.configuration?.title = SortCondition.relevant.title
+        sortButton.configuration?.title = LikeCondition.latest.title
         
         collectionView.keyboardDismissMode = .onDrag
         collectionView.delegate = self
@@ -69,9 +69,11 @@ extension PhotoLikeViewController {
     
     private func toggleSortButton(){
         if sortButton.isSelected {
-            sortButton.configuration?.title = SortCondition.latest.title
+            sortButton.configuration?.title = LikeCondition.earliest.title
+            viewModel.inputSortButtonClicked.value = .earliest
         }else{
-            sortButton.configuration?.title = SortCondition.relevant.title
+            sortButton.configuration?.title = LikeCondition.latest.title
+            viewModel.inputSortButtonClicked.value = .latest
         }
     }
     
@@ -79,10 +81,10 @@ extension PhotoLikeViewController {
 
 extension PhotoLikeViewController: ResultLikeDelegate {
     func likeButtonClicked(_ indexPath: IndexPath, _ isClicked: Bool) {
-        
+        viewModel.inputLikeButtonIndexPath.value = indexPath.item
+        viewModel.inputLikeButtonIsClicked.value = isClicked
     }
 }
-
 
 extension PhotoLikeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -92,14 +94,13 @@ extension PhotoLikeViewController: UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoResultCollectionViewCell.identifier, for: indexPath) as? PhotoResultCollectionViewCell else { return UICollectionViewCell() }
         
-        guard let result = viewModel.outputPhotoLikeResult.value else { return UICollectionViewCell()
-        }
+        guard let result = viewModel.outputPhotoLikeResult.value else { return UICollectionViewCell() }
         
         cell.indexPath = indexPath
         cell.delegate = self
         
         let data = result[indexPath.item]
-        cell.configureData(data)
+        cell.configureData(data.convertPhotoResult())
         return cell
         
     }
@@ -107,24 +108,8 @@ extension PhotoLikeViewController: UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoDetailVC = PhotoDetailViewController()
         guard let result = viewModel.outputPhotoLikeResult.value  else { return }
-        let data = result[indexPath.item]        
-        let inputData = PhotoResult(
-            id: data.id,
-            created_at: data.created_at,
-            width: data.width,
-            height: data.height,
-            urls: ImageLink(
-                raw: data.urls.first?.raw ?? "",
-                small: data.urls.first?.small ?? ""
-            ),
-            likes: data.likes,
-            user: User(
-                name: data.user.first?.name ?? "",
-                profile_image: ProfileImage(
-                    medium: data.user.first?.profile_image ?? ""
-                )
-            )
-        )
+        let data = result[indexPath.item]    
+        let inputData = data.convertPhotoResult()       
         photoDetailVC.viewModel.inputPhotoResult.value = inputData
         navigationController?.pushViewController(photoDetailVC, animated: true)
     }

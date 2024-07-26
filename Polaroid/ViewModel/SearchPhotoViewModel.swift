@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 final class SearchPhotoViewModel {
-    var inputSortCondition = Observable(SortCondition.relevant)
+    var inputSortCondition = Observable(SearchCondition.relevant)
     var inputSearchText = Observable("")
     var outputSearchPhotoResult: Observable<PhotoSearchResponse?> = Observable(nil)
     var inputLikeButtonClicked = Observable(false)

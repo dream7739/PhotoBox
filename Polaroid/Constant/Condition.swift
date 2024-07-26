@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SortCondition: String {
+enum SearchCondition: String {
     case latest
     case relevant
     
@@ -17,6 +17,20 @@ enum SortCondition: String {
             return "최신순"
         case .relevant:
             return "관련순"
+        }
+    }
+}
+
+enum LikeCondition: String {
+    case latest
+    case earliest
+    
+    var title: String {
+        switch self {
+        case .latest:
+            return "최신순"
+        case .earliest:
+            return "과거순"
         }
     }
 }
