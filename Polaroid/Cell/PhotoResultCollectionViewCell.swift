@@ -43,7 +43,7 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
         configureUI()
         likeButton.addTarget( self, action: #selector(likeButtonClicked), for: .touchUpInside)
     }
-  
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -69,7 +69,7 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
         starImage.snp.makeConstraints { make in
             make.size.equalTo(14)
         }
-
+        
         likeButton.snp.makeConstraints { make in
             make.bottom.trailing.equalTo(photoImage)
             make.size.equalTo(50)
@@ -94,7 +94,7 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
         
         starImage.image = UIImage(systemName: "star.fill")
         starImage.tintColor = .systemYellow
-
+        
         starCountLabel.textColor = .white
         starCountLabel.font = FontType.quaternary
         
@@ -103,26 +103,45 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
     
 }
 
-extension PhotoResultCollectionViewCell {
-    func configureData(_ data: PhotoResult){
-        if let url = URL(string: data.urls.small){
-            photoImage.kf.setImage(with: url)
-        }else{
-            photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
 
+enum EnterPoint {
+    case topicPhoto
+    case searchPhoto
+    case likePhoto
+}
+
+extension PhotoResultCollectionViewCell {
+    func configureData(_ enterPoint: EnterPoint, _ data: PhotoResult, _ image: UIImage? = nil){
+        switch enterPoint {
+        case .searchPhoto:
+            if let url = URL(string: data.urls.small){
+                photoImage.kf.setImage(with: url)
+            }else{
+                photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
+            }
+            starCountLabel.text = data.likes.formatted(.number)
+            isClicked = repository.isExistLike(id: data.id)
+        case .likePhoto:
+            if let image {
+                photoImage.image = image
+            }else{
+                photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
+            }
+            starCountLabel.text = data.likes.formatted(.number)
+            isClicked = repository.isExistLike(id: data.id)
+        case .topicPhoto:
+            if let url = URL(string: data.urls.small){
+                photoImage.kf.setImage(with: url)
+            }else{
+                photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
+            }
+            photoImage.layer.cornerRadius = 10
+            likeImage.isHidden = true
+            starCountLabel.text = data.likes.formatted(.number)
+            isClicked = repository.isExistLike(id: data.id)
         }
-        
-        starCountLabel.text = data.likes.formatted(.number)
-        isClicked = repository.isExistLike(id: data.id)
     }
     
-    func setImageCornerRadius(){
-        photoImage.layer.cornerRadius = 10
-    }
-    
-    func setLikeImageHidden(){
-        likeImage.isHidden = true
-    }
     
     @objc func likeButtonClicked(){
         guard let indexPath else { return }
@@ -130,3 +149,4 @@ extension PhotoResultCollectionViewCell {
         delegate?.likeButtonClicked(indexPath, isClicked)
     }
 }
+

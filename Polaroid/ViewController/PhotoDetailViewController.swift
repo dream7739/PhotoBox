@@ -126,6 +126,10 @@ final class PhotoDetailViewController: BaseViewController {
     
     @objc func heartButtonClicked(){
         headerView.isClicked.toggle()
+        
+        guard let data = viewModel.inputPhotoResult else { return }
+        configureImageFile(headerView.isClicked, data)
+        
         viewModel.inputHeartButtonClicked.value = headerView.isClicked
     }
     

@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Toast
 
 final class SearchPhotoViewController: BaseViewController {
     private let searchBar = UISearchBar()
@@ -28,9 +29,6 @@ final class SearchPhotoViewController: BaseViewController {
     }
     
     override func configureHierarchy() {
-        let toggleAction = UIAction(title: "") { _ in
-            self.toggleSortButton()
-        }
         sortButton = UIButton.init(configuration: .plain(), primaryAction:  UIAction { _ in
             self.toggleSortButton()
         })
@@ -63,13 +61,13 @@ final class SearchPhotoViewController: BaseViewController {
         sortButton.configuration = .sortButtonConfig
         sortButton.configuration?.title = SearchCondition.latest.title
         
-        collectionView.keyboardDismissMode = .onDrag 
+        collectionView.keyboardDismissMode = .onDrag
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.prefetchDataSource = self
         collectionView.register(PhotoResultCollectionViewCell.self, forCellWithReuseIdentifier: PhotoResultCollectionViewCell.identifier)
     }
-  
+    
 }
 
 extension SearchPhotoViewController {
@@ -97,6 +95,10 @@ extension SearchPhotoViewController {
 
 extension SearchPhotoViewController: ResultLikeDelegate {
     func likeButtonClicked(_ indexPath: IndexPath, _ isClicked: Bool) {
+        guard let response = viewModel.outputSearchPhotoResult.value else { return }
+        let data = response.results[indexPath.item]
+        configureImageFile(isClicked, data)
+        
         viewModel.inputLikeButtonIndexPath.value = indexPath.item
         viewModel.inputLikeButtonClicked.value = isClicked
     }
@@ -125,8 +127,8 @@ extension SearchPhotoViewController: UICollectionViewDataSource, UICollectionVie
         cell.delegate = self
         
         let data = response.results[indexPath.item]
-        cell.configureData(data)
-
+        cell.configureData(.searchPhoto, data)
+        
         return cell
     }
     

@@ -122,8 +122,6 @@ extension TopicPhotoViewController {
     
     private func configureDataSource(){
         let registeration = UICollectionView.CellRegistration<PhotoResultCollectionViewCell, PhotoResult> { cell, indexPath, itemIdentifier in
-            cell.setImageCornerRadius()
-            cell.setLikeImageHidden()
         }
         
         let headerRegistration = UICollectionView.SupplementaryRegistration<TitleSupplementaryView>(elementKind: sectionHeader) { supplementaryView, string, indexPath in
@@ -132,7 +130,7 @@ extension TopicPhotoViewController {
         
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             let cell = collectionView.dequeueConfiguredReusableCell(using: registeration, for: indexPath, item: itemIdentifier)
-            cell.configureData(itemIdentifier)
+            cell.configureData(.topicPhoto, itemIdentifier)
             return cell
         })
         

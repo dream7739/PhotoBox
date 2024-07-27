@@ -62,7 +62,7 @@ final class PhotoLikeViewController: BaseViewController {
 extension PhotoLikeViewController {
     private func bindData(){
         viewModel.inputViewDidLoadTrigger.value = ()
-        viewModel.outputPhotoLikeResult.bind { [weak self] _ in
+        viewModel.outputPhotoLikeResult.bind { [weak self] value in
             self?.collectionView.reloadData()
         }
     }
@@ -81,6 +81,9 @@ extension PhotoLikeViewController {
 
 extension PhotoLikeViewController: ResultLikeDelegate {
     func likeButtonClicked(_ indexPath: IndexPath, _ isClicked: Bool) {
+        guard let data = viewModel.outputPhotoLikeResult.value else { return }
+        configureImageFile(isClicked, data[indexPath.item].convertPhotoResult())
+        
         viewModel.inputLikeButtonIndexPath.value = indexPath.item
         viewModel.inputLikeButtonIsClicked.value = isClicked
     }
@@ -100,7 +103,7 @@ extension PhotoLikeViewController: UICollectionViewDataSource, UICollectionViewD
         cell.delegate = self
         
         let data = result[indexPath.item]
-        cell.configureData(data.convertPhotoResult())
+        cell.configureData(.likePhoto, data.convertPhotoResult(), loadImageToDocument(filename: data.id))
         return cell
         
     }
@@ -108,8 +111,8 @@ extension PhotoLikeViewController: UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoDetailVC = PhotoDetailViewController()
         guard let result = viewModel.outputPhotoLikeResult.value  else { return }
-        let data = result[indexPath.item]    
-        let inputData = data.convertPhotoResult()       
+        let data = result[indexPath.item]
+        let inputData = data.convertPhotoResult()
         photoDetailVC.viewModel.inputPhotoResult = inputData
         navigationController?.pushViewController(photoDetailVC, animated: true)
     }
