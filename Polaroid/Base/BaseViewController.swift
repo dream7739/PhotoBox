@@ -51,7 +51,7 @@ extension BaseViewController {
         view.makeToast(
             text,
             duration: 1.0,
-            point: CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 1.4),
+            point: CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 1.3),
             title: nil,
             image: nil,
             style: toastStyle,

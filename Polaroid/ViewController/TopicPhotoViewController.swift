@@ -9,23 +9,6 @@ import UIKit
 import SnapKit
 import Toast
 
-enum Section: String, CaseIterable {
-    case goldenHour = "골든아워"
-    case businessWork = "비지니스 및 업무"
-    case architectureInterior = "건축 및 인테리어"
-    
-    var topicID: String {
-        switch self {
-        case .goldenHour:
-            return "golden-hour"
-        case .businessWork:
-            return "business-work"
-        case .architectureInterior:
-            return "architecture-interior"
-        }
-    }
-}
-
 final class TopicPhotoViewController: BaseViewController {
     private let profileImage = RoundImageView(type: .highlight)
     private let titleLabel = UILabel()
@@ -114,6 +97,23 @@ final class TopicPhotoViewController: BaseViewController {
 }
 
 extension TopicPhotoViewController {
+    enum Section: String, CaseIterable {
+        case goldenHour = "골든아워"
+        case businessWork = "비지니스 및 업무"
+        case architectureInterior = "건축 및 인테리어"
+        
+        var topicID: String {
+            switch self {
+            case .goldenHour:
+                return "golden-hour"
+            case .businessWork:
+                return "business-work"
+            case .architectureInterior:
+                return "architecture-interior"
+            }
+        }
+    }
+    
     private func bindData(){
         viewModel.inputViewDidLoadTrigger.value = ()
         

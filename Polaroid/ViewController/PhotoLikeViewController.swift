@@ -13,7 +13,6 @@ final class PhotoLikeViewController: BaseViewController {
     private let emptyView = EmptyView(type: .like)
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .createBasicLayout(view))
     
-    
     let viewModel = PhotoLikeViewModel()
     
     override func viewDidLoad() {
@@ -24,7 +23,7 @@ final class PhotoLikeViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.inputViewDidLoadTrigger.value = ()
+        viewModel.inputViewWillAppearTrigger.value = ()
     }
     
     override func configureHierarchy() {
@@ -69,7 +68,8 @@ final class PhotoLikeViewController: BaseViewController {
 
 extension PhotoLikeViewController {
     private func bindData(){
-        viewModel.inputViewDidLoadTrigger.value = ()
+        viewModel.inputViewWillAppearTrigger.value = ()
+        
         viewModel.outputPhotoLikeResult.bind { [weak self] value in
             if let value, !value.isEmpty {
                 self?.emptyView.isHidden = true
@@ -108,9 +108,9 @@ extension PhotoLikeViewController: ResultLikeDelegate {
         viewModel.inputLikeButtonIsClicked.value = isClicked
         
         if isClicked {
-            showToast("좋아요!")
+            showToast(Literal.like)
         }else{
-            showToast("좋아요 해제!")
+            showToast(Literal.unlike)
         }
     }
 }

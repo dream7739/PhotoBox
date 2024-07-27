@@ -15,7 +15,12 @@ final class ProfileViewController: BaseViewController {
         collectionViewLayout: profileLayout()
     )
     
-    private func profileLayout() -> UICollectionViewLayout{
+    var viewType: ViewType = .add
+    var profileImage: String?
+    var profileImageSender: ((String?) -> Void)?
+    private var selectedIndexPath: IndexPath?
+    
+    private func profileLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         
         let spacing: CGFloat = 10
@@ -31,11 +36,6 @@ final class ProfileViewController: BaseViewController {
         
         return layout
     }
-    
-    var viewType: ViewType = .add
-    var profileImage: String?
-    var profileImageSender: ((String?) -> Void)?
-    private var selectedIndexPath: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()

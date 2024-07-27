@@ -35,7 +35,7 @@ final class PhotoDetailViewController: BaseViewController {
         super.viewWillAppear(animated)
         viewModel.inputViewWillAppearTrigger.value = ()
     }
-
+    
     override func configureHierarchy() {
         view.addSubview(headerView)
         view.addSubview(photoImage)
@@ -133,12 +133,11 @@ final class PhotoDetailViewController: BaseViewController {
         viewModel.inputHeartButtonClicked.value = headerView.isClicked
         
         if headerView.isClicked {
-            showToast("좋아요!")
+            showToast(Literal.like)
         }else{
-            showToast("좋아요 해제!")
+            showToast(Literal.unlike)
         }
     }
-    
 }
 
 extension PhotoDetailViewController {
@@ -161,14 +160,14 @@ extension PhotoDetailViewController {
         }
         
         viewModel.inputViewDidLoadTrigger.value = ()
-
+        
     }
     
     private func configurePhotoData(){
         guard let value = viewModel.inputPhotoResult else { return }
         
         headerView.configureHeaderView(value)
-
+        
         if let url = URL(string: value.urls.raw) {
             photoImage.kf.indicatorType = .activity
             photoImage.kf.setImage(with: url)

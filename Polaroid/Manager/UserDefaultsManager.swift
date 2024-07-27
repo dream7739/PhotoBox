@@ -49,11 +49,11 @@ final class UserManager {
     static var nickname: String
     
     @UserDefaultsManager(
-        defaultValue: "",
+        defaultValue: [],
         key: "mbti",
         storage: .standard
     )
-    static var mbti: String
+    static var mbti: [Int]
         
     static func resetAll(){
         for key in UserDefaults.standard.dictionaryRepresentation().keys {

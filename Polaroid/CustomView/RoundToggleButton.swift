@@ -23,24 +23,16 @@ final class RoundToggleButton: UIButton {
         }
     }
     
-    init(title: String){
+    override init(frame: CGRect) {
         super.init(frame: .zero)
-        setButtonConfiguration(title)
-        setButtonSize()
+        configuration = .mbtiButtonConfig
+        snp.makeConstraints { make in
+            make.size.equalTo(44)
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setButtonConfiguration(_ title: String){
-        configuration = .mbtiButtonConfig
-        configuration?.title = title
-    }
-    
-    private func setButtonSize(){
-        snp.makeConstraints { make in
-            make.size.equalTo(44)
-        }
-    }
 }

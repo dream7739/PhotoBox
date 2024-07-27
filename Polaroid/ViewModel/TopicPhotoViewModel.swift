@@ -33,7 +33,12 @@ extension TopicPhotoViewModel {
         var isFailed = false
 
         let goldenHourWorkItem = DispatchWorkItem {
-            NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.goldenHour.topicID)), response: [PhotoResult].self) { [weak self] response in
+            let request = TopicPhotoRequest(topicID: TopicPhotoViewController.Section.goldenHour.topicID)
+            
+            NetworkManager.shared.callRequest(
+                request: NetworkRequest.topicPhoto(request),
+                response: [PhotoResult].self
+            ) { [weak self] response in
                 switch response {
                 case .success(let value):
                     self?.outputGoldenHourReulst = value
@@ -45,7 +50,12 @@ extension TopicPhotoViewModel {
         }
         
         let businessWorkItem = DispatchWorkItem {
-            NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.businessWork.topicID)), response: [PhotoResult].self) { [weak self] response in
+            let request = TopicPhotoRequest(topicID: TopicPhotoViewController.Section.businessWork.topicID)
+            
+            NetworkManager.shared.callRequest(
+                request: NetworkRequest.topicPhoto(request),
+                response: [PhotoResult].self
+            ) { [weak self] response in
                 switch response {
                 case .success(let value):
                     self?.outputBusinessWorkReulst = value
@@ -57,7 +67,12 @@ extension TopicPhotoViewModel {
         }
         
         let architectureWorkItem = DispatchWorkItem {
-            NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.architectureInterior.topicID)), response: [PhotoResult].self) { [weak self] response in
+            let request = TopicPhotoRequest(topicID: TopicPhotoViewController.Section.architectureInterior.topicID)
+            
+            NetworkManager.shared.callRequest(
+                request: NetworkRequest.topicPhoto(request),
+                response: [PhotoResult].self
+            ) { [weak self] response in
                 switch response {
                 case .success(let value):
                     self?.outputArchitectureInteriorReulst = value

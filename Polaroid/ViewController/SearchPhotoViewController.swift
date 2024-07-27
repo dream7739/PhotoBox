@@ -137,9 +137,9 @@ extension SearchPhotoViewController: ResultLikeDelegate {
         viewModel.inputLikeButtonClicked.value = isClicked
         
         if isClicked {
-            showToast("좋아요!")
+            showToast(Literal.like)
         }else{
-            showToast("좋아요 해제!")
+            showToast(Literal.unlike)
         }
     }
 }

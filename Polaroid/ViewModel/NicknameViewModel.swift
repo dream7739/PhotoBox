@@ -17,11 +17,11 @@ final class NicknameViewModel{
     var outputMbtiButtonClicked: Observable<[(Int, Bool)]> = Observable([])
     var outputSaveButtonIsEnabled: Observable<Bool> = Observable(false)
     var inputSaveButtonClicked: Observable<Void?> = Observable(nil)
-    var outputSaveButtonClicked: Observable<Void?> = Observable(nil)
+    var outputTransitionTrigger: Observable<Void?> = Observable(nil)
     var inputLeaveButtonClicked: Observable<Void?> = Observable(nil)
     
-    var mbti = ["E", "I", "S", "N", "T", "F", "J", "P"]
-    var mbtiButtonClicked = Array.init(repeating: false, count: 8)
+    private var mbtiClickList = Array.init(repeating: false, count: 8)
+    var mbtiWordList = ["E", "I", "S", "N", "T", "F", "J", "P"]
     var viewType: ViewType = .add
     var profileUpdateTrigger: (() -> Void)?
     
@@ -71,18 +71,18 @@ final class NicknameViewModel{
                 compareValue = value - 1
             }
             
-            let compareClicked = self?.mbtiButtonClicked[compareValue] ?? false
+            let compareClicked = self?.mbtiClickList[compareValue] ?? false
             
             if compareClicked {
-                self?.mbtiButtonClicked[compareValue].toggle()
-                self?.mbtiButtonClicked[value].toggle()
+                self?.mbtiClickList[compareValue].toggle()
+                self?.mbtiClickList[value].toggle()
             }else{
-                self?.mbtiButtonClicked[value].toggle()
+                self?.mbtiClickList[value].toggle()
             }
             
             self?.outputMbtiButtonClicked.value = [
-                (value, self?.mbtiButtonClicked[value] ?? false),
-                (compareValue, self?.mbtiButtonClicked[compareValue] ?? false)
+                (value, self?.mbtiClickList[value] ?? false),
+                (compareValue, self?.mbtiClickList[compareValue] ?? false)
             ]
                         
             self?.examineSaveButtonEnable()
@@ -90,7 +90,7 @@ final class NicknameViewModel{
         
         inputSaveButtonClicked.bind { [weak self] _ in
             self?.saveUserDefaultsData()
-            self?.outputSaveButtonClicked.value = ()
+            self?.outputTransitionTrigger.value = ()
         }
         
         inputLeaveButtonClicked.bind { value in
@@ -136,7 +136,7 @@ extension NicknameViewModel {
     }
     
     private func examineSaveButtonEnable(){
-        let mbtiCount = mbtiButtonClicked.filter{ $0 }.count
+        let mbtiCount = mbtiClickList.filter{ $0 }.count
         
         if outputNicknameIsValid.value && mbtiCount == 4{
             outputSaveButtonIsEnabled.value = true
@@ -151,22 +151,20 @@ extension NicknameViewModel {
         if let profileImage = outputProfileImage.value {
             UserManager.profileImage = profileImage
         }
-        
-        UserManager.mbti = createMbtiString()
+        UserManager.mbti = createMbtiArray()
     }
     
-    private func createMbtiString() -> String {
-        var mbtiString = ""
+    private func createMbtiArray() -> [Int] {
+        var mbtiArray: [Int] = []
         
-        for idx in 0..<mbtiButtonClicked.count{
-            if mbtiButtonClicked[idx] {
-                mbtiString += mbti[idx]
+        for idx in 0..<mbtiClickList.count{
+            if mbtiClickList[idx] {
+                mbtiArray.append(idx)
             }
         }
         
-        return mbtiString
+        return mbtiArray
     }
-    
     
 }
 

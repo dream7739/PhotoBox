@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 final class PhotoLikeViewModel {
-    var inputViewDidLoadTrigger = Observable(())
+    var inputViewWillAppearTrigger = Observable(())
     var outputPhotoLikeResult: Observable<Results<PhotoInfo>?> = Observable(nil)
     var inputLikeButtonIsClicked = Observable(false)
     var inputLikeButtonIndexPath = Observable(0)
@@ -26,7 +26,7 @@ final class PhotoLikeViewModel {
 
 extension PhotoLikeViewModel {
     private func transform(){
-        inputViewDidLoadTrigger.bind { [weak self] _ in
+        inputViewWillAppearTrigger.bind { [weak self] _ in
             self?.outputPhotoLikeResult.value = self?.repository.fetchAllPhoto()
         }
         
@@ -41,6 +41,4 @@ extension PhotoLikeViewModel {
             self?.outputScrollToTopTrigger.value = ()
         }
     }
-    
-    
 }

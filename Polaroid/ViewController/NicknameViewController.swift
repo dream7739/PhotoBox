@@ -17,14 +17,14 @@ final class NicknameViewController: BaseViewController {
     private let mbtiLabel = UILabel()
     private let firstMbtiStackView = UIStackView()
     private let secondMbtiStackView = UIStackView()
-    private let eButton = RoundToggleButton(title: "E")
-    private let iButton = RoundToggleButton(title: "I")
-    private let sButton = RoundToggleButton(title: "S")
-    private let nButton = RoundToggleButton(title: "N")
-    private let tButton = RoundToggleButton(title: "T")
-    private let fButton = RoundToggleButton(title: "F")
-    private let jButton = RoundToggleButton(title: "J")
-    private let pButton = RoundToggleButton(title: "P")
+    private let eButton = RoundToggleButton()
+    private let iButton = RoundToggleButton()
+    private let sButton = RoundToggleButton()
+    private let nButton = RoundToggleButton()
+    private let tButton = RoundToggleButton()
+    private let fButton = RoundToggleButton()
+    private let jButton = RoundToggleButton()
+    private let pButton = RoundToggleButton()
     private let completeButton = RoundButton()
     private let leaveButton = UIButton(type: .system)
     
@@ -119,6 +119,10 @@ final class NicknameViewController: BaseViewController {
         secondMbtiStackView.addArrangedSubview(fButton)
         secondMbtiStackView.addArrangedSubview(pButton)
         
+        for idx in 0..<viewModel.mbtiWordList.count{
+            mbtiButtonList[idx].configuration?.title = viewModel.mbtiWordList[idx]
+        }
+        
         completeButton.setTitle("완료", for: .normal)
         completeButton.isEnabled = false
         completeButton.backgroundColor = .dark_gray
@@ -169,28 +173,11 @@ extension NicknameViewController {
     
     private func configureLeaveButton(){
         leaveButton.setTitle("회원탈퇴", for: .normal)
-        guard let title = leaveButton.title(for: .normal) else { return }
-        
-        let attributedString = NSMutableAttributedString(string: title)
-        attributedString.addAttribute(.underlineStyle,
-                                      value: NSUnderlineStyle.single.rawValue,
-                                      range: NSRange(location: 0, length: title.count)
-        )
-        
-        leaveButton.setAttributedTitle(attributedString, for: .normal)
+        leaveButton.setUnderLine()
     }
     
     private func configureMbtiButton(){
-        var mbtiIndexList: [Int] = []
-        for mbtiCharacter in UserManager.mbti {
-            for idx in 0..<viewModel.mbti.count {
-                if String(mbtiCharacter) == viewModel.mbti[idx]{
-                    mbtiIndexList.append(idx)
-                }
-            }
-        }
-        
-        mbtiIndexList.forEach { value in
+        UserManager.mbti.forEach { value in
             mbtiButtonClicked(sender: mbtiButtonList[value])
         }
     }
@@ -229,7 +216,7 @@ extension NicknameViewController {
             }
         }
         
-        viewModel.outputSaveButtonClicked.bind { [weak self] value in
+        viewModel.outputTransitionTrigger.bind { [weak self] value in
             if let type = self?.viewModel.viewType {
                 switch type {
                 case .add:

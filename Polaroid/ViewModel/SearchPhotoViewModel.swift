@@ -99,9 +99,7 @@ extension SearchPhotoViewModel {
     }
     
     private func deletePhotoFromRealm(){
-        guard let data = outputSearchPhotoResult.value else {
-            return
-        }
+        guard let data = outputSearchPhotoResult.value else { return }
         let item = data.results[inputLikeButtonIndexPath.value]
         repository.deleteLikePhoto(item.id)
     }
