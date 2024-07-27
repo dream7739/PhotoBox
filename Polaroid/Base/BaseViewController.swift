@@ -48,6 +48,17 @@ extension BaseViewController {
             style: toastStyle,
             completion: nil
         )
+    }
+    
+    func showAlert(_ title: String?, _ message: String?,
+                   _ completion: @escaping (UIAlertAction) -> ()){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let confirm = UIAlertAction(title: "확인", style: .default, handler: completion)
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
         
+        alert.addAction(confirm)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true)
     }
 }

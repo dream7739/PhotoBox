@@ -63,19 +63,7 @@ final class RealmRepository {
             }
         }
     }
-    
-    func deleteLike(_ item: PhotoInfo) {
-        do{
-            try realm.write {
-                realm.delete(item.urls)
-                realm.delete(item.user)
-                realm.delete(item)
-            }
-        }catch{
-            print("deleteLike Failed")
-        }
-    }
-    
+       
     func isExistLike(id: String) -> Bool{
         if let _ = realm.object(ofType: PhotoInfo.self, forPrimaryKey: id){
             return true

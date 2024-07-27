@@ -18,6 +18,7 @@ final class NicknameViewModel{
     var outputSaveButtonIsEnabled: Observable<Bool> = Observable(false)
     var inputSaveButtonClicked: Observable<Void?> = Observable(nil)
     var outputSaveButtonClicked: Observable<Void?> = Observable(nil)
+    var inputLeaveButtonClicked: Observable<Void?> = Observable(nil)
     
     var mbti = ["E", "I", "S", "N", "T", "F", "J", "P"]
     var mbtiButtonClicked = Array.init(repeating: false, count: 8)
@@ -90,6 +91,10 @@ final class NicknameViewModel{
         inputSaveButtonClicked.bind { [weak self] _ in
             self?.saveUserDefaultsData()
             self?.outputSaveButtonClicked.value = ()
+        }
+        
+        inputLeaveButtonClicked.bind { value in
+            UserManager.resetAll()
         }
     }
     

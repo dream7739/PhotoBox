@@ -26,8 +26,9 @@ final class NicknameViewController: BaseViewController {
     private let jButton = RoundToggleButton(title: "J")
     private let pButton = RoundToggleButton(title: "P")
     private let completeButton = RoundButton()
-    lazy private var mbtiButtonList = [eButton, iButton, sButton, nButton, tButton, fButton, jButton, pButton]
+    private let leaveButton = UIButton(type: .system)
     
+    lazy private var mbtiButtonList = [eButton, iButton, sButton, nButton, tButton, fButton, jButton, pButton]
     
     let viewModel = NicknameViewModel()
     
@@ -46,6 +47,7 @@ final class NicknameViewController: BaseViewController {
         view.addSubview(firstMbtiStackView)
         view.addSubview(secondMbtiStackView)
         view.addSubview(completeButton)
+        view.addSubview(leaveButton)
     }
     
     override func configureLayout() {
@@ -86,6 +88,12 @@ final class NicknameViewController: BaseViewController {
             make.height.equalTo(44)
         }
         
+        leaveButton.snp.makeConstraints { make in
+            make.width.equalTo(150)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
+            make.centerX.equalTo(view.safeAreaLayoutGuide)
+        }
+        
     }
     
     override func configureUI() {
@@ -114,6 +122,7 @@ final class NicknameViewController: BaseViewController {
         completeButton.setTitle("완료", for: .normal)
         completeButton.isEnabled = false
         completeButton.backgroundColor = .dark_gray
+        
     }
     
     private func configureAction(){
@@ -130,6 +139,7 @@ final class NicknameViewController: BaseViewController {
         
         completeButton.addTarget(self, action: #selector(completeButtonClicked), for: .touchUpInside)
         
+        leaveButton.addTarget(self, action: #selector(leaveButtonClicked), for: .touchUpInside)
     }
 }
 
@@ -139,12 +149,14 @@ extension NicknameViewController {
         case .add:
             navigationItem.title = Navigation.profile.title
             nicknameField.text = ""
+            leaveButton.isHidden = true
         case .edit:
             navigationItem.title = Navigation.editProfile.title
             nicknameField.text = UserManager.nickname
             configureSaveBarButtonItem()
             completeButton.isHidden = true
             configureMbtiButton()
+            configureLeaveButton()
         }
     }
     
@@ -153,6 +165,19 @@ extension NicknameViewController {
         save.isEnabled = false
         save.tintColor = .dark_gray
         navigationItem.rightBarButtonItem = save
+    }
+    
+    private func configureLeaveButton(){
+        leaveButton.setTitle("회원탈퇴", for: .normal)
+        guard let title = leaveButton.title(for: .normal) else { return }
+        
+        let attributedString = NSMutableAttributedString(string: title)
+        attributedString.addAttribute(.underlineStyle,
+                                      value: NSUnderlineStyle.single.rawValue,
+                                      range: NSRange(location: 0, length: title.count)
+        )
+        
+        leaveButton.setAttributedTitle(attributedString, for: .normal)
     }
     
     private func configureMbtiButton(){
@@ -252,6 +277,13 @@ extension NicknameViewController {
     
     @objc private func mbtiButtonClicked(sender: RoundToggleButton){
         viewModel.inputMbtiButtonClicked.value = sender.tag
+    }
+    
+    @objc func leaveButtonClicked(){
+        showAlert("알림", "탈퇴하시면 모든 정보가 삭제됩니다") { [weak self] _ in
+            self?.viewModel.inputLeaveButtonClicked.value = ()
+            self?.transitionScene(UINavigationController(rootViewController: OnboardingViewController()))
+        }
     }
 }
 

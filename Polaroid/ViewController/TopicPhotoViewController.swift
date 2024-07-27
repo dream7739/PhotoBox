@@ -35,10 +35,11 @@ final class TopicPhotoViewController: BaseViewController {
     let viewModel = TopicPhotoViewModel()
     
     private func createLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
+        print(view.bounds.width)
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(250))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(200), heightDimension: .absolute(260))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = .fixed(6)
         

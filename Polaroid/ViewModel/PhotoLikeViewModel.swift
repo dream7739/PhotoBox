@@ -31,7 +31,7 @@ extension PhotoLikeViewModel {
         
         inputLikeButtonIsClicked.bind { [weak self] value in
             guard let data = self?.outputPhotoLikeResult.value, let index = self?.inputLikeButtonIndexPath.value else { return }
-            self?.repository.deleteLike(data[index])
+            self?.repository.deleteLike(data[index].id)
             self?.outputPhotoLikeResult.value = self?.repository.fetchAll()
         }
         
