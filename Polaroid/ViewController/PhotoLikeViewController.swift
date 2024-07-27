@@ -78,12 +78,13 @@ extension PhotoLikeViewController {
             }
             
             self?.collectionView.reloadData()
-            
-            if let value, !value.isEmpty {
+        }
+       
+        viewModel.outputScrollToTopTrigger.bind { [weak self] _ in
+            if let value = self?.viewModel.outputPhotoLikeResult.value, !value.isEmpty {
                 self?.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
             }
         }
-       
     }
     
     private func toggleSortButton(){

@@ -14,6 +14,7 @@ final class PhotoLikeViewModel {
     var inputLikeButtonIsClicked = Observable(false)
     var inputLikeButtonIndexPath = Observable(0)
     var inputSortButtonClicked = Observable(LikeCondition.latest)
+    var outputScrollToTopTrigger = Observable(())
     
     private let repository = RealmRepository()
     
@@ -37,6 +38,7 @@ extension PhotoLikeViewModel {
         
         inputSortButtonClicked.bind { [weak self] value in
             self?.outputPhotoLikeResult.value = self?.repository.fetchAllPhoto(value)
+            self?.outputScrollToTopTrigger.value = ()
         }
     }
     
