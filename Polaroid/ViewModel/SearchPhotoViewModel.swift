@@ -10,7 +10,7 @@ import RealmSwift
 
 final class SearchPhotoViewModel {
     var inputSortCondition = Observable(SearchCondition.relevant)
-    var inputSearchPageCount = Observable(1)
+    var inputPrefetchTrigger = Observable(())
     var inputSearchText = Observable("")
     var outputSearchPhotoResult: Observable<PhotoSearchResponse?> = Observable(nil)
     var inputLikeButtonClicked = Observable(false)
@@ -18,7 +18,10 @@ final class SearchPhotoViewModel {
     var outputIsInitalSearch = Observable(true)
     var outputNetworkError = Observable(NetworkError.error)
     
+    private var previousSearchWord = ""
+    private var searchKeyword = ""
     private var sortCondition = SearchCondition.relevant
+    var page = 1
     
     private let repository = RealmRepository()
     
@@ -30,21 +33,24 @@ final class SearchPhotoViewModel {
 extension SearchPhotoViewModel {
     private func transform(){
         inputSearchText.bind { [weak self] value in
-            let text = value.trimmingCharacters(in: .whitespaces)
+            self?.searchKeyword = value.trimmingCharacters(in: .whitespaces).lowercased()
             
-            if !text.isEmpty {
-                self?.inputSearchPageCount.value = 1
+            guard let keyword = self?.searchKeyword else { return }
+            
+            if !keyword.isEmpty && keyword != self?.previousSearchWord {
+                self?.previousSearchWord = keyword
+                self?.page = 1
                 self?.sortCondition = .relevant
                 self?.callSearchPhotoAPI()
             }
         }
         
-        inputSearchPageCount.bind { [weak self] _ in
+        inputPrefetchTrigger.bind { [weak self] _ in
             self?.callSearchPhotoAPI()
         }
         
         inputSortCondition.bind { [weak self] value in
-            self?.inputSearchPageCount.value = 1
+            self?.page = 1
             self?.sortCondition = value
             self?.callSearchPhotoAPI()
         }
@@ -61,8 +67,8 @@ extension SearchPhotoViewModel {
     
     func callSearchPhotoAPI() {
         let photoSearchRequest = PhotoSearchRequest(
-            query: inputSearchText.value,
-            page: inputSearchPageCount.value,
+            query: searchKeyword,
+            page: page,
             order_by: sortCondition.rawValue
         )
         
@@ -75,7 +81,7 @@ extension SearchPhotoViewModel {
                     self?.outputIsInitalSearch.value.toggle()
                 }
                 
-                if self?.inputSearchPageCount.value == 1 {
+                if self?.page == 1 {
                     self?.outputSearchPhotoResult.value = value
                 }else{
                     self?.outputSearchPhotoResult.value?.results.append(contentsOf: value.results)

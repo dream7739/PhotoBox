@@ -94,7 +94,7 @@ extension SearchPhotoViewController {
             }
             self?.collectionView.reloadData()
             
-            if self?.viewModel.inputSearchPageCount.value == 1 && !value.results.isEmpty {
+            if self?.viewModel.page == 1 && !value.results.isEmpty {
                 self?.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
             }
         }
@@ -187,8 +187,9 @@ extension SearchPhotoViewController: UICollectionViewDataSourcePrefetching {
         guard let data = viewModel.outputSearchPhotoResult.value else { return }
         
         for indexPath in indexPaths {
-            if indexPath.item == data.results.count - 4 && viewModel.inputSearchPageCount.value < data.total_pages {
-                viewModel.inputSearchPageCount.value += 1
+            if indexPath.item == data.results.count - 4 && viewModel.page < data.total_pages {
+                viewModel.page += 1
+                viewModel.inputPrefetchTrigger.value = ()
             }
         }
     }
