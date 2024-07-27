@@ -12,6 +12,7 @@ import Toast
 final class SearchPhotoViewController: BaseViewController {
     private let searchBar = UISearchBar()
     private var sortButton: UIButton!
+    private let emptyView = EmptyView(type: .search)
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .createBasicLayout(view))
     
     let viewModel = SearchPhotoViewModel()
@@ -36,6 +37,8 @@ final class SearchPhotoViewController: BaseViewController {
         view.addSubview(searchBar)
         view.addSubview(sortButton)
         view.addSubview(collectionView)
+        view.addSubview(emptyView)
+
     }
     
     override func configureLayout() {
@@ -46,6 +49,11 @@ final class SearchPhotoViewController: BaseViewController {
         sortButton.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom).offset(2)
             make.trailing.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        emptyView.snp.makeConstraints { make in
+            make.top.equalTo(searchBar.snp.bottom).offset(2)
+            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         collectionView.snp.makeConstraints { make in
@@ -61,6 +69,9 @@ final class SearchPhotoViewController: BaseViewController {
         sortButton.configuration = .sortButtonConfig
         sortButton.configuration?.title = SearchCondition.latest.title
         
+        emptyView.isHidden = true
+        sortButton.isHidden = true
+        
         collectionView.keyboardDismissMode = .onDrag
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -74,7 +85,22 @@ extension SearchPhotoViewController {
     
     private func bindData(){
         viewModel.outputSearchPhotoResult.bind { [weak self] value in
+            guard let value else { return }
+            
+            if value.results.isEmpty {
+                self?.emptyView.isHidden = false
+            }else{
+                self?.emptyView.isHidden = true
+            }
             self?.collectionView.reloadData()
+            
+            if self?.viewModel.inputSearchPageCount.value == 1 && !value.results.isEmpty {
+                self?.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+            }
+        }
+        
+        viewModel.outputIsInitalSearch.bind { [weak self] value in
+            self?.sortButton.isHidden = false
         }
     }
     
@@ -108,6 +134,8 @@ extension SearchPhotoViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let inputText = searchBar.text ?? ""
         viewModel.inputSearchText.value = inputText
+        sortButton.isSelected = false
+        toggleSortButton()
     }
 }
 

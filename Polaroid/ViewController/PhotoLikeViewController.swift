@@ -10,7 +10,9 @@ import SnapKit
 
 final class PhotoLikeViewController: BaseViewController {
     private var sortButton: UIButton!
+    private let emptyView = EmptyView(type: .like)
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .createBasicLayout(view))
+    
     
     let viewModel = PhotoLikeViewModel()
     
@@ -32,12 +34,18 @@ final class PhotoLikeViewController: BaseViewController {
         
         view.addSubview(sortButton)
         view.addSubview(collectionView)
+        view.addSubview(emptyView)
     }
     
     override func configureLayout() {
         sortButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(2)
             make.trailing.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        emptyView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(2)
+            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         collectionView.snp.makeConstraints { make in
@@ -63,6 +71,12 @@ extension PhotoLikeViewController {
     private func bindData(){
         viewModel.inputViewDidLoadTrigger.value = ()
         viewModel.outputPhotoLikeResult.bind { [weak self] value in
+            if let value, !value.isEmpty {
+                self?.emptyView.isHidden = true
+            }else{
+                self?.emptyView.isHidden = false
+            }
+            
             self?.collectionView.reloadData()
         }
     }

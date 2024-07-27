@@ -15,6 +15,7 @@ final class SearchPhotoViewModel {
     var outputSearchPhotoResult: Observable<PhotoSearchResponse?> = Observable(nil)
     var inputLikeButtonClicked = Observable(false)
     var inputLikeButtonIndexPath = Observable(0)
+    var outputIsInitalSearch = Observable(true)
     
     private let repository = RealmRepository()
     
@@ -28,8 +29,11 @@ extension SearchPhotoViewModel {
     private func transform(){
         inputSearchText.bind { [weak self] value in
             let text = value.trimmingCharacters(in: .whitespaces)
-            if !text.isEmpty {
-                self?.callSearchPhotoAPI()
+            
+            if !text.isEmpty {                
+                if self?.outputIsInitalSearch.value ?? false {
+                    self?.outputIsInitalSearch.value.toggle()
+                }
             }
         }
         
@@ -38,7 +42,7 @@ extension SearchPhotoViewModel {
         }
         
         inputSortCondition.bind { [weak self] value in
-            guard let response = self?.outputSearchPhotoResult.value else { return }
+            self?.inputSearchPageCount.value = 1
             self?.callSearchPhotoAPI()
         }
         
@@ -53,7 +57,12 @@ extension SearchPhotoViewModel {
     }
     
     func callSearchPhotoAPI(){
-        let photoSearchRequest = PhotoSearchRequest(query: inputSearchText.value, page: inputSearchPageCount.value, order_by: inputSortCondition.value.rawValue)
+        let photoSearchRequest = PhotoSearchRequest(
+            query: inputSearchText.value,
+            page: inputSearchPageCount.value,
+            order_by: inputSortCondition.value.rawValue
+        )
+        
         let request = NetworkRequest.photoSearch(photoSearchRequest)
         
         NetworkManager.shared.callRequest(request: request, response: PhotoSearchResponse.self) { [weak self] response in
