@@ -14,6 +14,7 @@ final class PhotoDetailViewModel {
     var outputPhotoStatResult: Observable<PhotoStatResponse?> = Observable(nil)
     var outputPhotoIsLiked = Observable(false)
     var inputHeartButtonClicked = Observable(false)
+    var outputErrorOccured = Observable(())
   
     var inputPhotoResult: PhotoResult? = nil
     
@@ -47,6 +48,7 @@ extension PhotoDetailViewModel {
                 self?.repository.deleteLike(input.id)
             }
         }
+        
     }
     
     private func callPhotoStatisticsAPI(_ imageID: String){
@@ -55,7 +57,8 @@ extension PhotoDetailViewModel {
             case .success(let value):
                 self?.outputPhotoStatResult.value = value
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
+                self?.outputErrorOccured.value = ()
             }
         }
     }

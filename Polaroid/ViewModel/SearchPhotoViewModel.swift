@@ -16,6 +16,7 @@ final class SearchPhotoViewModel {
     var inputLikeButtonClicked = Observable(false)
     var inputLikeButtonIndexPath = Observable(0)
     var outputIsInitalSearch = Observable(true)
+    var outputErrorOccured = Observable(())
     
     private let repository = RealmRepository()
     
@@ -56,7 +57,7 @@ extension SearchPhotoViewModel {
         
     }
     
-    func callSearchPhotoAPI(){
+    func callSearchPhotoAPI() {
         let photoSearchRequest = PhotoSearchRequest(
             query: inputSearchText.value,
             page: inputSearchPageCount.value,
@@ -74,7 +75,8 @@ extension SearchPhotoViewModel {
                     self?.outputSearchPhotoResult.value?.results.append(contentsOf: value.results)
                 }
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
+                self?.outputErrorOccured.value = ()
             }
         }
     }

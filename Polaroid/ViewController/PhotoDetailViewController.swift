@@ -148,6 +148,12 @@ extension PhotoDetailViewController {
             self?.headerView.isClicked = value
         }
         
+        viewModel.outputErrorOccured.bind { [weak self]  in
+            self?.showToast(NetworkError.error.localizedDescription)
+            self?.headerView.configureDisabled()
+            self?.photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.5)
+        }
+        
         viewModel.inputViewDidLoadTrigger.value = ()
 
     }

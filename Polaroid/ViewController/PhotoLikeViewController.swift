@@ -79,6 +79,7 @@ extension PhotoLikeViewController {
             
             self?.collectionView.reloadData()
         }
+       
     }
     
     private func toggleSortButton(){

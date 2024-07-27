@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SnapKit
+import Toast
 
 enum Section: String, CaseIterable {
     case goldenHour = "골든아워"
@@ -35,7 +37,6 @@ final class TopicPhotoViewController: BaseViewController {
     let viewModel = TopicPhotoViewModel()
     
     private func createLayout() -> UICollectionViewCompositionalLayout {
-        print(view.bounds.width)
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -118,6 +119,10 @@ extension TopicPhotoViewController {
         
         viewModel.outputUpdateSnapshotTrigger.bind { [weak self] _ in
             self?.updateSnapshot()
+        }
+        
+        viewModel.outputErrorOccured.bind { [weak self] _ in
+            self?.showToast(NetworkError.error.localizedDescription)
         }
     }
     

@@ -110,7 +110,13 @@ final class FeedHeaderView: UIView {
         let dateString = dateFormatter.string(from: convertDate)
         
         createDateLabel.text = dateString + " 게시됨"
-        
     }
-
+ 
+    func configureDisabled(){
+        heartButton.isEnabled = false
+        heartImage.tintColor = .deep_gray
+        userProfileImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
+        usernameLabel.text = "정보없음"
+        createDateLabel.text = "정보없음"
+    }
 }

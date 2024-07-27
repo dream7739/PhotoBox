@@ -99,6 +99,10 @@ extension SearchPhotoViewController {
             }
         }
         
+        viewModel.outputErrorOccured.bind { [weak self] _ in
+            self?.showToast(NetworkError.error.localizedDescription)
+        }
+        
         viewModel.outputIsInitalSearch.bind { [weak self] value in
             self?.sortButton.isHidden = false
         }

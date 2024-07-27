@@ -17,14 +17,21 @@ final class NetworkManager {
         AF.request(request.endPoint,
                    parameters: request.param,
                    encoding: URLEncoding.queryString)
+        .validate(statusCode: 200...500)
         .responseDecodable(of: T.self) { response in
-            print(response.response?.statusCode)
-            switch response.result {
-            case .success(let value):
-                completion(.success(value))
-            case .failure(let error):
-                completion(.failure(error))
+            guard let statusCode = response.response?.statusCode else { return}
+            switch statusCode {
+            case 200:
+                switch response.result {
+                case .success(let value):
+                    completion(.success(value))
+                case .failure:
+                    completion(.failure(NetworkError(statusCode: statusCode)))
+                }
+            default:
+                completion(.failure(NetworkError(statusCode: statusCode)))
             }
         }
     }
+    
 }

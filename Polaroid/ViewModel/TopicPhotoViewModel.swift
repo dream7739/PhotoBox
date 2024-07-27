@@ -13,6 +13,7 @@ final class TopicPhotoViewModel {
     var outputBusinessWorkReulst: [PhotoResult] = []
     var outputArchitectureInteriorReulst:[PhotoResult] = []
     var outputUpdateSnapshotTrigger = Observable(())
+    var outputErrorOccured = Observable(())
     
     init(){
         transform()
@@ -29,14 +30,16 @@ extension TopicPhotoViewModel {
     
     private func callTopicPhotoAPI(){
         let group = DispatchGroup()
-        
+        var isFailed = false
+
         group.enter()
         NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.goldenHour.topicID)), response: [PhotoResult].self) { [weak self] response in
             switch response {
             case .success(let value):
                 self?.outputGoldenHourReulst = value
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
+                isFailed = true
             }
             group.leave()
         }
@@ -47,7 +50,8 @@ extension TopicPhotoViewModel {
             case .success(let value):
                 self?.outputBusinessWorkReulst = value
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
+                isFailed = true
             }
             group.leave()
         }
@@ -58,15 +62,18 @@ extension TopicPhotoViewModel {
             case .success(let value):
                 self?.outputArchitectureInteriorReulst = value
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
+                isFailed = true
             }
             group.leave()
         }
         
         group.notify(queue: .main) { [weak self] in
             self?.outputUpdateSnapshotTrigger.value = ()
+            
+            if isFailed {
+                self?.outputErrorOccured.value = ()
+            }
         }
     }
-    
-    
 }
