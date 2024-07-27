@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8818971A2C552C570055593A /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881897192C552C570055593A /* UIButton+.swift */; };
 		887A2DDE2C53475D001207A9 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 88E47ED02C4E46C30065527A /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		887A2DE22C538ADB001207A9 /* RealmRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE12C538ADB001207A9 /* RealmRepository.swift */; };
 		887A2DE42C538AEB001207A9 /* RealmLikeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE32C538AEB001207A9 /* RealmLikeModel.swift */; };
@@ -86,6 +87,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		881897192C552C570055593A /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		887A2DE12C538ADB001207A9 /* RealmRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmRepository.swift; sourceTree = "<group>"; };
 		887A2DE32C538AEB001207A9 /* RealmLikeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmLikeModel.swift; sourceTree = "<group>"; };
 		887A2DE52C53C71F001207A9 /* UICollectionViewLayout+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewLayout+.swift"; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 				887A2DE52C53C71F001207A9 /* UICollectionViewLayout+.swift */,
 				887A2DE92C53C95E001207A9 /* UIButton.Configuration+.swift */,
 				888249F12C549B5F004AC5F0 /* String+.swift */,
+				881897192C552C570055593A /* UIButton+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 				888FE8722C52644A00DB7046 /* TitleSupplementaryView.swift in Sources */,
 				888698602C511953003AEDC6 /* PhotoResultCollectionViewCell.swift in Sources */,
 				88E47EDB2C4E58A00065527A /* RoundButton.swift in Sources */,
+				8818971A2C552C570055593A /* UIButton+.swift in Sources */,
 				888249F22C549B5F004AC5F0 /* String+.swift in Sources */,
 				888698482C50E403003AEDC6 /* PolaroidTabBarController.swift in Sources */,
 				888698652C512EE2003AEDC6 /* APIKey.swift in Sources */,

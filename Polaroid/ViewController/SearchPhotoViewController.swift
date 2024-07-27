@@ -111,6 +111,8 @@ extension SearchPhotoViewController {
     }
     
     private func toggleSortButton(){
+        sortButton.throttle()
+        
         if sortButton.isSelected {
             sortButton.configuration?.title = SearchCondition.relevant.title
             viewModel.inputSortCondition.value = SearchCondition.latest

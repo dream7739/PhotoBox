@@ -32,38 +32,50 @@ extension TopicPhotoViewModel {
         let group = DispatchGroup()
         var isFailed = false
 
-        group.enter()
-        NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.goldenHour.topicID)), response: [PhotoResult].self) { [weak self] response in
-            switch response {
-            case .success(let value):
-                self?.outputGoldenHourReulst = value
-            case .failure(let error):
-                isFailed = true
+        let goldenHourWorkItem = DispatchWorkItem {
+            NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.goldenHour.topicID)), response: [PhotoResult].self) { [weak self] response in
+                switch response {
+                case .success(let value):
+                    self?.outputGoldenHourReulst = value
+                case .failure(let error):
+                    isFailed = true
+                }
+                group.leave()
             }
-            group.leave()
+        }
+        
+        let businessWorkItem = DispatchWorkItem {
+            NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.businessWork.topicID)), response: [PhotoResult].self) { [weak self] response in
+                switch response {
+                case .success(let value):
+                    self?.outputBusinessWorkReulst = value
+                case .failure(let error):
+                    isFailed = true
+                }
+                group.leave()
+            }
+        }
+        
+        let architectureWorkItem = DispatchWorkItem {
+            NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.architectureInterior.topicID)), response: [PhotoResult].self) { [weak self] response in
+                switch response {
+                case .success(let value):
+                    self?.outputArchitectureInteriorReulst = value
+                case .failure(let error):
+                    isFailed = true
+                }
+                group.leave()
+            }
         }
         
         group.enter()
-        NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.businessWork.topicID)), response: [PhotoResult].self) { [weak self] response in
-            switch response {
-            case .success(let value):
-                self?.outputBusinessWorkReulst = value
-            case .failure(let error):
-                isFailed = true
-            }
-            group.leave()
-        }
+        DispatchQueue.global().async(group: group, execute: goldenHourWorkItem)
         
         group.enter()
-        NetworkManager.shared.callRequest(request: NetworkRequest.topicPhoto(TopicPhotoRequest(topicID: Section.architectureInterior.topicID)), response: [PhotoResult].self) { [weak self] response in
-            switch response {
-            case .success(let value):
-                self?.outputArchitectureInteriorReulst = value
-            case .failure(let error):
-                isFailed = true
-            }
-            group.leave()
-        }
+        DispatchQueue.global().async(group: group, execute: businessWorkItem)
+        
+        group.enter()
+        DispatchQueue.global().async(group: group, execute: architectureWorkItem)
         
         group.notify(queue: .main) { [weak self] in
             self?.outputUpdateSnapshotTrigger.value = ()

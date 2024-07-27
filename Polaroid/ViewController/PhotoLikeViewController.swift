@@ -78,6 +78,10 @@ extension PhotoLikeViewController {
             }
             
             self?.collectionView.reloadData()
+            
+            if let value, !value.isEmpty {
+                self?.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+            }
         }
        
     }

@@ -170,6 +170,7 @@ extension PhotoDetailViewController {
         headerView.configureHeaderView(value)
 
         if let url = URL(string: value.urls.raw) {
+            photoImage.kf.indicatorType = .activity
             photoImage.kf.setImage(with: url)
         }else{
             photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
