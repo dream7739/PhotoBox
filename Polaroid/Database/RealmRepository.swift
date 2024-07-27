@@ -8,15 +8,14 @@
 import Foundation
 import RealmSwift
 
-final class RealmRepository {
-    
+final class RealmRepository: RealmProtocol {
     private let realm = try! Realm()
     
-    func getRealmURL() -> URL? {
+    func getRealmFileURL() -> URL? {
         return realm.configuration.fileURL
     }
     
-    func addLike(_ data: PhotoResult)  {
+    func addLikePhoto(_ data: PhotoResult) {
         let item = PhotoInfo(
             id: data.id,
             created_at: data.created_at,
@@ -33,15 +32,15 @@ final class RealmRepository {
                 realm.add(item)
             }
         }catch {
-            print("addLike Failed")
+            print("Add Like Photo Failed")
         }
     }
     
-    func fetchAll() -> Results<PhotoInfo> {
+    func fetchAllPhoto() -> Results<PhotoInfo> {
         return realm.objects(PhotoInfo.self).sorted(byKeyPath: "regDate", ascending: false)
     }
     
-    func fetchAll(_ condition: LikeCondition) -> Results<PhotoInfo>{
+    func fetchAllPhoto(_ condition: LikeCondition) -> Results<PhotoInfo> {
         switch condition {
         case .latest:
             return realm.objects(PhotoInfo.self).sorted(byKeyPath: "regDate", ascending: false)
@@ -50,7 +49,7 @@ final class RealmRepository {
         }
     }
     
-    func deleteLike(_ photoId: String) {
+    func deleteLikePhoto(_ photoId: String) {
         if let item = realm.object(ofType: PhotoInfo.self, forPrimaryKey: photoId){
             do{
                 try realm.write {
@@ -59,7 +58,7 @@ final class RealmRepository {
                     realm.delete(item)
                 }
             }catch{
-                print("deleteLike Failed")
+                print("Delete Like Photo Failed")
             }
         }
     }

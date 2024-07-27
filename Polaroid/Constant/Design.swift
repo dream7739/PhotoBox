@@ -17,7 +17,17 @@ enum FontType {
 enum ImageType {
     static let like_circle = UIImage(named: "like_circle")!
     static let like_circle_inactive = UIImage(named: "like_circle_inactive")!
-    static let sort = UIImage(named: "sort")
+    static let sort = UIImage(named: "sort")!
+    
+}
+
+enum TapImage {
+    static let tab_trend_inactive = UIImage(named: "tap_trend_inactive")!
+    static let tab_trend = UIImage(named: "tab_trend")!
+    static let tab_search_inactive = UIImage(named: "tab_search_inactive")!
+    static let tab_search = UIImage(named: "tab_search")!
+    static let tab_like_inactive = UIImage(named: "tab_like_inactive")!
+    static let tab_like = UIImage(named: "tab_like")!
 }
 
 enum ProfileType:String, CaseIterable {

@@ -14,7 +14,7 @@ protocol ResultLikeDelegate: AnyObject {
     func likeButtonClicked(_ indexPath: IndexPath, _ isClicked: Bool)
 }
 
-final class PhotoResultCollectionViewCell: UICollectionViewCell {
+final class PhotoResultCollectionViewCell: BaseCollectionViewCell {
     private let photoImage = UIImageView()
     private let starStackView = UIStackView()
     private let starImage = UIImageView()
@@ -36,19 +36,7 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
     
     private let repository = RealmRepository()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        configureHierarchy()
-        configureLayout()
-        configureUI()
-        likeButton.addTarget( self, action: #selector(likeButtonClicked), for: .touchUpInside)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func configureHierarchy() {
+    override func configureHierarchy() {
         contentView.addSubview(photoImage)
         contentView.addSubview(starStackView)
         starStackView.addArrangedSubview(starImage)
@@ -57,7 +45,7 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(likeImage)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         photoImage.snp.makeConstraints { make in
             make.edges.equalTo(contentView.safeAreaLayoutGuide)
         }
@@ -81,7 +69,7 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configureUI() {
+    override func configureUI() {
         photoImage.contentMode = .scaleAspectFill
         photoImage.clipsToBounds = true
         
@@ -99,18 +87,20 @@ final class PhotoResultCollectionViewCell: UICollectionViewCell {
         starCountLabel.font = FontType.quaternary
         
         likeImage.image = ImageType.like_circle_inactive
+        
+        likeButton.addTarget( self, action: #selector(likeButtonClicked), for: .touchUpInside)
+
     }
     
 }
 
-
-enum EnterPoint {
-    case topicPhoto
-    case searchPhoto
-    case likePhoto
-}
-
 extension PhotoResultCollectionViewCell {
+    enum EnterPoint {
+        case topicPhoto
+        case searchPhoto
+        case likePhoto
+    }
+    
     func configureData(_ enterPoint: EnterPoint, _ data: PhotoResult, _ image: UIImage? = nil){
         switch enterPoint {
         case .searchPhoto:
@@ -141,7 +131,6 @@ extension PhotoResultCollectionViewCell {
             isClicked = repository.isExistLike(id: data.id)
         }
     }
-    
     
     @objc func likeButtonClicked(){
         guard let indexPath else { return }

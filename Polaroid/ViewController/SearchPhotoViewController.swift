@@ -99,8 +99,10 @@ extension SearchPhotoViewController {
             }
         }
         
-        viewModel.outputErrorOccured.bind { [weak self] _ in
-            self?.showToast(NetworkError.error.localizedDescription)
+        viewModel.outputNetworkError.bind { [weak self] value in
+            self?.showToast(value.localizedDescription)
+            self?.searchBar.text = ""
+            self?.sortButton.isHidden = true
         }
         
         viewModel.outputIsInitalSearch.bind { [weak self] value in
@@ -131,6 +133,12 @@ extension SearchPhotoViewController: ResultLikeDelegate {
         
         viewModel.inputLikeButtonIndexPath.value = indexPath.item
         viewModel.inputLikeButtonClicked.value = isClicked
+        
+        if isClicked {
+            showToast("좋아요!")
+        }else{
+            showToast("좋아요 해제!")
+        }
     }
 }
 
@@ -139,7 +147,7 @@ extension SearchPhotoViewController: UISearchBarDelegate {
         let inputText = searchBar.text ?? ""
         viewModel.inputSearchText.value = inputText
         sortButton.isSelected = false
-        toggleSortButton()
+        sortButton.configuration?.title = SearchCondition.latest.title
     }
 }
 

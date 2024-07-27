@@ -29,18 +29,10 @@ extension String {
             
         }
     }
-}
-
-enum LoadImageError: Error, LocalizedError {
-    case invalidURL
-    case failedDownload
     
-    var errorDescription: String {
-        switch self {
-        case .invalidURL:
-            return "유효하지 않은 이미지 URL입니다."
-        case .failedDownload:
-            return "이미지를 다운받는데 실패하였습니다."
-        }
+    func convertCreateDate() -> String {
+        let convertDate = DateFormatterManager.basicDateFormatter.date(from: self) ?? Date()
+        let dateString = DateFormatterManager.basicDateFormatter.string(from: convertDate)
+        return dateString
     }
 }

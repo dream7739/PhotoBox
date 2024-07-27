@@ -16,13 +16,23 @@ class BaseViewController: UIViewController {
         configureHierarchy()
         configureLayout()
         configureUI()
+        configureNav()
     }
     
     func configureHierarchy(){ }
     func configureLayout(){ }
     func configureUI(){ }
-    
-
+    func configureNav(){
+        let backBarButtonItem = UIBarButtonItem(
+            title: "",
+            style: .plain,
+            target: self,
+            action: nil
+        )
+        
+        backBarButtonItem.tintColor = .black
+        navigationItem.backBarButtonItem = backBarButtonItem
+    }
 }
 
 extension BaseViewController {
@@ -37,7 +47,6 @@ extension BaseViewController {
         var toastStyle = ToastStyle()
         toastStyle.cornerRadius = 20
         toastStyle.horizontalPadding = 15
-        toastStyle.backgroundColor = .dark_gray
         
         view.makeToast(
             text,

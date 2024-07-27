@@ -10,7 +10,7 @@ import SnapKit
 
 final class TitleSupplementaryView: UICollectionReusableView {
     
-    let titleLabel = {
+    private let titleLabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 17)
         label.textColor = .black
@@ -36,6 +36,10 @@ final class TitleSupplementaryView: UICollectionReusableView {
             make.leading.equalTo(safeAreaLayoutGuide)
             make.centerY.equalTo(safeAreaLayoutGuide)
         }
+    }
+    
+    func configureTitle(_ title: String?){
+        titleLabel.text = title
     }
     
 }

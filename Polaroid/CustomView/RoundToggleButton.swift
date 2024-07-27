@@ -34,13 +34,8 @@ final class RoundToggleButton: UIButton {
     }
     
     private func setButtonConfiguration(_ title: String){
-        var configuration = UIButton.Configuration.plain()
-        configuration.background.cornerRadius = 22
-        configuration.background.strokeColor = .dark_gray
-        configuration.background.strokeWidth = 1
-        configuration.title = title
-        configuration.baseForegroundColor = .dark_gray
-        self.configuration = configuration
+        configuration = .mbtiButtonConfig
+        configuration?.title = title
     }
     
     private func setButtonSize(){

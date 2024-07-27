@@ -15,6 +15,14 @@ struct PhotoResult: Decodable, Hashable {
     let urls: ImageLink
     let likes: Int
     let user: User
+    
+    var sizeDescription: String {
+        return "\(width) x \(height)"
+    }
+    
+    var dateDescription: String {
+        return created_at.convertCreateDate() + " 게시됨"
+    }
 }
 
 struct ImageLink: Decodable, Hashable {

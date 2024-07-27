@@ -131,6 +131,12 @@ final class PhotoDetailViewController: BaseViewController {
         configureImageFile(headerView.isClicked, data)
         
         viewModel.inputHeartButtonClicked.value = headerView.isClicked
+        
+        if headerView.isClicked {
+            showToast("좋아요!")
+        }else{
+            showToast("좋아요 해제!")
+        }
     }
     
 }
@@ -148,8 +154,8 @@ extension PhotoDetailViewController {
             self?.headerView.isClicked = value
         }
         
-        viewModel.outputErrorOccured.bind { [weak self]  in
-            self?.showToast(NetworkError.error.localizedDescription)
+        viewModel.outputNetworkError.bind { [weak self] value in
+            self?.showToast(value.localizedDescription)
             self?.headerView.configureDisabled()
             self?.photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.5)
         }
@@ -161,7 +167,7 @@ extension PhotoDetailViewController {
     private func configurePhotoData(){
         guard let value = viewModel.inputPhotoResult else { return }
         
-        headerView.configureHeaderView(profileImage: value.user.profile_image.medium, userName: value.user.name, createDate: value.created_at)
+        headerView.configureHeaderView(value)
 
         if let url = URL(string: value.urls.raw) {
             photoImage.kf.setImage(with: url)
@@ -169,7 +175,7 @@ extension PhotoDetailViewController {
             photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
         }
         
-        sizeTextLabel.text = "\(value.width) x \(value.height)"
+        sizeTextLabel.text = value.sizeDescription
     }
     
     private func configureStatData(_ data: PhotoStatResponse){

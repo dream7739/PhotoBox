@@ -14,7 +14,7 @@ final class PhotoDetailViewModel {
     var outputPhotoStatResult: Observable<PhotoStatResponse?> = Observable(nil)
     var outputPhotoIsLiked = Observable(false)
     var inputHeartButtonClicked = Observable(false)
-    var outputErrorOccured = Observable(())
+    var outputNetworkError = Observable(NetworkError.error)
   
     var inputPhotoResult: PhotoResult? = nil
     
@@ -43,9 +43,9 @@ extension PhotoDetailViewModel {
             guard let input = self?.inputPhotoResult else { return }
 
             if value {
-                self?.repository.addLike(input)
+                self?.repository.addLikePhoto(input)
             }else{
-                self?.repository.deleteLike(input.id)
+                self?.repository.deleteLikePhoto(input.id)
             }
         }
         
@@ -57,8 +57,7 @@ extension PhotoDetailViewModel {
             case .success(let value):
                 self?.outputPhotoStatResult.value = value
             case .failure(let error):
-                print(error.localizedDescription)
-                self?.outputErrorOccured.value = ()
+                self?.outputNetworkError.value = error
             }
         }
     }

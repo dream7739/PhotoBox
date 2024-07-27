@@ -6,3 +6,13 @@
 //
 
 import Foundation
+import RealmSwift
+
+protocol RealmProtocol {
+    func getRealmFileURL() -> URL?
+    func addLikePhoto(_ data: PhotoResult)
+    func fetchAllPhoto() -> Results<PhotoInfo>
+    func fetchAllPhoto(_ condition: LikeCondition) -> Results<PhotoInfo>
+    func deleteLikePhoto(_ photoId: String)
+    func isExistLike(id: String) -> Bool
+}

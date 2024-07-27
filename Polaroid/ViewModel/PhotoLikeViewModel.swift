@@ -26,17 +26,17 @@ final class PhotoLikeViewModel {
 extension PhotoLikeViewModel {
     private func transform(){
         inputViewDidLoadTrigger.bind { [weak self] _ in
-            self?.outputPhotoLikeResult.value = self?.repository.fetchAll()
+            self?.outputPhotoLikeResult.value = self?.repository.fetchAllPhoto()
         }
         
         inputLikeButtonIsClicked.bind { [weak self] value in
             guard let data = self?.outputPhotoLikeResult.value, let index = self?.inputLikeButtonIndexPath.value else { return }
-            self?.repository.deleteLike(data[index].id)
-            self?.outputPhotoLikeResult.value = self?.repository.fetchAll()
+            self?.repository.deleteLikePhoto(data[index].id)
+            self?.outputPhotoLikeResult.value = self?.repository.fetchAllPhoto()
         }
         
         inputSortButtonClicked.bind { [weak self] value in
-            self?.outputPhotoLikeResult.value = self?.repository.fetchAll(value)
+            self?.outputPhotoLikeResult.value = self?.repository.fetchAllPhoto(value)
         }
     }
     

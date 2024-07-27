@@ -10,7 +10,7 @@ import SnapKit
 
 final class EmptyView: UIView {
     
-    let descriptionLabel = UILabel()
+    private let descriptionLabel = UILabel()
     
     init(type: EmptyView.EmptyType) {
         super.init(frame: .zero)

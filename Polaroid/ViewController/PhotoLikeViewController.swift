@@ -101,6 +101,12 @@ extension PhotoLikeViewController: ResultLikeDelegate {
         
         viewModel.inputLikeButtonIndexPath.value = indexPath.item
         viewModel.inputLikeButtonIsClicked.value = isClicked
+        
+        if isClicked {
+            showToast("좋아요!")
+        }else{
+            showToast("좋아요 해제!")
+        }
     }
 }
 

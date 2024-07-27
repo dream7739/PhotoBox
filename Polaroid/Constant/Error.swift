@@ -16,7 +16,7 @@ enum NetworkError: Error {
     case error
 
     
-    init(statusCode: Int){
+    init(_ statusCode: Int){
         switch statusCode {
         case 400:
             self = .badRequest
@@ -49,6 +49,20 @@ extension NetworkError: LocalizedError {
             return "서버 상에 문제가 발생했습니다."
         case .error:
             return "에러가 발생했습니다."
+        }
+    }
+}
+
+enum LoadImageError: Error, LocalizedError {
+    case invalidURL
+    case failedDownload
+    
+    var errorDescription: String? {
+        switch self {
+        case .invalidURL:
+            return "유효하지 않은 이미지 URL입니다."
+        case .failedDownload:
+            return "이미지를 다운받는데 실패하였습니다."
         }
     }
 }

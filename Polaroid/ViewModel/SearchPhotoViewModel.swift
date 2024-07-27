@@ -16,12 +16,13 @@ final class SearchPhotoViewModel {
     var inputLikeButtonClicked = Observable(false)
     var inputLikeButtonIndexPath = Observable(0)
     var outputIsInitalSearch = Observable(true)
-    var outputErrorOccured = Observable(())
+    var outputNetworkError = Observable(NetworkError.error)
+    
+    private var sortCondition = SearchCondition.relevant
     
     private let repository = RealmRepository()
     
     init(){
-        print(repository.getRealmURL())
         transform()
     }
 }
@@ -31,10 +32,10 @@ extension SearchPhotoViewModel {
         inputSearchText.bind { [weak self] value in
             let text = value.trimmingCharacters(in: .whitespaces)
             
-            if !text.isEmpty {                
-                if self?.outputIsInitalSearch.value ?? false {
-                    self?.outputIsInitalSearch.value.toggle()
-                }
+            if !text.isEmpty {
+                self?.inputSearchPageCount.value = 1
+                self?.sortCondition = .relevant
+                self?.callSearchPhotoAPI()
             }
         }
         
@@ -44,6 +45,7 @@ extension SearchPhotoViewModel {
         
         inputSortCondition.bind { [weak self] value in
             self?.inputSearchPageCount.value = 1
+            self?.sortCondition = value
             self?.callSearchPhotoAPI()
         }
         
@@ -61,7 +63,7 @@ extension SearchPhotoViewModel {
         let photoSearchRequest = PhotoSearchRequest(
             query: inputSearchText.value,
             page: inputSearchPageCount.value,
-            order_by: inputSortCondition.value.rawValue
+            order_by: sortCondition.rawValue
         )
         
         let request = NetworkRequest.photoSearch(photoSearchRequest)
@@ -69,14 +71,17 @@ extension SearchPhotoViewModel {
         NetworkManager.shared.callRequest(request: request, response: PhotoSearchResponse.self) { [weak self] response in
             switch response {
             case .success(let value):
+                if self?.outputIsInitalSearch.value ?? false {
+                    self?.outputIsInitalSearch.value.toggle()
+                }
+                
                 if self?.inputSearchPageCount.value == 1 {
                     self?.outputSearchPhotoResult.value = value
                 }else{
                     self?.outputSearchPhotoResult.value?.results.append(contentsOf: value.results)
                 }
             case .failure(let error):
-                print(error.localizedDescription)
-                self?.outputErrorOccured.value = ()
+                self?.outputNetworkError.value = error
             }
         }
     }
@@ -84,7 +89,7 @@ extension SearchPhotoViewModel {
     private func savePhotoToRealm(){
         guard let data = outputSearchPhotoResult.value else { return }
         let item = data.results[inputLikeButtonIndexPath.value]
-        repository.addLike(item)
+        repository.addLikePhoto(item)
     }
     
     private func deletePhotoFromRealm(){
@@ -92,6 +97,6 @@ extension SearchPhotoViewModel {
             return
         }
         let item = data.results[inputLikeButtonIndexPath.value]
-        repository.deleteLike(item.id)
+        repository.deleteLikePhoto(item.id)
     }
 }

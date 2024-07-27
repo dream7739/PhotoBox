@@ -18,4 +18,13 @@ extension UIButton.Configuration {
         configuration.background.strokeWidth = 1
         return configuration
     }
+    
+    static var mbtiButtonConfig: UIButton.Configuration {
+        var configuration = UIButton.Configuration.plain()
+        configuration.background.cornerRadius = 22
+        configuration.background.strokeColor = .dark_gray
+        configuration.background.strokeWidth = 1
+        configuration.baseForegroundColor = .dark_gray
+        return configuration
+    }
 }

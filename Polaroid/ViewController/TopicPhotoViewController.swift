@@ -131,7 +131,8 @@ extension TopicPhotoViewController {
         }
         
         let headerRegistration = UICollectionView.SupplementaryRegistration<TitleSupplementaryView>(elementKind: sectionHeader) { supplementaryView, string, indexPath in
-            supplementaryView.titleLabel.text = self.dataSource.sectionIdentifier(for: indexPath.section)?.rawValue
+            let title = self.dataSource.sectionIdentifier(for: indexPath.section)?.rawValue
+            supplementaryView.configureTitle(title)
         }
         
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in

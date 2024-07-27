@@ -94,22 +94,15 @@ final class FeedHeaderView: UIView {
     }
     
     
-    func configureHeaderView(profileImage: String, userName: String, createDate: String){
-        if let url = URL(string: profileImage) {
+    func configureHeaderView(_ data: PhotoResult){
+        if let url = URL(string: data.user.profile_image.medium) {
             userProfileImage.kf.setImage(with: url)
         }else{
             userProfileImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
         }
         
-        usernameLabel.text = userName
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 M월 d일"
-        let convertDate = dateFormatter.date(from: createDate) ?? Date()
-        
-        let dateString = dateFormatter.string(from: convertDate)
-        
-        createDateLabel.text = dateString + " 게시됨"
+        usernameLabel.text = data.user.name
+        createDateLabel.text = data.dateDescription
     }
  
     func configureDisabled(){

@@ -38,7 +38,6 @@ extension TopicPhotoViewModel {
             case .success(let value):
                 self?.outputGoldenHourReulst = value
             case .failure(let error):
-                print(error.localizedDescription)
                 isFailed = true
             }
             group.leave()
@@ -50,7 +49,6 @@ extension TopicPhotoViewModel {
             case .success(let value):
                 self?.outputBusinessWorkReulst = value
             case .failure(let error):
-                print(error.localizedDescription)
                 isFailed = true
             }
             group.leave()
@@ -62,7 +60,6 @@ extension TopicPhotoViewModel {
             case .success(let value):
                 self?.outputArchitectureInteriorReulst = value
             case .failure(let error):
-                print(error.localizedDescription)
                 isFailed = true
             }
             group.leave()
