@@ -50,6 +50,9 @@ extension SearchPhotoViewModel {
         }
         
         inputSortCondition.bind { [weak self] value in
+            guard let data = self?.outputSearchPhotoResult.value, data.results.count > 0 else {
+                return
+            }
             self?.page = 1
             self?.sortCondition = value
             self?.callSearchPhotoAPI()

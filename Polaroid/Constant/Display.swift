@@ -39,5 +39,3 @@ enum ViewType {
     case add
     case edit
 }
-
-

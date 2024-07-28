@@ -31,6 +31,7 @@ final class EmptyView: UIView {
 
 extension EmptyView{
     enum EmptyType: String{
+        case searchInit = "사진을 검색해보세요"
         case search = "검색 결과가 없습니다"
         case like = "저장된 사진이 없어요"
     }

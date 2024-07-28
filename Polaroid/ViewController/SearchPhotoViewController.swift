@@ -12,7 +12,7 @@ import Toast
 final class SearchPhotoViewController: BaseViewController {
     private let searchBar = UISearchBar()
     private var sortButton: UIButton!
-    private let emptyView = EmptyView(type: .search)
+    private let emptyView = EmptyView(type: .searchInit)
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .createBasicLayout(view))
     
     let viewModel = SearchPhotoViewModel()
@@ -52,7 +52,7 @@ final class SearchPhotoViewController: BaseViewController {
         }
         
         emptyView.snp.makeConstraints { make in
-            make.top.equalTo(searchBar.snp.bottom).offset(2)
+            make.top.equalTo(sortButton.snp.bottom).offset(2)
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
@@ -63,14 +63,11 @@ final class SearchPhotoViewController: BaseViewController {
     }
     
     override func configureUI() {
-        searchBar.placeholder = "검색할 사진을 입력해주세요"
+        searchBar.placeholder = "키워드 검색"
         
         sortButton.changesSelectionAsPrimaryAction = true
         sortButton.configuration = .sortButtonConfig
         sortButton.configuration?.title = SearchCondition.latest.title
-        
-        emptyView.isHidden = true
-        sortButton.isHidden = true
         
         collectionView.keyboardDismissMode = .onDrag
         collectionView.delegate = self
@@ -102,11 +99,10 @@ extension SearchPhotoViewController {
         viewModel.outputNetworkError.bind { [weak self] value in
             self?.showToast(value.localizedDescription)
             self?.searchBar.text = ""
-            self?.sortButton.isHidden = true
         }
         
         viewModel.outputIsInitalSearch.bind { [weak self] value in
-            self?.sortButton.isHidden = false
+            self?.emptyView.setDescription(.search)
         }
     }
     
@@ -178,6 +174,7 @@ extension SearchPhotoViewController: UICollectionViewDataSource, UICollectionVie
         let photoDetailVC = PhotoDetailViewController()
         guard let data = viewModel.outputSearchPhotoResult.value else { return }
         photoDetailVC.viewModel.inputPhotoResult = data.results[indexPath.item]
+        photoDetailVC.viewModel.viewType = .search
         navigationController?.pushViewController(photoDetailVC, animated: true)
     }
 }

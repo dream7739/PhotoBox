@@ -139,6 +139,7 @@ extension PhotoLikeViewController: UICollectionViewDataSource, UICollectionViewD
         guard let result = viewModel.outputPhotoLikeResult.value  else { return }
         let data = result[indexPath.item]
         let inputData = data.convertPhotoResult()
+        photoDetailVC.viewModel.viewType = .like
         photoDetailVC.viewModel.inputPhotoResult = inputData
         navigationController?.pushViewController(photoDetailVC, animated: true)
     }

@@ -10,11 +10,11 @@ import Kingfisher
 import SnapKit
 
 final class FeedHeaderView: UIView {
-    private let userProfileImage = UIImageView()
-    private let usernameLabel = UILabel()
-    private let createDateLabel = UILabel()
+    let userProfileImage = UIImageView()
+    let usernameLabel = UILabel()
+    let createDateLabel = UILabel()
     let heartButton = UIButton()
-    private let heartImage = UIImageView()
+    let heartImage = UIImageView()
     
     var isClicked: Bool = false {
         didSet {
@@ -93,18 +93,7 @@ final class FeedHeaderView: UIView {
         heartImage.image = UIImage(systemName: "heart")
     }
     
-    
-    func configureHeaderView(_ data: PhotoResult){
-        if let url = URL(string: data.user.profile_image.medium) {
-            userProfileImage.kf.setImage(with: url)
-        }else{
-            userProfileImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
-        }
-        
-        usernameLabel.text = data.user.name
-        createDateLabel.text = data.dateDescription
-    }
- 
+   
     func configureDisabled(){
         heartButton.isEnabled = false
         heartImage.tintColor = .deep_gray

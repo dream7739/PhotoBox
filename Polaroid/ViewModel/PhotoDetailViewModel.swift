@@ -19,6 +19,7 @@ final class PhotoDetailViewModel {
     var inputPhotoResult: PhotoResult? = nil
     
     private let repository = RealmRepository()
+    var viewType: DetailViewType = .search
     
     init(){
         transform()
@@ -27,6 +28,11 @@ final class PhotoDetailViewModel {
 }
 
 extension PhotoDetailViewModel {
+    enum DetailViewType {
+        case search
+        case like
+    }
+    
     private func transform(){
         inputViewDidLoadTrigger.bind { [weak self] _ in
             guard let input = self?.inputPhotoResult else { return }

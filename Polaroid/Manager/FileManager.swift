@@ -11,6 +11,7 @@ extension BaseViewController {
     func configureImageFile(_ isClicked: Bool, _ data: PhotoResult){
         let imageID = data.id
         let imageURL = data.urls.small
+        let profileURL = data.user.profile_image.medium
         
         if isClicked {
             imageURL.loadImage { [weak self] result in
@@ -21,8 +22,19 @@ extension BaseViewController {
                     self?.showToast(error.localizedDescription)
                 }
             }
+            
+            profileURL.loadImage { [weak self] result in
+                switch result {
+                case .success(let value):
+                    self?.saveImageToDocument(image: value, filename: imageID + "_profile")
+                case .failure(let error):
+                    self?.showToast(error.localizedDescription)
+                }
+            }
+            
         }else{
             self.removeImageFromDocument(filename: imageID)
+            self.removeImageFromDocument(filename: imageID + "_profile")
         }
     }
     

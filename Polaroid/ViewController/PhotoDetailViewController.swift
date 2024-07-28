@@ -28,6 +28,7 @@ final class PhotoDetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configurePhotoData()
         bindData()
     }
     
@@ -132,20 +133,61 @@ final class PhotoDetailViewController: BaseViewController {
         
         viewModel.inputHeartButtonClicked.value = headerView.isClicked
         
-        if headerView.isClicked {
-            showToast(Literal.like)
-        }else{
-            showToast(Literal.unlike)
+        switch viewModel.viewType {
+        case .search:
+            if headerView.isClicked {
+                showToast(Literal.like)
+            }else{
+                showToast(Literal.unlike)
+            }
+        case .like:
+            navigationController?.popViewController(animated: true)
+            
         }
+        
     }
 }
 
 extension PhotoDetailViewController {
+    private func configurePhotoData(){
+        guard let value = viewModel.inputPhotoResult else { return }
+        
+        switch viewModel.viewType {
+        case .search:
+            if let url = URL(string: value.user.profile_image.medium) {
+                headerView.userProfileImage.kf.setImage(with: url)
+            }else{
+                headerView.userProfileImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
+            }
+            headerView.usernameLabel.text = value.user.name
+            headerView.createDateLabel.text = value.dateDescription
+            
+            if let url = URL(string: value.urls.small) {
+                photoImage.kf.indicatorType = .activity
+                photoImage.kf.setImage(with: url)
+            }else{
+                photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
+            }
+            
+            sizeTextLabel.text = value.sizeDescription
+        case .like:
+            if let profileImage = loadImageToDocument(filename: value.id + "_profile"){
+                headerView.userProfileImage.image = profileImage
+            }
+            headerView.usernameLabel.text = value.user.name
+            headerView.createDateLabel.text = value.dateDescription
+            
+            if let image = loadImageToDocument(filename: value.id){
+                photoImage.image = image
+            }
+            sizeTextLabel.text = value.sizeDescription
+        }
+    }
+    
     private func bindData(){
         
         viewModel.outputPhotoStatResult.bind { [weak self] value in
             guard let data = value else { return }
-            self?.configurePhotoData()
             self?.configureStatData(data)
         }
         
@@ -163,22 +205,9 @@ extension PhotoDetailViewController {
         
     }
     
-    private func configurePhotoData(){
-        guard let value = viewModel.inputPhotoResult else { return }
-        
-        headerView.configureHeaderView(value)
-        
-        if let url = URL(string: value.urls.raw) {
-            photoImage.kf.indicatorType = .activity
-            photoImage.kf.setImage(with: url)
-        }else{
-            photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
-        }
-        
-        sizeTextLabel.text = value.sizeDescription
-    }
     
     private func configureStatData(_ data: PhotoStatResponse){
+        print(data.downloads.total, data.views.total)
         viewCountTextLabel.text = data.views.total.formatted(.number)
         downloadTextLabel.text = data.downloads.total.formatted(.number)
     }
