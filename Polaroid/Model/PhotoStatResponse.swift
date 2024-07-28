@@ -22,9 +22,15 @@ struct Historical: Decodable {
     let values: [HistoricalValue]
 }
 
-struct HistoricalValue: Decodable {
+struct HistoricalValue: Decodable, Identifiable {
+    let id = UUID()
     let date: String
     let value: Int
+    
+    enum CodingKeys: CodingKey {
+        case date
+        case value
+    }
 }
 
 struct Views: Decodable {

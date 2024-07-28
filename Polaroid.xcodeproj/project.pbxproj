@@ -19,6 +19,7 @@
 		888249F22C549B5F004AC5F0 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888249F12C549B5F004AC5F0 /* String+.swift */; };
 		888249F42C54D7D4004AC5F0 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888249F32C54D7D4004AC5F0 /* EmptyView.swift */; };
 		888249F62C54F64C004AC5F0 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888249F52C54F64C004AC5F0 /* Error.swift */; };
+		88855E262C565AD7003C2B15 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88855E252C565AD7003C2B15 /* ChartView.swift */; };
 		888698412C50E13C003AEDC6 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698402C50E13C003AEDC6 /* UnderLineTextField.swift */; };
 		888698432C50E274003AEDC6 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698422C50E274003AEDC6 /* NicknameViewModel.swift */; };
 		888698462C50E281003AEDC6 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888698452C50E281003AEDC6 /* Observable.swift */; };
@@ -99,6 +100,7 @@
 		888249F12C549B5F004AC5F0 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		888249F32C54D7D4004AC5F0 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		888249F52C54F64C004AC5F0 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		88855E252C565AD7003C2B15 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		888698402C50E13C003AEDC6 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
 		888698422C50E274003AEDC6 /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		888698452C50E281003AEDC6 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				888FE87D2C527BEE00DB7046 /* FeedHeaderView.swift */,
 				888FE8872C52961C00DB7046 /* RoundToggleButton.swift */,
 				888249F32C54D7D4004AC5F0 /* EmptyView.swift */,
+				88855E252C565AD7003C2B15 /* ChartView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				888FE8742C5266DA00DB7046 /* TopicPhotoViewModel.swift in Sources */,
 				888FE8762C52672A00DB7046 /* TopicPhotoRequest.swift in Sources */,
 				887A2DE82C53C84E001207A9 /* PhotoLikeViewModel.swift in Sources */,
+				88855E262C565AD7003C2B15 /* ChartView.swift in Sources */,
 				887A2DE42C538AEB001207A9 /* RealmLikeModel.swift in Sources */,
 				88E936D62C4E44B60079DF68 /* BaseViewController.swift in Sources */,
 				88E936BD2C4E42C60079DF68 /* SearchPhotoViewController.swift in Sources */,

@@ -6,13 +6,13 @@
 //
 
 import UIKit
+import SwiftUI
 import Kingfisher
 import SnapKit
 
 final class PhotoDetailViewController: BaseViewController {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-    
     private let headerView = FeedHeaderView()
     private let photoImage = UIImageView()
     private let infoLabel = UILabel()
@@ -26,6 +26,9 @@ final class PhotoDetailViewController: BaseViewController {
     private let downloadStackView = UIStackView()
     private let downloadLabel = UILabel()
     private let downloadTextLabel = UILabel()
+    private let chartSegment = UISegmentedControl(items: ["조회", "다운로드"])
+    private let chartLabel = UILabel()
+    private let childView = UIHostingController(rootView: ChartView())
     
     let viewModel = PhotoDetailViewModel()
     
@@ -61,6 +64,16 @@ final class PhotoDetailViewController: BaseViewController {
         
         downloadStackView.addArrangedSubview(downloadLabel)
         downloadStackView.addArrangedSubview(downloadTextLabel)
+        
+        if #available(iOS 16.0, *) {
+            contentView.addSubview(chartLabel)
+            contentView.addSubview(chartSegment)
+            
+            addChild(childView)
+            childView.view.frame = .zero
+            contentView.addSubview(childView.view)
+            childView.didMove(toParent: self)
+        }
     }
     
     override func configureLayout() {
@@ -85,14 +98,39 @@ final class PhotoDetailViewController: BaseViewController {
         
         infoLabel.snp.makeConstraints { make in
             make.width.equalTo(100)
-            make.top.equalTo(photoImage.snp.bottom).offset(10)
+            make.top.equalTo(photoImage.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(20)
         }
         
-        infoStackView.snp.makeConstraints { make in
-            make.top.equalTo(infoLabel)
-            make.leading.equalTo(infoLabel.snp.trailing).offset(4)
-            make.bottom.trailing.equalToSuperview().inset(20)
+        if #available(iOS 16.0, *) {
+            infoStackView.snp.makeConstraints { make in
+                make.top.equalTo(infoLabel)
+                make.leading.equalTo(infoLabel.snp.trailing).offset(4)
+                make.trailing.equalToSuperview().inset(20)
+            }
+            
+            chartLabel.snp.makeConstraints { make in
+                make.top.equalTo(infoStackView.snp.bottom).offset(20)
+                make.leading.equalTo(infoLabel)
+            }
+            
+            chartSegment.snp.makeConstraints { make in
+                make.top.equalTo(chartLabel)
+                make.leading.equalTo(infoStackView)
+            }
+            
+            childView.view.snp.makeConstraints { make in
+                make.top.equalTo(chartSegment.snp.bottom).offset(15)
+                make.leading.equalTo(chartSegment)
+                make.height.equalTo(200)
+                make.bottom.trailing.equalToSuperview().inset(20)
+            }
+        }else{
+            infoStackView.snp.makeConstraints { make in
+                make.top.equalTo(infoLabel)
+                make.leading.equalTo(infoLabel.snp.trailing).offset(4)
+                make.trailing.bottom.equalToSuperview().inset(20)
+            }
         }
     }
     
@@ -135,9 +173,16 @@ final class PhotoDetailViewController: BaseViewController {
         downloadTextLabel.textColor = .deep_gray
         downloadTextLabel.textAlignment = .right
         
-        
         headerView.likeButton.addTarget(self, action: #selector(heartButtonClicked), for: .touchUpInside)
-        
+
+        if #available(iOS 16.0, *) {
+            chartLabel.text = "차트"
+            chartLabel.font = FontType.primary_bold
+            chartLabel.textColor = .black
+            chartSegment.selectedSegmentIndex = 0
+            chartSegment.addTarget(self, action: #selector(chartSegmentClicked), for: .valueChanged)
+        }
+
     }
     
     @objc func heartButtonClicked(){
@@ -159,7 +204,19 @@ final class PhotoDetailViewController: BaseViewController {
             navigationController?.popViewController(animated: true)
             
         }
-        
+    }
+    
+    @objc func chartSegmentClicked(sender: UISegmentedControl){
+        guard let data = viewModel.outputPhotoStatResult.value else { return }
+
+        switch sender.selectedSegmentIndex {
+        case 0:
+            childView.rootView.data = data.views.historical.values
+        case 1:
+            childView.rootView.data = data.downloads.historical.values
+        default:
+            print("ERROR")
+        }
     }
 }
 
@@ -217,13 +274,14 @@ extension PhotoDetailViewController {
         }
         
         viewModel.inputViewDidLoadTrigger.value = ()
-
+        
     }
     
-    
     private func configureStatData(_ data: PhotoStatResponse){
+        childView.rootView.data = data.views.historical.values
         viewCountTextLabel.text = data.views.total.formatted(.number)
         downloadTextLabel.text = data.downloads.total.formatted(.number)
     }
-   
+    
 }
+
