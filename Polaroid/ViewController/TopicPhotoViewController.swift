@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import Toast
 
 final class TopicPhotoViewController: BaseViewController {
     private let profileImage = RoundImageView(type: .highlight)

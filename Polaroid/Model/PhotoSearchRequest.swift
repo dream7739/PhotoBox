@@ -10,6 +10,6 @@ import Foundation
 struct PhotoSearchRequest {
     let query: String
     let page: Int
-    let per_page = 20
+    let per_page = Constant.pageCount
     let order_by: String
 }

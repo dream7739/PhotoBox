@@ -10,6 +10,9 @@ import Kingfisher
 import SnapKit
 
 final class PhotoDetailViewController: BaseViewController {
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+    
     private let headerView = FeedHeaderView()
     private let photoImage = UIImageView()
     private let infoLabel = UILabel()
@@ -38,10 +41,13 @@ final class PhotoDetailViewController: BaseViewController {
     }
     
     override func configureHierarchy() {
-        view.addSubview(headerView)
-        view.addSubview(photoImage)
-        view.addSubview(infoLabel)
-        view.addSubview(infoStackView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        contentView.addSubview(headerView)
+        contentView.addSubview(photoImage)
+        contentView.addSubview(infoLabel)
+        contentView.addSubview(infoStackView)
         
         infoStackView.addArrangedSubview(sizeStackView)
         infoStackView.addArrangedSubview(viewCountStackView)
@@ -58,29 +64,36 @@ final class PhotoDetailViewController: BaseViewController {
     }
     
     override func configureLayout() {
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.width.equalTo(scrollView.snp.width)
+            make.verticalEdges.equalTo(scrollView)
+        }
+        
         headerView.snp.makeConstraints { make in
             make.height.equalTo(60)
-            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.top.horizontalEdges.equalToSuperview()
         }
         
         photoImage.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(200)
+            make.horizontalEdges.equalToSuperview()
         }
         
         infoLabel.snp.makeConstraints { make in
             make.width.equalTo(100)
             make.top.equalTo(photoImage.snp.bottom).offset(10)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.leading.equalToSuperview().offset(20)
         }
         
         infoStackView.snp.makeConstraints { make in
             make.top.equalTo(infoLabel)
             make.leading.equalTo(infoLabel.snp.trailing).offset(4)
-            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.bottom.trailing.equalToSuperview().inset(20)
         }
-        
     }
     
     override func configureUI() {
@@ -95,34 +108,36 @@ final class PhotoDetailViewController: BaseViewController {
         downloadStackView.axis = .horizontal
         
         infoLabel.text = "정보"
-        infoLabel.font = .systemFont(ofSize: 17, weight: .bold)
+        infoLabel.font = FontType.primary_bold
         infoLabel.textColor = .black
         
         sizeLabel.text = "크기"
-        sizeLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+        sizeLabel.font = FontType.tertiary_bold
         sizeLabel.textColor = .black
         
-        sizeTextLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+        sizeTextLabel.font = FontType.tertiary_bold
         sizeTextLabel.textColor = .deep_gray
         sizeTextLabel.textAlignment = .right
         
         viewCountLabel.text = "조회수"
-        viewCountLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+        viewCountLabel.font = FontType.tertiary_bold
         viewCountLabel.textColor = .black
         
-        viewCountTextLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+        viewCountTextLabel.font = FontType.tertiary_bold
         viewCountTextLabel.textColor = .deep_gray
         viewCountTextLabel.textAlignment = .right
         
         downloadLabel.text = "다운로드"
-        downloadLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+        downloadLabel.font = FontType.tertiary_bold
         downloadLabel.textColor = .black
         
-        downloadTextLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+        downloadTextLabel.font = FontType.tertiary_bold
         downloadTextLabel.textColor = .deep_gray
         downloadTextLabel.textAlignment = .right
         
-        headerView.heartButton.addTarget(self, action: #selector(heartButtonClicked), for: .touchUpInside)
+        
+        headerView.likeButton.addTarget(self, action: #selector(heartButtonClicked), for: .touchUpInside)
+        
     }
     
     @objc func heartButtonClicked(){
@@ -171,7 +186,7 @@ extension PhotoDetailViewController {
             
             sizeTextLabel.text = value.sizeDescription
         case .like:
-            if let profileImage = ImageFileManager.loadImageToDocument(filename: value.id + "_profile"){
+            if let profileImage = ImageFileManager.loadImageToDocument(filename: value.id + Literal.profileFileName){
                 headerView.userProfileImage.image = profileImage
             }
             headerView.usernameLabel.text = value.user.name
@@ -202,7 +217,7 @@ extension PhotoDetailViewController {
         }
         
         viewModel.inputViewDidLoadTrigger.value = ()
-        
+
     }
     
     
@@ -210,4 +225,5 @@ extension PhotoDetailViewController {
         viewCountTextLabel.text = data.views.total.formatted(.number)
         downloadTextLabel.text = data.downloads.total.formatted(.number)
     }
+   
 }

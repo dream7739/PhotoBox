@@ -9,5 +9,5 @@ import Foundation
 
 struct TopicPhotoRequest {
     let topicID: String
-    let page = 1
+    let page = Constant.page
 }

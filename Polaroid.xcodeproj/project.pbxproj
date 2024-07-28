@@ -53,7 +53,7 @@
 		88B2BAE72C550365002784D7 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 88B2BAE62C550365002784D7 /* IQKeyboardManagerSwift */; };
 		88B2BAE92C550C39002784D7 /* RealmProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B2BAE82C550C39002784D7 /* RealmProtocol.swift */; };
 		88B2BAEB2C55122F002784D7 /* DateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B2BAEA2C55122F002784D7 /* DateFormatterManager.swift */; };
-		88B535162C5539F500CA2927 /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B535152C5539F500CA2927 /* Literal.swift */; };
+		88B535162C5539F500CA2927 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B535152C5539F500CA2927 /* Constant.swift */; };
 		88E47EC52C4E46580065527A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 88E47EC42C4E46580065527A /* SnapKit */; };
 		88E47EC82C4E465F0065527A /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 88E47EC72C4E465F0065527A /* Toast */; };
 		88E47ECB2C4E466A0065527A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 88E47ECA2C4E466A0065527A /* Alamofire */; };
@@ -131,7 +131,7 @@
 		889760132C4E632100E4AAB5 /* RoundImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundImageView.swift; sourceTree = "<group>"; };
 		88B2BAE82C550C39002784D7 /* RealmProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmProtocol.swift; sourceTree = "<group>"; };
 		88B2BAEA2C55122F002784D7 /* DateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterManager.swift; sourceTree = "<group>"; };
-		88B535152C5539F500CA2927 /* Literal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Literal.swift; sourceTree = "<group>"; };
+		88B535152C5539F500CA2927 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		88E47ED32C4E471A0065527A /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		88E47ED52C4E47890065527A /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		88E47ED72C4E588B0065527A /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -199,7 +199,7 @@
 				888698582C50EC04003AEDC6 /* Display.swift */,
 				887A2DEB2C53CB5D001207A9 /* Condition.swift */,
 				888249F52C54F64C004AC5F0 /* Error.swift */,
-				88B535152C5539F500CA2927 /* Literal.swift */,
+				88B535152C5539F500CA2927 /* Constant.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -476,7 +476,7 @@
 				8886984E2C50E4EA003AEDC6 /* Design.swift in Sources */,
 				88E936D32C4E440A0079DF68 /* ReusableProtocol.swift in Sources */,
 				88E47EDD2C4E598F0065527A /* NicknameViewController.swift in Sources */,
-				88B535162C5539F500CA2927 /* Literal.swift in Sources */,
+				88B535162C5539F500CA2927 /* Constant.swift in Sources */,
 				8886986E2C5134EE003AEDC6 /* NetworkManager.swift in Sources */,
 				8886986A2C513251003AEDC6 /* PhotoSearchRequest.swift in Sources */,
 				88B2BAEB2C55122F002784D7 /* DateFormatterManager.swift in Sources */,
@@ -647,7 +647,7 @@
 				DEVELOPMENT_TEAM = 6ZWU3ZJ8BG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Polaroid/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Polaroid;
+				INFOPLIST_KEY_CFBundleDisplayName = "홍정민";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -681,7 +681,7 @@
 				DEVELOPMENT_TEAM = 6ZWU3ZJ8BG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Polaroid/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Polaroid;
+				INFOPLIST_KEY_CFBundleDisplayName = "홍정민";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";

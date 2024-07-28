@@ -12,6 +12,12 @@ enum FontType {
     static let secondary = UIFont.systemFont(ofSize: 15)
     static let tertiary = UIFont.systemFont(ofSize: 14)
     static let quaternary = UIFont.systemFont(ofSize: 13)
+    
+
+    static let primary_bold = UIFont.systemFont(ofSize: 16, weight: .semibold)
+    static let secondary_bold = UIFont.systemFont(ofSize: 15, weight: .semibold)
+    static let tertiary_bold = UIFont.systemFont(ofSize: 14, weight: .semibold)
+    static let quarternary_bold = UIFont.systemFont(ofSize: 13, weight: .semibold)
 }
 
 enum ImageType {
@@ -32,7 +38,7 @@ enum TapImage {
 }
 
 
-enum ProfileType:String, CaseIterable {
+enum ProfileType: String, CaseIterable {
     case profile_0
     case profile_1
     case profile_2

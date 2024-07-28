@@ -35,14 +35,8 @@ class BaseViewController: UIViewController {
     }
 }
 
+
 extension BaseViewController {
-    func transitionScene<T: UIViewController>(_ viewController: T){
-        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        let sceneDelegate = windowScene?.delegate as? SceneDelegate
-        sceneDelegate?.window?.rootViewController = viewController
-        sceneDelegate?.window?.makeKeyAndVisible()
-    }
-    
     func showToast(_ text: String){
         var toastStyle = ToastStyle()
         toastStyle.cornerRadius = 20
@@ -71,6 +65,13 @@ extension BaseViewController {
         present(alert, animated: true)
     }
     
+    func transitionScene<T: UIViewController>(_ viewController: T){
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        let sceneDelegate = windowScene?.delegate as? SceneDelegate
+        sceneDelegate?.window?.rootViewController = viewController
+        sceneDelegate?.window?.makeKeyAndVisible()
+    }
+    
     func configureImageFile(_ isClicked: Bool, _ data: PhotoResult){
         let imageID = data.id
         let imageURL = data.urls.small
@@ -89,14 +90,14 @@ extension BaseViewController {
             profileURL.loadImage { [weak self] result in
                 switch result {
                 case .success(let value):
-                    ImageFileManager.saveImageToDocument(image: value, filename: imageID + "_profile")
+                    ImageFileManager.saveImageToDocument(image: value, filename: imageID + Literal.profileFileName)
                 case .failure(let error):
                     self?.showToast(error.localizedDescription)
                 }
             }
         }else{
             ImageFileManager.removeImageFromDocument(filename: imageID)
-            ImageFileManager.removeImageFromDocument(filename: imageID + "_profile")
+            ImageFileManager.removeImageFromDocument(filename: imageID + Literal.profileFileName)
         }
     }
 }

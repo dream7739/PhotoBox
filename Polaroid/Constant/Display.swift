@@ -7,10 +7,6 @@
 
 import Foundation
 
-enum App {
-    static let serviceName = "Polaroid"
-}
-
 enum Navigation {
     case profile
     case editProfile

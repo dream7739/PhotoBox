@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import Toast
 
 final class SearchPhotoViewController: BaseViewController {
     private let searchBar = UISearchBar()

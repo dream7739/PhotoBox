@@ -13,7 +13,11 @@ final class NetworkManager {
     static let shared = NetworkManager()
     private init(){ }
     
-    func callRequest<T: Decodable>(request: NetworkRequest, response: T.Type, completion: @escaping (Result<T, NetworkError>) -> Void){
+    func callRequest<T: Decodable>(
+        request: NetworkRequest,
+        response: T.Type,
+        completion: @escaping (Result<T, NetworkError>) -> Void
+    ){
         AF.request(request.endPoint,
                    parameters: request.param,
                    encoding: URLEncoding.queryString)

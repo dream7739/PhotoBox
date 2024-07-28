@@ -17,9 +17,9 @@ final class PhotoDetailViewModel {
     var outputNetworkError = Observable(NetworkError.error)
   
     var inputPhotoResult: PhotoResult? = nil
-    
-    private let repository = RealmRepository()
     var viewType: DetailViewType = .search
+
+    private let repository = RealmRepository()
     
     init(){
         transform()

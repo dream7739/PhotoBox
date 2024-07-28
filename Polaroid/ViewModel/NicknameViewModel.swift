@@ -30,7 +30,9 @@ final class NicknameViewModel{
     init(){
         transform()
     }
-    
+}
+
+extension NicknameViewModel {
     private func transform(){
         inputViewDidLoadTrigger.bind { [weak self] value in
             if UserManager.profileImage.isEmpty {
@@ -102,10 +104,11 @@ final class NicknameViewModel{
             self?.repository.deleteAllPhoto()
         }
     }
-    
+
 }
 
 extension NicknameViewModel {
+    
     private enum NicknameError: Error, LocalizedError {
         case countLimit
         case isSpecialChar
