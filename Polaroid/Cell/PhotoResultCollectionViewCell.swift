@@ -101,7 +101,7 @@ extension PhotoResultCollectionViewCell {
         case likePhoto
     }
     
-    func configureData(_ enterPoint: EnterPoint, _ data: PhotoResult, _ image: UIImage? = nil){
+    func configureData(_ enterPoint: EnterPoint, _ data: PhotoResult){
         switch enterPoint {
         case .searchPhoto:
             if let url = URL(string: data.urls.small){
@@ -112,7 +112,7 @@ extension PhotoResultCollectionViewCell {
             starCountLabel.text = data.likes.formatted(.number)
             isClicked = repository.isExistLike(id: data.id)
         case .likePhoto:
-            if let image {
+            if let image = ImageFileManager.loadImageToDocument(filename: data.id){
                 photoImage.image = image
             }else{
                 photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)

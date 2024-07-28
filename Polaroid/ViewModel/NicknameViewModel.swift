@@ -25,6 +25,8 @@ final class NicknameViewModel{
     var viewType: ViewType = .add
     var profileUpdateTrigger: (() -> Void)?
     
+    private let repository = RealmRepository()
+    
     init(){
         transform()
     }
@@ -89,12 +91,15 @@ final class NicknameViewModel{
         }
         
         inputSaveButtonClicked.bind { [weak self] _ in
+            ImageFileManager.createImageDirectory()
             self?.saveUserDefaultsData()
             self?.outputTransitionTrigger.value = ()
         }
         
-        inputLeaveButtonClicked.bind { value in
+        inputLeaveButtonClicked.bind { [weak self] _ in
+            ImageFileManager.deleteImageDirectory()
             UserManager.resetAll()
+            self?.repository.deleteAllPhoto()
         }
     }
     

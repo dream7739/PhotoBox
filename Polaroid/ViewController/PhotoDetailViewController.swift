@@ -171,13 +171,13 @@ extension PhotoDetailViewController {
             
             sizeTextLabel.text = value.sizeDescription
         case .like:
-            if let profileImage = loadImageToDocument(filename: value.id + "_profile"){
+            if let profileImage = ImageFileManager.loadImageToDocument(filename: value.id + "_profile"){
                 headerView.userProfileImage.image = profileImage
             }
             headerView.usernameLabel.text = value.user.name
             headerView.createDateLabel.text = value.dateDescription
             
-            if let image = loadImageToDocument(filename: value.id){
+            if let image = ImageFileManager.loadImageToDocument(filename: value.id){
                 photoImage.image = image
             }
             sizeTextLabel.text = value.sizeDescription
@@ -207,7 +207,6 @@ extension PhotoDetailViewController {
     
     
     private func configureStatData(_ data: PhotoStatResponse){
-        print(data.downloads.total, data.views.total)
         viewCountTextLabel.text = data.views.total.formatted(.number)
         downloadTextLabel.text = data.downloads.total.formatted(.number)
     }

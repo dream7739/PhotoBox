@@ -129,7 +129,7 @@ extension PhotoLikeViewController: UICollectionViewDataSource, UICollectionViewD
         cell.delegate = self
         
         let data = result[indexPath.item]
-        cell.configureData(.likePhoto, data.convertPhotoResult(), loadImageToDocument(filename: data.id))
+        cell.configureData(.likePhoto, data.convertPhotoResult())
         return cell
         
     }

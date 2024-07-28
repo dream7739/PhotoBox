@@ -38,6 +38,11 @@ extension SearchPhotoViewModel {
             guard let keyword = self?.searchKeyword else { return }
             
             if !keyword.isEmpty && keyword != self?.previousSearchWord {
+                
+                if self?.outputIsInitalSearch.value ?? false {
+                    self?.outputIsInitalSearch.value.toggle()
+                }
+                
                 self?.previousSearchWord = keyword
                 self?.page = 1
                 self?.sortCondition = .relevant
@@ -80,10 +85,6 @@ extension SearchPhotoViewModel {
         NetworkManager.shared.callRequest(request: request, response: PhotoSearchResponse.self) { [weak self] response in
             switch response {
             case .success(let value):
-                if self?.outputIsInitalSearch.value ?? false {
-                    self?.outputIsInitalSearch.value.toggle()
-                }
-                
                 if self?.page == 1 {
                     self?.outputSearchPhotoResult.value = value
                 }else{

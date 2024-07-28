@@ -35,7 +35,7 @@ final class RealmRepository: RealmProtocol {
             print("Add Like Photo Failed")
         }
     }
-    
+        
     func fetchAllPhoto() -> Results<PhotoInfo> {
         return realm.objects(PhotoInfo.self).sorted(byKeyPath: "regDate", ascending: false)
     }
@@ -62,7 +62,23 @@ final class RealmRepository: RealmProtocol {
             }
         }
     }
-       
+    
+    func deleteAllPhoto(){
+        let photo = realm.objects(PhotoInfo.self)
+        let user = realm.objects(UserInfo.self)
+        let image = realm.objects(ImageInfo.self)
+
+        do{
+            try realm.write {
+                realm.delete(photo)
+                realm.delete(user)
+                realm.delete(image)
+            }
+        }catch{
+            print("Delete All Like Photo")
+        }
+    }
+
     func isExistLike(id: String) -> Bool{
         if let _ = realm.object(ofType: PhotoInfo.self, forPrimaryKey: id){
             return true

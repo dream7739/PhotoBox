@@ -70,4 +70,33 @@ extension BaseViewController {
         
         present(alert, animated: true)
     }
+    
+    func configureImageFile(_ isClicked: Bool, _ data: PhotoResult){
+        let imageID = data.id
+        let imageURL = data.urls.small
+        let profileURL = data.user.profile_image.medium
+        
+        if isClicked {
+            imageURL.loadImage { [weak self] result in
+                switch result {
+                case .success(let value):
+                    ImageFileManager.saveImageToDocument(image: value, filename: imageID)
+                case .failure(let error):
+                    self?.showToast(error.localizedDescription)
+                }
+            }
+            
+            profileURL.loadImage { [weak self] result in
+                switch result {
+                case .success(let value):
+                    ImageFileManager.saveImageToDocument(image: value, filename: imageID + "_profile")
+                case .failure(let error):
+                    self?.showToast(error.localizedDescription)
+                }
+            }
+        }else{
+            ImageFileManager.removeImageFromDocument(filename: imageID)
+            ImageFileManager.removeImageFromDocument(filename: imageID + "_profile")
+        }
+    }
 }
