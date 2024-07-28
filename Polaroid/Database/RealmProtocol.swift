@@ -8,9 +8,9 @@
 import Foundation
 import RealmSwift
 
-protocol RealmProtocol {
+protocol RealmProtocol: AnyObject {
     func getRealmFileURL() -> URL?
-    func addLikePhoto(_ data: PhotoResult)
+    func addLikePhoto(_ data: PhotoResult, _ color: String)
     func fetchAllPhoto() -> Results<PhotoInfo>
     func fetchAllPhoto(_ condition: LikeCondition) -> Results<PhotoInfo>
     func deleteLikePhoto(_ photoId: String)

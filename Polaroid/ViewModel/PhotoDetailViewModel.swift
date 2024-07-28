@@ -18,6 +18,7 @@ final class PhotoDetailViewModel {
   
     var inputPhotoResult: PhotoResult? = nil
     var viewType: DetailViewType = .search
+    var color = ""
 
     private let repository = RealmRepository()
     
@@ -49,7 +50,7 @@ extension PhotoDetailViewModel {
             guard let input = self?.inputPhotoResult else { return }
 
             if value {
-                self?.repository.addLikePhoto(input)
+                self?.repository.addLikePhoto(input, self?.color ?? "")
             }else{
                 self?.repository.deleteLikePhoto(input.id)
             }

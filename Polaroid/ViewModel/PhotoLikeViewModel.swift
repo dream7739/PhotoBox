@@ -15,8 +15,12 @@ final class PhotoLikeViewModel {
     var inputLikeButtonIndexPath = Observable(0)
     var inputSortButtonClicked = Observable(LikeCondition.latest)
     var outputScrollToTopTrigger = Observable(())
+    var inputOptionButtonClicked = Observable(0)
+
+    private var optionList = Array.init(repeating: false, count: ColorCondition.allCases.count)
     
     private let repository = RealmRepository()
+    
     
     init(){
         transform()
@@ -27,18 +31,48 @@ final class PhotoLikeViewModel {
 extension PhotoLikeViewModel {
     private func transform(){
         inputViewWillAppearTrigger.bind { [weak self] _ in
-            self?.outputPhotoLikeResult.value = self?.repository.fetchAllPhoto()
+            self?.fetchPhotosFromRealm()
+        }
+        
+        inputOptionButtonClicked.bind { [weak self] value in
+            self?.optionList[value].toggle()
+            self?.fetchPhotosFromRealm()
+            self?.outputScrollToTopTrigger.value = ()
         }
         
         inputLikeButtonIsClicked.bind { [weak self] value in
             guard let data = self?.outputPhotoLikeResult.value, let index = self?.inputLikeButtonIndexPath.value else { return }
+            
             self?.repository.deleteLikePhoto(data[index].id)
-            self?.outputPhotoLikeResult.value = self?.repository.fetchAllPhoto()
+            self?.fetchPhotosFromRealm()
         }
         
         inputSortButtonClicked.bind { [weak self] value in
-            self?.outputPhotoLikeResult.value = self?.repository.fetchAllPhoto(value)
+            self?.fetchPhotosFromRealm()
             self?.outputScrollToTopTrigger.value = ()
+        }
+    }
+    
+    private func createColorOption() -> [String] {
+        var options: [String] = []
+        
+        for idx in 0..<optionList.count {
+            if optionList[idx] {
+                options.append(ColorCondition.allCases[idx].rawValue)
+            }
+        }
+        
+        return options
+    }
+    
+    private func fetchPhotosFromRealm(){
+        let options = createColorOption()
+        let condition = inputSortButtonClicked.value
+        
+        if options.isEmpty {
+            outputPhotoLikeResult.value = repository.fetchAllPhoto(condition)
+        }else{
+            outputPhotoLikeResult.value = repository.fetchFilteredPhoto(options: options, conditon: condition)
         }
     }
 }

@@ -14,17 +14,19 @@ class PhotoInfo: Object {
     @Persisted var width: Int
     @Persisted var height: Int
     @Persisted var likes: Int
+    @Persisted(indexed: true) var color: String
     @Persisted var urls: List<ImageInfo>
     @Persisted var user: List<UserInfo>
     @Persisted var regDate: Date
     
-    convenience init(id: String, created_at: String, width: Int, height: Int, likes: Int) {
+    convenience init(id: String, created_at: String, width: Int, height: Int, likes: Int, color: String) {
         self.init()
         self.id = id
         self.created_at = created_at
         self.width = width
         self.height = height
         self.likes = likes
+        self.color = color
         self.regDate = Date()
     }
 

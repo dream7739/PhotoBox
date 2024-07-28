@@ -27,4 +27,14 @@ extension UIButton.Configuration {
         configuration.baseForegroundColor = .dark_gray
         return configuration
     }
+    
+    static var colorButtonConfig: UIButton.Configuration {
+        var configuration = UIButton.Configuration.plain()
+        configuration.background.backgroundColor = .light_gray
+        configuration.baseForegroundColor = .black
+        configuration.cornerStyle = .capsule
+        configuration.buttonSize = .mini
+        configuration.imagePadding = 4
+        return configuration
+    }
 }

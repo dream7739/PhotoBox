@@ -10,6 +10,7 @@ import SnapKit
 
 final class SearchPhotoViewController: BaseViewController {
     private let searchBar = UISearchBar()
+    private let colorOptionView = ColorOptionView()
     private var sortButton: UIButton!
     private let emptyView = EmptyView(type: .searchInit)
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .createBasicLayout(view))
@@ -34,10 +35,11 @@ final class SearchPhotoViewController: BaseViewController {
         })
         
         view.addSubview(searchBar)
+        view.addSubview(colorOptionView)
         view.addSubview(sortButton)
         view.addSubview(collectionView)
         view.addSubview(emptyView)
-
+        
     }
     
     override func configureLayout() {
@@ -45,18 +47,24 @@ final class SearchPhotoViewController: BaseViewController {
             make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
         
+        colorOptionView.snp.makeConstraints { make in
+            make.top.equalTo(searchBar.snp.bottom).offset(4)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(4)
+            make.trailing.equalTo(sortButton.snp.leading).offset(-4)
+        }
+        
         sortButton.snp.makeConstraints { make in
-            make.top.equalTo(searchBar.snp.bottom).offset(2)
+            make.top.equalTo(searchBar.snp.bottom).offset(4)
             make.trailing.equalTo(view.safeAreaLayoutGuide)
         }
         
         emptyView.snp.makeConstraints { make in
-            make.top.equalTo(sortButton.snp.bottom).offset(2)
+            make.top.equalTo(colorOptionView.snp.bottom).offset(4)
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(sortButton.snp.bottom).offset(2)
+            make.top.equalTo(colorOptionView.snp.bottom).offset(4)
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
@@ -68,6 +76,11 @@ final class SearchPhotoViewController: BaseViewController {
         sortButton.configuration = .sortButtonConfig
         sortButton.configuration?.title = SearchCondition.latest.title
         
+        for idx in 0..<colorOptionView.colorButtonList.count{
+            colorOptionView.colorButtonList[idx].addTarget(self, action: #selector(colorOptionButtonClicked), for: .touchUpInside)
+            colorOptionView.colorButtonList[idx].tag = idx
+        }
+        
         collectionView.keyboardDismissMode = .onDrag
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -75,12 +88,23 @@ final class SearchPhotoViewController: BaseViewController {
         collectionView.register(PhotoResultCollectionViewCell.self, forCellWithReuseIdentifier: PhotoResultCollectionViewCell.identifier)
     }
     
+    @objc private func colorOptionButtonClicked(sender: ColorOptionButton){
+        sender.isClicked.toggle()
+        
+        viewModel.inputOptionButtonClicked.value = (sender.tag, sender.isClicked)
+        
+        for idx in 0..<colorOptionView.colorButtonList.count {
+            if idx != sender.tag {
+                colorOptionView.colorButtonList[idx].isClicked = false
+            }
+        }
+    }
+    
 }
 
 extension SearchPhotoViewController {
-    
     private func bindData(){
-        viewModel.outputSearchPhotoResult.bind { [weak self] value in
+        viewModel.outputSearchFilterPhotoResult.bind { [weak self] value in
             guard let value else { return }
             
             if value.results.isEmpty {
@@ -90,7 +114,10 @@ extension SearchPhotoViewController {
             }
             self?.collectionView.reloadData()
             
-            if self?.viewModel.page == 1 && !value.results.isEmpty {
+        }
+        
+        viewModel.outputScrollTopTrigger.bind { [weak self] _ in
+            if let value = self?.viewModel.outputSearchFilterPhotoResult.value?.results, !value.isEmpty {
                 self?.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
             }
         }
@@ -102,6 +129,12 @@ extension SearchPhotoViewController {
         
         viewModel.outputIsInitalSearch.bind { [weak self] value in
             self?.emptyView.setDescription(.search)
+        }
+        
+        viewModel.outputFilterOptionInitTrigger.bind { [weak self] _ in
+            self?.colorOptionView.colorButtonList.forEach{ button in
+                button.isClicked = false
+            }
         }
     }
     
@@ -120,11 +153,12 @@ extension SearchPhotoViewController {
     private func configureSearchBar(){
         searchBar.delegate = self
     }
+    
 }
 
 extension SearchPhotoViewController: ResultLikeDelegate {
     func likeButtonClicked(_ indexPath: IndexPath, _ isClicked: Bool) {
-        guard let response = viewModel.outputSearchPhotoResult.value else { return }
+        guard let response = viewModel.outputSearchFilterPhotoResult.value else { return }
         let data = response.results[indexPath.item]
         configureImageFile(isClicked, data)
         
@@ -141,22 +175,29 @@ extension SearchPhotoViewController: ResultLikeDelegate {
 
 extension SearchPhotoViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let inputText = searchBar.text ?? ""
-        viewModel.inputSearchText.value = inputText
+        guard let input = searchBar.searchTextField.text else { return }
+        
+        if !input.trimmingCharacters(in: .whitespaces).isEmpty {
+            searchBar.searchTextField.resignFirstResponder()
+        }
+        
+        viewModel.inputSearchText.value = input
+        
         sortButton.isSelected = false
         sortButton.configuration?.title = SearchCondition.latest.title
+        
     }
 }
 
 extension SearchPhotoViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let response = viewModel.outputSearchPhotoResult.value else { return 0 }
+        guard let response = viewModel.outputSearchFilterPhotoResult.value else { return 0 }
         return response.results.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoResultCollectionViewCell.identifier, for: indexPath) as? PhotoResultCollectionViewCell else { return UICollectionViewCell() }
-        guard let response = viewModel.outputSearchPhotoResult.value else {
+        guard let response = viewModel.outputSearchFilterPhotoResult.value else {
             return UICollectionViewCell()
         }
         
@@ -171,20 +212,32 @@ extension SearchPhotoViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoDetailVC = PhotoDetailViewController()
-        guard let data = viewModel.outputSearchPhotoResult.value else { return }
+        guard let data = viewModel.outputSearchFilterPhotoResult.value else { return }
+        
         photoDetailVC.viewModel.inputPhotoResult = data.results[indexPath.item]
         photoDetailVC.viewModel.viewType = .search
+        
+        let isOptionClicked = viewModel.inputOptionButtonClicked.value.1
+        if isOptionClicked {
+            let index = viewModel.inputOptionButtonClicked.value.0
+            photoDetailVC.viewModel.color = ColorCondition.allCases[index].rawValue
+        }
+        
         navigationController?.pushViewController(photoDetailVC, animated: true)
     }
 }
 
 extension SearchPhotoViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        guard let data = viewModel.outputSearchPhotoResult.value else { return }
+        guard let data = viewModel.outputSearchFilterPhotoResult.value else { return }
         
         for indexPath in indexPaths {
             if indexPath.item == data.results.count - 4 && viewModel.page < data.total_pages {
-                viewModel.page += 1
+                if viewModel.inputOptionButtonClicked.value.1 {
+                    viewModel.filterPage += 1
+                }else{
+                    viewModel.page += 1
+                }
                 viewModel.inputPrefetchTrigger.value = ()
             }
         }

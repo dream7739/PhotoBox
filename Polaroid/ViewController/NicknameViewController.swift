@@ -28,7 +28,7 @@ final class NicknameViewController: BaseViewController {
     private let completeButton = RoundButton()
     private let leaveButton = UIButton(type: .system)
     
-    lazy private var mbtiButtonList = [eButton, iButton, sButton, nButton, tButton, fButton, jButton, pButton]
+    private lazy var mbtiButtonList = [eButton, iButton, sButton, nButton, tButton, fButton, jButton, pButton]
     
     let viewModel = NicknameViewModel()
     

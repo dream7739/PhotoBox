@@ -10,6 +10,7 @@ import SnapKit
 
 final class PhotoLikeViewController: BaseViewController {
     private var sortButton: UIButton!
+    private let colorOptionView = ColorOptionView()
     private let emptyView = EmptyView(type: .like)
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .createBasicLayout(view))
     
@@ -31,24 +32,31 @@ final class PhotoLikeViewController: BaseViewController {
             self.toggleSortButton()
         })
         
+        view.addSubview(colorOptionView)
         view.addSubview(sortButton)
         view.addSubview(collectionView)
         view.addSubview(emptyView)
     }
     
     override func configureLayout() {
+        colorOptionView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(2)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(4)
+            make.trailing.equalTo(sortButton.snp.leading).offset(-4)
+        }
+        
         sortButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(2)
             make.trailing.equalTo(view.safeAreaLayoutGuide)
         }
         
         emptyView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(2)
+            make.top.equalTo(colorOptionView.snp.bottom).offset(4)
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(sortButton.snp.bottom).offset(2)
+            make.top.equalTo(colorOptionView.snp.bottom).offset(4)
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
@@ -58,10 +66,21 @@ final class PhotoLikeViewController: BaseViewController {
         sortButton.configuration = .sortButtonConfig
         sortButton.configuration?.title = LikeCondition.earliest.title
         
+        for idx in 0..<colorOptionView.colorButtonList.count{
+            colorOptionView.colorButtonList[idx].addTarget(self, action: #selector(colorOptionButtonClicked), for: .touchUpInside)
+            colorOptionView.colorButtonList[idx].tag = idx
+        }
+        
         collectionView.keyboardDismissMode = .onDrag
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(PhotoResultCollectionViewCell.self, forCellWithReuseIdentifier: PhotoResultCollectionViewCell.identifier)
+    }
+    
+    @objc private func colorOptionButtonClicked(sender: ColorOptionButton){
+        sender.isClicked.toggle()
+        
+        viewModel.inputOptionButtonClicked.value = sender.tag
     }
 }
 

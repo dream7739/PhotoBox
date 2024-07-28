@@ -15,13 +15,14 @@ final class RealmRepository: RealmProtocol {
         return realm.configuration.fileURL
     }
     
-    func addLikePhoto(_ data: PhotoResult) {
+    func addLikePhoto(_ data: PhotoResult, _ color: String = "") {
         let item = PhotoInfo(
             id: data.id,
             created_at: data.created_at,
             width: data.width,
             height: data.height,
-            likes: data.likes
+            likes: data.likes,
+            color: color
         )
         
         item.urls.append(ImageInfo(raw: data.urls.raw, small: data.urls.small))
@@ -46,6 +47,20 @@ final class RealmRepository: RealmProtocol {
             return realm.objects(PhotoInfo.self).sorted(byKeyPath: "regDate", ascending: false)
         case .earliest:
             return realm.objects(PhotoInfo.self).sorted(byKeyPath: "regDate", ascending: true)
+        }
+    }
+    
+    func fetchFilteredPhoto(options: [String], conditon: LikeCondition) -> Results<PhotoInfo> {
+
+        switch conditon {
+        case .latest:
+            return realm.objects(PhotoInfo.self).where{
+                $0.color.in(options)
+            }.sorted(byKeyPath: "regDate", ascending: false)
+        case .earliest:
+            return realm.objects(PhotoInfo.self).where{
+                $0.color.in(options)
+            }.sorted(byKeyPath: "regDate", ascending: true)
         }
     }
     

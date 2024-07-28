@@ -35,7 +35,7 @@ enum NetworkError: Error {
 }
 
 extension NetworkError: LocalizedError {
-    public var errorDescription: String? {
+    var errorDescription: String? {
         switch self {
         case .badRequest:
             return "잘못된 요청입니다."

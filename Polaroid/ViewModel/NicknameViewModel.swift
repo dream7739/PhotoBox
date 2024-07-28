@@ -60,7 +60,7 @@ extension NicknameViewModel {
                 self?.outputNicknameIsValid.value = false
                 self?.outputNicknameValidText.value = NicknameError.isSpecialChar.localizedDescription
             }catch {
-                print(#function, "error occured")
+                print(#function, "Other Nickname Error Occured")
             }
             
             self?.examineSaveButtonEnable()
@@ -108,7 +108,6 @@ extension NicknameViewModel {
 }
 
 extension NicknameViewModel {
-    
     private enum NicknameError: Error, LocalizedError {
         case countLimit
         case isSpecialChar

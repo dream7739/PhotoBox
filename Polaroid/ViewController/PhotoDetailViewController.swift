@@ -135,6 +135,7 @@ final class PhotoDetailViewController: BaseViewController {
     }
     
     override func configureUI() {
+
         photoImage.contentMode = .scaleAspectFill
         photoImage.clipsToBounds = true
         
@@ -174,7 +175,7 @@ final class PhotoDetailViewController: BaseViewController {
         downloadTextLabel.textAlignment = .right
         
         headerView.likeButton.addTarget(self, action: #selector(heartButtonClicked), for: .touchUpInside)
-
+        
         if #available(iOS 16.0, *) {
             chartLabel.text = "차트"
             chartLabel.font = FontType.primary_bold
@@ -182,7 +183,7 @@ final class PhotoDetailViewController: BaseViewController {
             chartSegment.selectedSegmentIndex = 0
             chartSegment.addTarget(self, action: #selector(chartSegmentClicked), for: .valueChanged)
         }
-
+        
     }
     
     @objc func heartButtonClicked(){
@@ -208,7 +209,7 @@ final class PhotoDetailViewController: BaseViewController {
     
     @objc func chartSegmentClicked(sender: UISegmentedControl){
         guard let data = viewModel.outputPhotoStatResult.value else { return }
-
+        
         switch sender.selectedSegmentIndex {
         case 0:
             childView.rootView.data = data.views.historical.values
@@ -270,11 +271,25 @@ extension PhotoDetailViewController {
         viewModel.outputNetworkError.bind { [weak self] value in
             self?.showToast(value.localizedDescription)
             self?.headerView.configureDisabled()
-            self?.photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.5)
+            self?.configureDisabled()
         }
         
         viewModel.inputViewDidLoadTrigger.value = ()
         
+    }
+    
+    func configureDisabled(){
+        photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.5)
+        downloadStackView.removeFromSuperview()
+        viewCountStackView.removeFromSuperview()
+        chartLabel.removeFromSuperview()
+        chartSegment.removeFromSuperview()
+        childView.willMove(toParent: nil)
+        childView.view.removeFromSuperview()
+        childView.removeFromParent()
+        infoStackView.snp.makeConstraints{ make in
+            make.bottom.equalToSuperview().inset(20)
+        }
     }
     
     private func configureStatData(_ data: PhotoStatResponse){

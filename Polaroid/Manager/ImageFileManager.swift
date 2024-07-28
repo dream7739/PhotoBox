@@ -36,11 +36,11 @@ struct ImageFileManager {
             do {
                 try FileManager.default.removeItem(atPath: directoryURL.path)
             } catch {
-                print("file remove error", error)
+                print("File Remove Error", error)
             }
             
         } else {
-            print("file no exist")
+            print("File No Exist")
         }
     }
     
@@ -56,7 +56,7 @@ struct ImageFileManager {
         do {
             try data.write(to: fileURL)
         } catch {
-            print("file save error", error)
+            print("File Save Error", error)
         }
     }
     
@@ -86,11 +86,11 @@ struct ImageFileManager {
             do {
                 try FileManager.default.removeItem(atPath: fileURL.path)
             } catch {
-                print("file remove error", error)
+                print("File Remove Error", error)
             }
             
         } else {
-            print("file no exist")
+            print("File No Exist")
         }
     }
 }

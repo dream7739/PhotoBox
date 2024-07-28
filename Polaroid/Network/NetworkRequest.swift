@@ -10,6 +10,7 @@ import Alamofire
 
 enum NetworkRequest {
     case photoSearch(_ reqest: PhotoSearchRequest)
+    case photoSearchColor(_ request: PhotoSearchColorRequest)
     case topicPhoto(_ request: TopicPhotoRequest)
     case photoStatistics(_ request: PhotoStatRequest)
 
@@ -30,7 +31,7 @@ enum NetworkRequest {
     
     var endPoint: String {
         switch self {
-        case .photoSearch:
+        case .photoSearch, .photoSearchColor:
             return baseURL + "/search/photos"
         case .topicPhoto(let request):
             return baseURL + "/topics/\(request.topicID)/photos"
@@ -41,7 +42,7 @@ enum NetworkRequest {
     
     var method: HTTPMethod {
         switch self {
-        case .photoSearch, .topicPhoto, .photoStatistics:
+        case .photoSearch, .photoSearchColor, .topicPhoto, .photoStatistics:
             return .get
         }
     }
@@ -63,6 +64,15 @@ enum NetworkRequest {
             ]
         case .photoStatistics:
             return [
+                RequestCondition.clientId.rawValue: APIKey.unsplash
+            ]
+        case .photoSearchColor(let request):
+            return [
+                RequestCondition.query.rawValue: request.query,
+                RequestCondition.page.rawValue: "\(request.page)",
+                RequestCondition.pageCount.rawValue: "\(request.per_page)",
+                RequestCondition.orderBy.rawValue: request.order_by,
+                RequestCondition.color.rawValue: request.color,
                 RequestCondition.clientId.rawValue: APIKey.unsplash
             ]
         }
