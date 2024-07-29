@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8818971A2C552C570055593A /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881897192C552C570055593A /* UIButton+.swift */; };
+		882290782C5787B1008A66DC /* NetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882290772C5787B1008A66DC /* NetworkView.swift */; };
+		8822907A2C5788AC008A66DC /* NetworkMornitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882290792C5788AC008A66DC /* NetworkMornitor.swift */; };
 		887A2DDE2C53475D001207A9 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 88E47ED02C4E46C30065527A /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		887A2DE22C538ADB001207A9 /* RealmRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE12C538ADB001207A9 /* RealmRepository.swift */; };
 		887A2DE42C538AEB001207A9 /* RealmLikeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE32C538AEB001207A9 /* RealmLikeModel.swift */; };
@@ -93,6 +95,8 @@
 
 /* Begin PBXFileReference section */
 		881897192C552C570055593A /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
+		882290772C5787B1008A66DC /* NetworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkView.swift; sourceTree = "<group>"; };
+		882290792C5788AC008A66DC /* NetworkMornitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMornitor.swift; sourceTree = "<group>"; };
 		887A2DE12C538ADB001207A9 /* RealmRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmRepository.swift; sourceTree = "<group>"; };
 		887A2DE32C538AEB001207A9 /* RealmLikeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmLikeModel.swift; sourceTree = "<group>"; };
 		887A2DE52C53C71F001207A9 /* UICollectionViewLayout+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewLayout+.swift"; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 				887A2DED2C53F4B7001207A9 /* ImageFileManager.swift */,
 				8886985B2C50F206003AEDC6 /* UserDefaultsManager.swift */,
 				88B2BAEA2C55122F002784D7 /* DateFormatterManager.swift */,
+				882290792C5788AC008A66DC /* NetworkMornitor.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -268,6 +273,7 @@
 				88855E252C565AD7003C2B15 /* ChartView.swift */,
 				88855E292C567982003C2B15 /* ColorOptionView.swift */,
 				88855E2D2C569BE4003C2B15 /* ColorOptionButton.swift */,
+				882290772C5787B1008A66DC /* NetworkView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -459,6 +465,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8822907A2C5788AC008A66DC /* NetworkMornitor.swift in Sources */,
 				888FE8882C52961C00DB7046 /* RoundToggleButton.swift in Sources */,
 				8886985E2C510D66003AEDC6 /* SearchPhotoViewModel.swift in Sources */,
 				887A2DE22C538ADB001207A9 /* RealmRepository.swift in Sources */,
@@ -489,6 +496,7 @@
 				888698682C5131E7003AEDC6 /* NetworkRequest.swift in Sources */,
 				8886984E2C50E4EA003AEDC6 /* Design.swift in Sources */,
 				88E936D32C4E440A0079DF68 /* ReusableProtocol.swift in Sources */,
+				882290782C5787B1008A66DC /* NetworkView.swift in Sources */,
 				88855E2E2C569BE4003C2B15 /* ColorOptionButton.swift in Sources */,
 				88E47EDD2C4E598F0065527A /* NicknameViewController.swift in Sources */,
 				88B535162C5539F500CA2927 /* Constant.swift in Sources */,

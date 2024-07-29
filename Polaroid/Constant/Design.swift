@@ -29,6 +29,7 @@ enum ImageType {
     static let launch = UIImage(named: "launch")!
     static let launchImage = UIImage(named: "launchImage")!
     static let star = UIImage(systemName: "star.fill")!
+    static let wifi = UIImage(systemName: "wifi")
 }
 
 enum TapImage {

@@ -14,6 +14,8 @@ final class TopicPhotoViewModel {
     var outputArchitectureInteriorReulst:[PhotoResult] = []
     var outputUpdateSnapshotTrigger = Observable(())
     var outputErrorOccured = Observable(())
+    var inputRetryButtonClick = Observable(())
+    var outputNetworAvailable = Observable(false)
     
     init(){
         transform()
@@ -24,7 +26,21 @@ final class TopicPhotoViewModel {
 extension TopicPhotoViewModel {
     private func transform(){
         inputViewDidLoadTrigger.bind { [weak self] _ in
-            self?.callTopicPhotoAPI()
+            if NetworkMonitor.shared.isConnected {
+                self?.outputNetworAvailable.value = true
+                self?.callTopicPhotoAPI()
+            }else{
+                self?.outputNetworAvailable.value = false
+            }
+        }
+        
+        inputRetryButtonClick.bind { [weak self] _ in
+            if NetworkMonitor.shared.isConnected {
+                self?.outputNetworAvailable.value = true
+                self?.callTopicPhotoAPI()
+            }else{
+                self?.outputNetworAvailable.value = false
+            }
         }
     }
     
@@ -42,7 +58,7 @@ extension TopicPhotoViewModel {
                 switch response {
                 case .success(let value):
                     self?.outputGoldenHourReulst = value
-                case .failure(let error):
+                case .failure:
                     isFailed = true
                 }
                 group.leave()
@@ -59,7 +75,7 @@ extension TopicPhotoViewModel {
                 switch response {
                 case .success(let value):
                     self?.outputBusinessWorkReulst = value
-                case .failure(let error):
+                case .failure:
                     isFailed = true
                 }
                 group.leave()
@@ -76,7 +92,7 @@ extension TopicPhotoViewModel {
                 switch response {
                 case .success(let value):
                     self?.outputArchitectureInteriorReulst = value
-                case .failure(let error):
+                case .failure:
                     isFailed = true
                 }
                 group.leave()
@@ -100,4 +116,5 @@ extension TopicPhotoViewModel {
             }
         }
     }
+    
 }

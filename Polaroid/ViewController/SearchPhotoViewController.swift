@@ -13,6 +13,7 @@ final class SearchPhotoViewController: BaseViewController {
     private let colorOptionView = ColorOptionView()
     private var sortButton: UIButton!
     private let emptyView = EmptyView(type: .searchInit)
+    private let networkView = NetworkView()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .createBasicLayout(view))
     
     let viewModel = SearchPhotoViewModel()
@@ -39,7 +40,7 @@ final class SearchPhotoViewController: BaseViewController {
         view.addSubview(sortButton)
         view.addSubview(collectionView)
         view.addSubview(emptyView)
-        
+        view.addSubview(networkView)
     }
     
     override func configureLayout() {
@@ -62,6 +63,10 @@ final class SearchPhotoViewController: BaseViewController {
             make.top.equalTo(colorOptionView.snp.bottom).offset(4)
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+        
+        networkView.snp.makeConstraints { make in
+            make.top.equalTo(colorOptionView.snp.bottom).offset(4)
+            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)        }
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(colorOptionView.snp.bottom).offset(4)
@@ -86,6 +91,9 @@ final class SearchPhotoViewController: BaseViewController {
         collectionView.dataSource = self
         collectionView.prefetchDataSource = self
         collectionView.register(PhotoResultCollectionViewCell.self, forCellWithReuseIdentifier: PhotoResultCollectionViewCell.identifier)
+        
+        networkView.isHidden = true
+        networkView.retryButton.addTarget(self, action: #selector(retryButtonClicked), for: .touchUpInside)
     }
     
     @objc private func colorOptionButtonClicked(sender: ColorOptionButton){
@@ -101,10 +109,18 @@ final class SearchPhotoViewController: BaseViewController {
         }
     }
     
+    @objc private func retryButtonClicked(){
+        viewModel.inputRetryButtonClick.value = ()
+    }
+    
 }
 
 extension SearchPhotoViewController {
     private func bindData(){
+        viewModel.outputNetworAvailable.bind { [weak self] value in
+            self?.networkView.isHidden = value
+        }
+        
         viewModel.outputSearchFilterPhotoResult.bind { [weak self] value in
             guard let value else { return }
             if value.results.isEmpty {
@@ -163,15 +179,20 @@ extension SearchPhotoViewController: ResultLikeDelegate {
     func likeButtonClicked(_ indexPath: IndexPath, _ isClicked: Bool) {
         guard let response = viewModel.outputSearchFilterPhotoResult.value else { return }
         let data = response.results[indexPath.item]
-        configureImageFile(isClicked, data)
         
-        viewModel.inputLikeButtonIndexPath.value = indexPath.item
-        viewModel.inputLikeButtonClicked.value = isClicked
-        
-        if isClicked {
-            showToast(Literal.like)
+        if NetworkMonitor.shared.isConnected {
+            configureImageFile(isClicked, data)
+            
+            viewModel.inputLikeButtonIndexPath.value = indexPath.item
+            viewModel.inputLikeButtonClicked.value = isClicked
+            
+            if isClicked {
+                showToast(Literal.like)
+            }else{
+                showToast(Literal.unlike)
+            }
         }else{
-            showToast(Literal.unlike)
+            showToast("오프라인 상태입니다.")
         }
     }
 }

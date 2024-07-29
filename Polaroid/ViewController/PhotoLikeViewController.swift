@@ -122,6 +122,7 @@ extension PhotoLikeViewController {
 extension PhotoLikeViewController: ResultLikeDelegate {
     func likeButtonClicked(_ indexPath: IndexPath, _ isClicked: Bool) {
         guard let data = viewModel.outputPhotoLikeResult.value else { return }
+        
         configureImageFile(isClicked, data[indexPath.item].convertPhotoResult())
         
         viewModel.inputLikeButtonIndexPath.value = indexPath.item

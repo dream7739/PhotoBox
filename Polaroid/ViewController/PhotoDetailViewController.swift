@@ -29,7 +29,7 @@ final class PhotoDetailViewController: BaseViewController {
     private let chartSegment = UISegmentedControl(items: ["조회", "다운로드"])
     private let chartLabel = UILabel()
     private let childView = UIHostingController(rootView: ChartView())
-    
+
     let viewModel = PhotoDetailViewModel()
     
     override func viewDidLoad() {
@@ -45,6 +45,7 @@ final class PhotoDetailViewController: BaseViewController {
     
     override func configureHierarchy() {
         view.addSubview(scrollView)
+
         scrollView.addSubview(contentView)
         
         contentView.addSubview(headerView)
@@ -64,6 +65,7 @@ final class PhotoDetailViewController: BaseViewController {
         
         downloadStackView.addArrangedSubview(downloadLabel)
         downloadStackView.addArrangedSubview(downloadTextLabel)
+        
         
         if #available(iOS 16.0, *) {
             contentView.addSubview(chartLabel)
@@ -187,21 +189,31 @@ final class PhotoDetailViewController: BaseViewController {
     }
     
     @objc func heartButtonClicked(){
-        headerView.isClicked.toggle()
         
         guard let data = viewModel.inputPhotoResult else { return }
-        configureImageFile(headerView.isClicked, data)
-        
-        viewModel.inputHeartButtonClicked.value = headerView.isClicked
         
         switch viewModel.viewType {
         case .search:
-            if headerView.isClicked {
-                showToast(Literal.like)
+            if NetworkMonitor.shared.isConnected {
+                headerView.isClicked.toggle()
+
+                configureImageFile(headerView.isClicked, data)
+                viewModel.inputHeartButtonClicked.value = headerView.isClicked
+                
+                if headerView.isClicked {
+                    showToast(Literal.like)
+                }else{
+                    showToast(Literal.unlike)
+                }
             }else{
-                showToast(Literal.unlike)
+                headerView.likeButton.isEnabled = false
+                headerView.likeImage.tintColor = .dark_gray
+                showToast("오프라인 상태입니다.")
             }
         case .like:
+            headerView.isClicked.toggle()
+            configureImageFile(headerView.isClicked, data)
+            viewModel.inputHeartButtonClicked.value = headerView.isClicked
             navigationController?.popViewController(animated: true)
             
         }
@@ -258,6 +270,20 @@ extension PhotoDetailViewController {
     }
     
     private func bindData(){
+        viewModel.outputNetworAvailable.bind { [weak self] value in
+            switch self?.viewModel.viewType ?? .search {
+            case .search:
+                if !value {
+                    self?.showToast("오프라인 상태입니다")
+                    self?.headerView.userProfileImage.backgroundColor = .dark_gray
+                    self?.headerView.likeButton.isEnabled = false
+                    self?.headerView.likeImage.tintColor = .dark_gray
+                    self?.configureDisabled()
+                }
+            case .like:
+                self?.configureDisabled()
+            }
+        }
         
         viewModel.outputPhotoStatResult.bind { [weak self] value in
             guard let data = value else { return }
