@@ -40,12 +40,9 @@ final class SearchPhotoViewModel {
 extension SearchPhotoViewModel {
     private func transform(){
         inputSearchText.bind { [weak self] value in
-            print(value)
-
             self?.searchKeyword = value.trimmingCharacters(in: .whitespaces).lowercased()
             let isValidInput = self?.validateSearchText(self?.searchKeyword ?? "") ?? false
             
-            print(isValidInput)
             if isValidInput {
                 self?.makeSearchTextStatus()
                 self?.callRequestBySearchText()
@@ -66,7 +63,6 @@ extension SearchPhotoViewModel {
         inputColorOptionButtonClicked.bind { [weak self] value in
             guard let data = self?.outputSearchPhotoResult.value, data.results.count > 0 else { return }
                         
-            print("INPUT OPTION CLICKED")
             self?.isColorOptionClicked = value.isClicked
             self?.callRequestByColorOption(value.idx)
         
@@ -76,7 +72,6 @@ extension SearchPhotoViewModel {
             guard let data = self?.outputSearchFilterPhotoResult.value, data.results.count > 0 else { return }
             guard let colorOption = self?.inputColorOptionButtonClicked.value else { return }
             
-            print("SORT OPTION CLICKED")
             self?.sortCondition = value
             
             self?.callRequestBySortOption(colorOption.idx)
@@ -96,7 +91,7 @@ extension SearchPhotoViewModel {
 
 extension SearchPhotoViewModel {
     private func callSearchPhotoAPI() {
-        print(#function)
+
         let photoSearchRequest = PhotoSearchRequest(
             query: searchKeyword,
             page: page,
@@ -125,8 +120,6 @@ extension SearchPhotoViewModel {
     }
     
     private func callSearchPhotoColorAPI(_ color: String){
-        print(#function)
-
         let photoSearchColorRequest = PhotoSearchColorRequest(
             query: searchKeyword,
             page: filterPage,
@@ -153,7 +146,6 @@ extension SearchPhotoViewModel {
     
     private func savePhotoToRealm(){
         guard let data = outputSearchFilterPhotoResult.value else { return }
-        
         let item = data.results[inputLikeButtonIndexPath.value]
         
         if isColorOptionClicked {
@@ -207,7 +199,7 @@ extension SearchPhotoViewModel {
         }else if previousSortCondition == sortCondition {
             outputSearchFilterPhotoResult.value = outputSearchPhotoResult.value
             outputScrollTopTrigger.value = ()
-        }else if previousSortCondition != sortCondition{
+        }else if previousSortCondition != sortCondition {
             page = 1
             callSearchPhotoAPI()
         }

@@ -217,7 +217,7 @@ extension SearchPhotoViewController: UICollectionViewDataSource, UICollectionVie
         photoDetailVC.viewModel.viewType = .search
         
         if viewModel.isColorOptionClicked {
-            let index = viewModel.inputColorOptionButtonClicked.value.0
+            let index = viewModel.inputColorOptionButtonClicked.value.idx
             photoDetailVC.viewModel.color = ColorCondition.allCases[index].rawValue
         }
         
@@ -232,11 +232,9 @@ extension SearchPhotoViewController: UICollectionViewDataSourcePrefetching {
         for indexPath in indexPaths {
             if indexPath.item == data.results.count - 4 {
                 if viewModel.isColorOptionClicked && viewModel.filterPage < data.total_pages {
-                    print("PREFETCH FILTER", viewModel.filterPage, data.total_pages)
                     viewModel.filterPage += 1
                     viewModel.inputPrefetchTrigger.value = ()
                 }else if !viewModel.isColorOptionClicked && viewModel.page < data.total_pages {
-                    print("PREFETCH", viewModel.page, data.total_pages)
                     viewModel.page += 1
                     viewModel.inputPrefetchTrigger.value = ()
                 }

@@ -17,7 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = false
         IQKeyboardManager.shared.resignOnTouchOutside = true
-        print("TEST", RealmRepository().getRealmFileURL())
+        
+        Thread.sleep(forTimeInterval: 2.0)
 
         return true
     }
