@@ -270,7 +270,6 @@ extension PhotoDetailViewController {
         
         viewModel.outputNetworkError.bind { [weak self] value in
             self?.showToast(value.localizedDescription)
-            self?.headerView.configureDisabled()
             self?.configureDisabled()
         }
         
@@ -278,8 +277,7 @@ extension PhotoDetailViewController {
         
     }
     
-    func configureDisabled(){
-        photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.5)
+    private func configureDisabled(){
         downloadStackView.removeFromSuperview()
         viewCountStackView.removeFromSuperview()
         chartLabel.removeFromSuperview()

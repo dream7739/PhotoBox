@@ -11,13 +11,13 @@ import SnapKit
 final class ColorOptionView: UIView {
     private let scrollView = UIScrollView()
     private let stackView = UIStackView()
-    let blackButton = ColorOptionButton(condition: ColorCondition.black)
-    let whiteButton = ColorOptionButton(condition: ColorCondition.white)
-    let yelloButton = ColorOptionButton(condition: ColorCondition.yellow)
-    let redButton = ColorOptionButton(condition: ColorCondition.red)
-    let purpleButton = ColorOptionButton(condition: ColorCondition.purple)
-    let greenButton = ColorOptionButton(condition: ColorCondition.green)
-    let blueButton = ColorOptionButton(condition: ColorCondition.blue)
+    private let blackButton = ColorOptionButton(condition: ColorCondition.black)
+    private let whiteButton = ColorOptionButton(condition: ColorCondition.white)
+    private let yelloButton = ColorOptionButton(condition: ColorCondition.yellow)
+    private let redButton = ColorOptionButton(condition: ColorCondition.red)
+    private let purpleButton = ColorOptionButton(condition: ColorCondition.purple)
+    private let greenButton = ColorOptionButton(condition: ColorCondition.green)
+    private let blueButton = ColorOptionButton(condition: ColorCondition.blue)
     
     lazy var colorButtonList = [blackButton, whiteButton, yelloButton, redButton, purpleButton, greenButton, blueButton]
 

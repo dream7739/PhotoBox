@@ -21,7 +21,6 @@ final class PhotoLikeViewModel {
     
     private let repository = RealmRepository()
     
-    
     init(){
         transform()
     }

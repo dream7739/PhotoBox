@@ -74,7 +74,7 @@ final class SearchPhotoViewController: BaseViewController {
         
         sortButton.changesSelectionAsPrimaryAction = true
         sortButton.configuration = .sortButtonConfig
-        sortButton.configuration?.title = SearchCondition.latest.title
+        sortButton.configuration?.title = SearchCondition.relevant.title
         
         for idx in 0..<colorOptionView.colorButtonList.count{
             colorOptionView.colorButtonList[idx].addTarget(self, action: #selector(colorOptionButtonClicked), for: .touchUpInside)
@@ -90,8 +90,9 @@ final class SearchPhotoViewController: BaseViewController {
     
     @objc private func colorOptionButtonClicked(sender: ColorOptionButton){
         sender.isClicked.toggle()
+        searchBar.searchTextField.resignFirstResponder()
         
-        viewModel.inputOptionButtonClicked.value = (sender.tag, sender.isClicked)
+        viewModel.inputColorOptionButtonClicked.value = (sender.tag, sender.isClicked)
         
         for idx in 0..<colorOptionView.colorButtonList.count {
             if idx != sender.tag {
@@ -106,7 +107,6 @@ extension SearchPhotoViewController {
     private func bindData(){
         viewModel.outputSearchFilterPhotoResult.bind { [weak self] value in
             guard let value else { return }
-            
             if value.results.isEmpty {
                 self?.emptyView.isHidden = false
             }else{
@@ -127,14 +127,17 @@ extension SearchPhotoViewController {
             self?.searchBar.text = ""
         }
         
-        viewModel.outputIsInitalSearch.bind { [weak self] value in
+        viewModel.outputInitialSearch.bind { [weak self] value in
             self?.emptyView.setDescription(.search)
+            self?.emptyView.isHidden = true
         }
         
-        viewModel.outputFilterOptionInitTrigger.bind { [weak self] _ in
+        viewModel.outputInitColorOptionTrigger.bind { [weak self] _ in
             self?.colorOptionView.colorButtonList.forEach{ button in
                 button.isClicked = false
             }
+            self?.sortButton.isSelected = false
+            self?.sortButton.configuration?.title = SearchCondition.relevant.title
         }
     }
     
@@ -142,11 +145,11 @@ extension SearchPhotoViewController {
         sortButton.throttle()
         
         if sortButton.isSelected {
-            sortButton.configuration?.title = SearchCondition.relevant.title
-            viewModel.inputSortCondition.value = SearchCondition.latest
-        }else{
             sortButton.configuration?.title = SearchCondition.latest.title
-            viewModel.inputSortCondition.value = SearchCondition.relevant
+            viewModel.inputSortButtonClicked.value = SearchCondition.latest
+        }else{
+            sortButton.configuration?.title = SearchCondition.relevant.title
+            viewModel.inputSortButtonClicked.value = SearchCondition.relevant
         }
     }
     
@@ -182,10 +185,6 @@ extension SearchPhotoViewController: UISearchBarDelegate {
         }
         
         viewModel.inputSearchText.value = input
-        
-        sortButton.isSelected = false
-        sortButton.configuration?.title = SearchCondition.latest.title
-        
     }
 }
 
@@ -217,9 +216,8 @@ extension SearchPhotoViewController: UICollectionViewDataSource, UICollectionVie
         photoDetailVC.viewModel.inputPhotoResult = data.results[indexPath.item]
         photoDetailVC.viewModel.viewType = .search
         
-        let isOptionClicked = viewModel.inputOptionButtonClicked.value.1
-        if isOptionClicked {
-            let index = viewModel.inputOptionButtonClicked.value.0
+        if viewModel.isColorOptionClicked {
+            let index = viewModel.inputColorOptionButtonClicked.value.0
             photoDetailVC.viewModel.color = ColorCondition.allCases[index].rawValue
         }
         
@@ -232,13 +230,16 @@ extension SearchPhotoViewController: UICollectionViewDataSourcePrefetching {
         guard let data = viewModel.outputSearchFilterPhotoResult.value else { return }
         
         for indexPath in indexPaths {
-            if indexPath.item == data.results.count - 4 && viewModel.page < data.total_pages {
-                if viewModel.inputOptionButtonClicked.value.1 {
+            if indexPath.item == data.results.count - 4 {
+                if viewModel.isColorOptionClicked && viewModel.filterPage < data.total_pages {
+                    print("PREFETCH FILTER", viewModel.filterPage, data.total_pages)
                     viewModel.filterPage += 1
-                }else{
+                    viewModel.inputPrefetchTrigger.value = ()
+                }else if !viewModel.isColorOptionClicked && viewModel.page < data.total_pages {
+                    print("PREFETCH", viewModel.page, data.total_pages)
                     viewModel.page += 1
+                    viewModel.inputPrefetchTrigger.value = ()
                 }
-                viewModel.inputPrefetchTrigger.value = ()
             }
         }
     }

@@ -23,9 +23,12 @@ enum FontType {
 enum ImageType {
     static let like_circle = UIImage(named: "like_circle")!
     static let like_circle_inactive = UIImage(named: "like_circle_inactive")!
+    static let like = UIImage(systemName: "heart")!
+    static let like_selected = UIImage(systemName: "heart.fill")!
     static let sort = UIImage(named: "sort")!
     static let launch = UIImage(named: "launch")!
     static let launchImage = UIImage(named: "launchImage")!
+    static let star = UIImage(systemName: "star.fill")!
 }
 
 enum TapImage {

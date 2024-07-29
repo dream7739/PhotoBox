@@ -9,23 +9,24 @@ import Foundation
 import RealmSwift
 
 final class SearchPhotoViewModel {
-    var inputSortCondition = Observable(SearchCondition.relevant)
+    var inputSortButtonClicked = Observable(SearchCondition.relevant)
     var inputPrefetchTrigger = Observable(())
     var inputSearchText = Observable("")
     var outputSearchPhotoResult: Observable<PhotoSearchResponse?> = Observable(nil)
     var outputSearchFilterPhotoResult: Observable<PhotoSearchResponse?> = Observable(nil)
     var inputLikeButtonClicked = Observable(false)
     var inputLikeButtonIndexPath = Observable(0)
-    var outputIsInitalSearch = Observable(true)
+    var outputInitialSearch = Observable(true)
     var outputNetworkError = Observable(NetworkError.error)
-    var inputOptionButtonClicked = Observable((0, false))
+    var inputColorOptionButtonClicked = Observable((idx: 0, isClicked: false))
     var outputScrollTopTrigger = Observable(())
-    var outputFilterOptionInitTrigger = Observable(())
+    var outputInitColorOptionTrigger = Observable(())
     
     private var previousSearchWord = ""
+    private var previousSortCondition = SearchCondition.relevant
     private var searchKeyword = ""
     private var sortCondition = SearchCondition.relevant
-    
+    var isColorOptionClicked = false
     var page = 1
     var filterPage = 1
     
@@ -39,61 +40,47 @@ final class SearchPhotoViewModel {
 extension SearchPhotoViewModel {
     private func transform(){
         inputSearchText.bind { [weak self] value in
+            print(value)
+
             self?.searchKeyword = value.trimmingCharacters(in: .whitespaces).lowercased()
+            let isValidInput = self?.validateSearchText(self?.searchKeyword ?? "") ?? false
             
-            guard let keyword = self?.searchKeyword else { return }
-            
-            if !keyword.isEmpty && keyword != self?.previousSearchWord {
-                
-                if self?.outputIsInitalSearch.value ?? false {
-                    self?.outputIsInitalSearch.value.toggle()
-                }
-                
-                if self?.inputOptionButtonClicked.value.1 ?? false {
-                    self?.outputFilterOptionInitTrigger.value = ()
-                }
-                
-                self?.previousSearchWord = keyword
-                self?.page = 1
-                self?.sortCondition = .relevant
-                self?.callSearchPhotoAPI()
+            print(isValidInput)
+            if isValidInput {
+                self?.makeSearchTextStatus()
+                self?.callRequestBySearchText()
+            }else{
+                return
             }
         }
         
         inputPrefetchTrigger.bind { [weak self] _ in
-            guard let value = self?.inputOptionButtonClicked.value else { return }
-            
-            if value.1 {
-                self?.callSearchPhotoColorAPI(ColorCondition.allCases[value.0].rawValue)
+            if self?.isColorOptionClicked ?? false {
+                guard let idx = self?.inputColorOptionButtonClicked.value.idx else { return }
+                self?.callSearchPhotoColorAPI(ColorCondition.allCases[idx].rawValue)
             }else{
                 self?.callSearchPhotoAPI()
             }
         }
         
-        inputOptionButtonClicked.bind { [weak self] value in
-            guard let data = self?.outputSearchPhotoResult.value, data.results.count > 0 else {
-                return
-            }
-            
-            let isClicked = value.1
-            
-            if isClicked {
-                let color = ColorCondition.allCases[value.0].rawValue
-                self?.filterPage = 1
-                self?.callSearchPhotoColorAPI(color)
-            }else{
-                self?.outputSearchFilterPhotoResult.value = self?.outputSearchPhotoResult.value
-                self?.outputScrollTopTrigger.value = ()
-            }
+        inputColorOptionButtonClicked.bind { [weak self] value in
+            guard let data = self?.outputSearchPhotoResult.value, data.results.count > 0 else { return }
+                        
+            print("INPUT OPTION CLICKED")
+            self?.isColorOptionClicked = value.isClicked
+            self?.callRequestByColorOption(value.idx)
+        
         }
         
-        inputSortCondition.bind { [weak self] value in
-            guard let data = self?.outputSearchPhotoResult.value, data.results.count > 0 else {
-                return
-            }
-            self?.page = 1
+        inputSortButtonClicked.bind { [weak self] value in
+            guard let data = self?.outputSearchFilterPhotoResult.value, data.results.count > 0 else { return }
+            guard let colorOption = self?.inputColorOptionButtonClicked.value else { return }
+            
+            print("SORT OPTION CLICKED")
             self?.sortCondition = value
-            self?.callSearchPhotoAPI()
+            
+            self?.callRequestBySortOption(colorOption.idx)
+   
         }
         
         inputLikeButtonClicked.bind { [weak self] value in
@@ -104,13 +91,19 @@ extension SearchPhotoViewModel {
             }
         }
     }
-    
+
+}
+
+extension SearchPhotoViewModel {
     private func callSearchPhotoAPI() {
+        print(#function)
         let photoSearchRequest = PhotoSearchRequest(
             query: searchKeyword,
             page: page,
             order_by: sortCondition.rawValue
         )
+        
+        previousSortCondition = sortCondition
         
         let request = NetworkRequest.photoSearch(photoSearchRequest)
         
@@ -132,6 +125,7 @@ extension SearchPhotoViewModel {
     }
     
     private func callSearchPhotoColorAPI(_ color: String){
+        print(#function)
 
         let photoSearchColorRequest = PhotoSearchColorRequest(
             query: searchKeyword,
@@ -159,10 +153,11 @@ extension SearchPhotoViewModel {
     
     private func savePhotoToRealm(){
         guard let data = outputSearchFilterPhotoResult.value else { return }
+        
         let item = data.results[inputLikeButtonIndexPath.value]
         
-        if inputOptionButtonClicked.value.1 {
-            let color = ColorCondition.allCases[inputOptionButtonClicked.value.0].rawValue
+        if isColorOptionClicked {
+            let color = ColorCondition.allCases[inputColorOptionButtonClicked.value.idx].rawValue
             repository.addLikePhoto(item, color)
         }else{
             repository.addLikePhoto(item)
@@ -173,5 +168,58 @@ extension SearchPhotoViewModel {
         guard let data = outputSearchFilterPhotoResult.value else { return }
         let item = data.results[inputLikeButtonIndexPath.value]
         repository.deleteLikePhoto(item.id)
+    }
+}
+
+
+extension SearchPhotoViewModel {
+    private func validateSearchText(_ searchText: String) -> Bool{
+        if searchText.isEmpty || searchText == previousSearchWord {
+            return false
+        }else{
+            return true
+        }
+    }
+    
+    private func makeSearchTextStatus(){
+        if outputInitialSearch.value {
+            outputInitialSearch.value.toggle()
+        }
+        
+        if inputColorOptionButtonClicked.value.isClicked {
+            outputInitColorOptionTrigger.value = ()
+        }
+    }
+    
+    private func callRequestBySearchText(){
+        previousSearchWord = searchKeyword
+        isColorOptionClicked = false
+        page = 1
+        sortCondition = .relevant
+        callSearchPhotoAPI()
+    }
+    
+    private func callRequestByColorOption(_ idx: Int){
+        if isColorOptionClicked {
+            let color = ColorCondition.allCases[idx].rawValue
+            filterPage = 1
+            callSearchPhotoColorAPI(color)
+        }else if previousSortCondition == sortCondition {
+            outputSearchFilterPhotoResult.value = outputSearchPhotoResult.value
+            outputScrollTopTrigger.value = ()
+        }else if previousSortCondition != sortCondition{
+            page = 1
+            callSearchPhotoAPI()
+        }
+    }
+    
+    private func callRequestBySortOption(_ idx: Int){
+        if isColorOptionClicked {
+            filterPage = 1
+            callSearchPhotoColorAPI(ColorCondition.allCases[idx].rawValue)
+        }else{
+            page = 1
+            callSearchPhotoAPI()
+        }
     }
 }

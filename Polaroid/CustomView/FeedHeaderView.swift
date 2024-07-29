@@ -19,9 +19,9 @@ final class FeedHeaderView: UIView {
     var isClicked: Bool = false {
         didSet {
             if isClicked {
-                likeImage.image = UIImage(systemName: "heart.fill")
+                likeImage.image = ImageType.like_selected
             }else{
-                likeImage.image = UIImage(systemName: "heart")
+                likeImage.image = ImageType.like
             }
         }
     }
@@ -87,15 +87,8 @@ final class FeedHeaderView: UIView {
         userProfileImage.contentMode = .scaleAspectFill
         usernameLabel.font = FontType.tertiary
         createDateLabel.font = FontType.quarternary_bold
-        likeImage.image = UIImage(systemName: "heart")
+        likeImage.image = ImageType.like
     }
     
    
-    func configureDisabled(){
-        likeButton.isEnabled = false
-        likeImage.tintColor = .deep_gray
-        userProfileImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
-        usernameLabel.text = "정보없음"
-        createDateLabel.text = "정보없음"
-    }
 }

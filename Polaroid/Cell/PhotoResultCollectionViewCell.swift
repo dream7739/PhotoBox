@@ -80,7 +80,7 @@ final class PhotoResultCollectionViewCell: BaseCollectionViewCell {
         starStackView.layer.cornerRadius = 10
         starStackView.backgroundColor = .deep_gray
         
-        starImage.image = UIImage(systemName: "star.fill")
+        starImage.image = ImageType.star
         starImage.tintColor = .systemYellow
         
         starCountLabel.textColor = .white

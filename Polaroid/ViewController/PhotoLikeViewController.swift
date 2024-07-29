@@ -64,7 +64,7 @@ final class PhotoLikeViewController: BaseViewController {
     override func configureUI() {
         sortButton.changesSelectionAsPrimaryAction = true
         sortButton.configuration = .sortButtonConfig
-        sortButton.configuration?.title = LikeCondition.earliest.title
+        sortButton.configuration?.title = LikeCondition.latest.title
         
         for idx in 0..<colorOptionView.colorButtonList.count{
             colorOptionView.colorButtonList[idx].addTarget(self, action: #selector(colorOptionButtonClicked), for: .touchUpInside)
@@ -94,6 +94,7 @@ extension PhotoLikeViewController {
                 self?.emptyView.isHidden = true
             }else{
                 self?.emptyView.isHidden = false
+                self?.emptyView.isHidden = false
             }
             
             self?.collectionView.reloadData()
@@ -108,10 +109,10 @@ extension PhotoLikeViewController {
     
     private func toggleSortButton(){
         if sortButton.isSelected {
-            sortButton.configuration?.title = LikeCondition.latest.title
+            sortButton.configuration?.title = LikeCondition.earliest.title
             viewModel.inputSortButtonClicked.value = .earliest
         }else{
-            sortButton.configuration?.title = LikeCondition.earliest.title
+            sortButton.configuration?.title = LikeCondition.latest.title
             viewModel.inputSortButtonClicked.value = .latest
         }
     }
