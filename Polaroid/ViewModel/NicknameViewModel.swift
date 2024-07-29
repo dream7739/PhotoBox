@@ -94,7 +94,9 @@ extension NicknameViewModel {
         
         inputSaveButtonClicked.bind { [weak self] _ in
             if self?.outputSaveButtonIsEnabled.value ?? false {
-                ImageFileManager.createImageDirectory()
+                if self?.viewType == .add {
+                    ImageFileManager.createImageDirectory()
+                }
                 self?.saveUserDefaultsData()
                 self?.outputTransitionTrigger.value = ()
             }

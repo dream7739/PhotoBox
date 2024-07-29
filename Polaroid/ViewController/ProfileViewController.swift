@@ -39,7 +39,12 @@ final class ProfileViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = Navigation.profile.title
+        switch viewType {
+        case .add:
+            navigationItem.title = Navigation.profile.title
+        case .edit:
+            navigationItem.title = Navigation.editProfile.title
+        }
         configureCollectionView()
     }
     

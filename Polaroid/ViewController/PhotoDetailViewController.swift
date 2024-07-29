@@ -195,6 +195,7 @@ final class PhotoDetailViewController: BaseViewController {
         switch viewModel.viewType {
         case .search:
             if NetworkMonitor.shared.isConnected {
+                headerView.likeImage.tintColor = .theme_blue
                 headerView.isClicked.toggle()
 
                 configureImageFile(headerView.isClicked, data)
@@ -206,7 +207,6 @@ final class PhotoDetailViewController: BaseViewController {
                     showToast(Literal.unlike)
                 }
             }else{
-                headerView.likeButton.isEnabled = false
                 headerView.likeImage.tintColor = .dark_gray
                 showToast("오프라인 상태입니다.")
             }
@@ -276,12 +276,13 @@ extension PhotoDetailViewController {
                 if !value {
                     self?.showToast("오프라인 상태입니다")
                     self?.headerView.userProfileImage.backgroundColor = .dark_gray
-                    self?.headerView.likeButton.isEnabled = false
                     self?.headerView.likeImage.tintColor = .dark_gray
                     self?.configureDisabled()
                 }
             case .like:
-                self?.configureDisabled()
+                if !value {
+                    self?.configureDisabled()
+                }
             }
         }
         
