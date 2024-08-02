@@ -11,7 +11,7 @@ import SnapKit
 final class SearchPhotoViewController: BaseViewController {
     private let searchBar = UISearchBar()
     private let colorOptionView = ColorOptionView()
-    private var sortButton: UIButton!
+    private let sortButton = SortOptionButton()
     private let emptyView = EmptyView(type: .searchInit)
     private let networkView = NetworkView()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .createBasicLayout(view))
@@ -31,10 +31,6 @@ final class SearchPhotoViewController: BaseViewController {
     }
     
     override func configureHierarchy() {
-        sortButton = UIButton.init(configuration: .plain(), primaryAction:  UIAction { _ in
-            self.toggleSortButton()
-        })
-        
         view.addSubview(searchBar)
         view.addSubview(colorOptionView)
         view.addSubview(sortButton)
@@ -66,7 +62,8 @@ final class SearchPhotoViewController: BaseViewController {
         
         networkView.snp.makeConstraints { make in
             make.top.equalTo(colorOptionView.snp.bottom).offset(4)
-            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)        }
+            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(colorOptionView.snp.bottom).offset(4)
@@ -76,10 +73,16 @@ final class SearchPhotoViewController: BaseViewController {
     
     override func configureUI() {
         searchBar.placeholder = "키워드 검색"
+  
+        sortButton.addTarget(self, action: #selector(sortButtonClicked), for: .touchUpInside)
         
-        sortButton.changesSelectionAsPrimaryAction = true
-        sortButton.configuration = .sortButtonConfig
-        sortButton.configuration?.title = SearchCondition.relevant.title
+        sortButton.throttle(delay: 1) { [weak self] in
+            if self?.sortButton.isClicked ?? false {
+                self?.viewModel.inputSortButtonClicked.value = SearchCondition.relevant
+            }else{
+                self?.viewModel.inputSortButtonClicked.value = SearchCondition.latest
+            }
+        }
         
         for idx in 0..<colorOptionView.colorButtonList.count{
             colorOptionView.colorButtonList[idx].addTarget(self, action: #selector(colorOptionButtonClicked), for: .touchUpInside)
@@ -128,6 +131,7 @@ extension SearchPhotoViewController {
             }else{
                 self?.emptyView.isHidden = true
             }
+            
             self?.collectionView.reloadData()
             
         }
@@ -152,21 +156,12 @@ extension SearchPhotoViewController {
             self?.colorOptionView.colorButtonList.forEach{ button in
                 button.isClicked = false
             }
-            self?.sortButton.isSelected = false
-            self?.sortButton.configuration?.title = SearchCondition.relevant.title
+            self?.sortButton.isClicked = false
         }
     }
     
-    private func toggleSortButton(){
-        sortButton.throttle()
-        
-        if sortButton.isSelected {
-            sortButton.configuration?.title = SearchCondition.latest.title
-            viewModel.inputSortButtonClicked.value = SearchCondition.latest
-        }else{
-            sortButton.configuration?.title = SearchCondition.relevant.title
-            viewModel.inputSortButtonClicked.value = SearchCondition.relevant
-        }
+    @objc private func sortButtonClicked(){
+        sortButton.isClicked.toggle()
     }
     
     private func configureSearchBar(){

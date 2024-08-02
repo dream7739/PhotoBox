@@ -27,7 +27,7 @@ final class SearchPhotoViewModel {
     private var previousSearchWord = ""
     private var previousSortCondition = SearchCondition.relevant
     private var searchKeyword = ""
-    private var sortCondition = SearchCondition.relevant
+    var sortCondition = SearchCondition.relevant
     var isColorOptionClicked = false
     var page = 1
     var filterPage = 1
@@ -101,7 +101,7 @@ extension SearchPhotoViewModel {
 
 extension SearchPhotoViewModel {
     private func callSearchPhotoAPI() {
-        
+        print(#function)
         if NetworkMonitor.shared.isConnected {
             outputNetworAvailable.value = true
         }else{
