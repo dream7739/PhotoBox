@@ -78,26 +78,52 @@ extension BaseViewController {
         let profileURL = data.user.profile_image.medium
         
         if isClicked {
-            imageURL.loadImage { [weak self] result in
+            downloadImage(imageURL: imageURL, profileURL: profileURL, imageID: imageID)
+        }else{
+            removeImage(imageID: imageID)
+        }
+    }
+    
+    func downloadImage(imageURL: String, profileURL: String, imageID: String){
+        let group = DispatchGroup()
+        var isFailed = false
+        
+        group.enter()
+        DispatchQueue.global(qos: .utility).async(group: group) {
+            imageURL.loadImage { result in
+
                 switch result {
                 case .success(let value):
                     ImageFileManager.saveImageToDocument(image: value, filename: imageID)
-                case .failure(let error):
-                    self?.showToast(error.localizedDescription)
+                case .failure:
+                    isFailed = true
                 }
+                group.leave()
             }
-            
-            profileURL.loadImage { [weak self] result in
+        }
+    
+        group.enter()
+        DispatchQueue.global(qos: .utility).async(group: group){
+            profileURL.loadImage { result in
                 switch result {
                 case .success(let value):
                     ImageFileManager.saveImageToDocument(image: value, filename: imageID + Literal.profileFileName)
-                case .failure(let error):
-                    self?.showToast(error.localizedDescription)
+                case .failure:
+                    isFailed = true
                 }
+                group.leave()
             }
-        }else{
-            ImageFileManager.removeImageFromDocument(filename: imageID)
-            ImageFileManager.removeImageFromDocument(filename: imageID + Literal.profileFileName)
         }
+
+        group.notify(queue: .main){
+            if isFailed {
+                self.showToast("이미지를 다운받지 못했습니다")
+            }
+        }
+    }
+    
+ func removeImage(imageID: String){
+        ImageFileManager.removeImageFromDocument(filename: imageID)
+        ImageFileManager.removeImageFromDocument(filename: imageID + Literal.profileFileName)
     }
 }

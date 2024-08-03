@@ -14,17 +14,13 @@ extension String {
             return
         }
         
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url) {
-                DispatchQueue.main.async {
-                    if let image = UIImage(data: data) {
-                        completion(.success(image))
-                    }
-                }
-            }else{
-                DispatchQueue.main.async {
-                    completion(.failure(LoadImageError.failedDownload))
-                }
+        if let data = try? Data(contentsOf: url) {
+            if let image = UIImage(data: data) {
+                completion(.success(image))
+            }
+        }else{
+            DispatchQueue.main.async {
+                completion(.failure(LoadImageError.failedDownload))
             }
             
         }

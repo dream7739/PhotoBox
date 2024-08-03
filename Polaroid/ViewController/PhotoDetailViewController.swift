@@ -29,7 +29,7 @@ final class PhotoDetailViewController: BaseViewController {
     private let chartSegment = UISegmentedControl(items: ["조회", "다운로드"])
     private let chartLabel = UILabel()
     private let childView = UIHostingController(rootView: ChartView())
-
+    
     let viewModel = PhotoDetailViewModel()
     
     override func viewDidLoad() {
@@ -45,7 +45,7 @@ final class PhotoDetailViewController: BaseViewController {
     
     override func configureHierarchy() {
         view.addSubview(scrollView)
-
+        
         scrollView.addSubview(contentView)
         
         contentView.addSubview(headerView)
@@ -137,7 +137,7 @@ final class PhotoDetailViewController: BaseViewController {
     }
     
     override func configureUI() {
-
+        
         photoImage.contentMode = .scaleAspectFill
         photoImage.clipsToBounds = true
         
@@ -194,17 +194,18 @@ final class PhotoDetailViewController: BaseViewController {
         
         switch viewModel.viewType {
         case .search:
-                headerView.likeImage.tintColor = .theme_blue
-                headerView.isClicked.toggle()
+            headerView.likeImage.tintColor = .theme_blue
+            headerView.isClicked.toggle()
 
-                configureImageFile(headerView.isClicked, data)
-                viewModel.inputHeartButtonClicked.value = headerView.isClicked
-                
-                if headerView.isClicked {
-                    showToast(Literal.like)
-                }else{
-                    showToast(Literal.unlike)
-                }
+            if headerView.isClicked {
+                showToast(Literal.like)
+            }else{
+                showToast(Literal.unlike)
+            }
+            
+            configureImageFile(headerView.isClicked, data)
+            viewModel.inputHeartButtonClicked.value = headerView.isClicked
+            
         case .like:
             headerView.isClicked.toggle()
             configureImageFile(headerView.isClicked, data)
