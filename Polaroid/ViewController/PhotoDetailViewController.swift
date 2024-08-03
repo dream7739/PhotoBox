@@ -194,7 +194,6 @@ final class PhotoDetailViewController: BaseViewController {
         
         switch viewModel.viewType {
         case .search:
-            if NetworkMonitor.shared.isConnected {
                 headerView.likeImage.tintColor = .theme_blue
                 headerView.isClicked.toggle()
 
@@ -206,10 +205,6 @@ final class PhotoDetailViewController: BaseViewController {
                 }else{
                     showToast(Literal.unlike)
                 }
-            }else{
-                headerView.likeImage.tintColor = .dark_gray
-                showToast("오프라인 상태입니다.")
-            }
         case .like:
             headerView.isClicked.toggle()
             configureImageFile(headerView.isClicked, data)
@@ -270,21 +265,6 @@ extension PhotoDetailViewController {
     }
     
     private func bindData(){
-        viewModel.outputNetworAvailable.bind { [weak self] value in
-            switch self?.viewModel.viewType ?? .search {
-            case .search:
-                if !value {
-                    self?.showToast("오프라인 상태입니다")
-                    self?.headerView.userProfileImage.backgroundColor = .dark_gray
-                    self?.headerView.likeImage.tintColor = .dark_gray
-                    self?.configureDisabled()
-                }
-            case .like:
-                if !value {
-                    self?.configureDisabled()
-                }
-            }
-        }
         
         viewModel.outputPhotoStatResult.bind { [weak self] value in
             guard let data = value else { return }

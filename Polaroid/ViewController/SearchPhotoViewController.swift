@@ -13,7 +13,6 @@ final class SearchPhotoViewController: BaseViewController {
     private let colorOptionView = ColorOptionView()
     private let sortButton = SortOptionButton()
     private let emptyView = EmptyView(type: .searchInit)
-    private let networkView = NetworkView()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .createBasicLayout(view))
     
     let viewModel = SearchPhotoViewModel()
@@ -21,7 +20,6 @@ final class SearchPhotoViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = Navigation.searchPhoto.title
-        configureSearchBar()
         bindData()
     }
     
@@ -36,7 +34,6 @@ final class SearchPhotoViewController: BaseViewController {
         view.addSubview(sortButton)
         view.addSubview(collectionView)
         view.addSubview(emptyView)
-        view.addSubview(networkView)
     }
     
     override func configureLayout() {
@@ -60,11 +57,6 @@ final class SearchPhotoViewController: BaseViewController {
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
-        networkView.snp.makeConstraints { make in
-            make.top.equalTo(colorOptionView.snp.bottom).offset(4)
-            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-        
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(colorOptionView.snp.bottom).offset(4)
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
@@ -72,10 +64,10 @@ final class SearchPhotoViewController: BaseViewController {
     }
     
     override func configureUI() {
+        searchBar.delegate = self
         searchBar.placeholder = "키워드 검색"
-  
-        sortButton.addTarget(self, action: #selector(sortButtonClicked), for: .touchUpInside)
         
+        sortButton.addTarget(self, action: #selector(sortButtonClicked), for: .touchUpInside)
         sortButton.throttle(delay: 1) { [weak self] in
             if self?.sortButton.isClicked ?? false {
                 self?.viewModel.inputSortButtonClicked.value = SearchCondition.relevant
@@ -95,13 +87,16 @@ final class SearchPhotoViewController: BaseViewController {
         collectionView.prefetchDataSource = self
         collectionView.register(PhotoResultCollectionViewCell.self, forCellWithReuseIdentifier: PhotoResultCollectionViewCell.identifier)
         
-        networkView.isHidden = true
-        networkView.retryButton.addTarget(self, action: #selector(retryButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc private func sortButtonClicked(){
+        sortButton.isClicked.toggle()
     }
     
     @objc private func colorOptionButtonClicked(sender: ColorOptionButton){
-        sender.isClicked.toggle()
         searchBar.searchTextField.resignFirstResponder()
+        
+        sender.isClicked.toggle()
         
         viewModel.inputColorOptionButtonClicked.value = (sender.tag, sender.isClicked)
         
@@ -120,9 +115,6 @@ final class SearchPhotoViewController: BaseViewController {
 
 extension SearchPhotoViewController {
     private func bindData(){
-        viewModel.outputNetworAvailable.bind { [weak self] value in
-            self?.networkView.isHidden = value
-        }
         
         viewModel.outputSearchFilterPhotoResult.bind { [weak self] value in
             guard let value else { return }
@@ -159,15 +151,6 @@ extension SearchPhotoViewController {
             self?.sortButton.isClicked = false
         }
     }
-    
-    @objc private func sortButtonClicked(){
-        sortButton.isClicked.toggle()
-    }
-    
-    private func configureSearchBar(){
-        searchBar.delegate = self
-    }
-    
 }
 
 extension SearchPhotoViewController: ResultLikeDelegate {
@@ -175,20 +158,17 @@ extension SearchPhotoViewController: ResultLikeDelegate {
         guard let response = viewModel.outputSearchFilterPhotoResult.value else { return }
         let data = response.results[indexPath.item]
         
-        if NetworkMonitor.shared.isConnected {
-            configureImageFile(isClicked, data)
-            
-            viewModel.inputLikeButtonIndexPath.value = indexPath.item
-            viewModel.inputLikeButtonClicked.value = isClicked
-            
-            if isClicked {
-                showToast(Literal.like)
-            }else{
-                showToast(Literal.unlike)
-            }
+        configureImageFile(isClicked, data)
+        
+        viewModel.inputLikeButtonIndexPath.value = indexPath.item
+        viewModel.inputLikeButtonClicked.value = isClicked
+        
+        if isClicked {
+            showToast(Literal.like)
         }else{
-            showToast("오프라인 상태입니다.")
+            showToast(Literal.unlike)
         }
+        
     }
 }
 

@@ -15,7 +15,6 @@ final class PhotoDetailViewModel {
     var outputPhotoIsLiked = Observable(false)
     var inputHeartButtonClicked = Observable(false)
     var outputNetworkError = Observable(NetworkError.error)
-    var outputNetworAvailable = Observable(false)
 
     var inputPhotoResult: PhotoResult? = nil
     var viewType: DetailViewType = .search
@@ -39,13 +38,7 @@ extension PhotoDetailViewModel {
         inputViewDidLoadTrigger.bind { [weak self] _ in
             guard let input = self?.inputPhotoResult else { return }
             self?.confirmPhotoIsLiked(input.id)
-            
-            if NetworkMonitor.shared.isConnected {
-                self?.outputNetworAvailable.value = true
-                self?.callPhotoStatisticsAPI(input.id)
-            }else{
-                self?.outputNetworAvailable.value = false
-            }
+            self?.callPhotoStatisticsAPI(input.id)
         }
         
         inputViewWillAppearTrigger.bind { [weak self] _ in

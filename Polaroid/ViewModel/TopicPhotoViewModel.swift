@@ -15,39 +15,28 @@ final class TopicPhotoViewModel {
     var outputUpdateSnapshotTrigger = Observable(())
     var outputErrorOccured = Observable(())
     var inputRetryButtonClick = Observable(())
-    var outputNetworAvailable = Observable(false)
     
     init(){
         transform()
     }
-
+    
 }
 
 extension TopicPhotoViewModel {
     private func transform(){
         inputViewDidLoadTrigger.bind { [weak self] _ in
-            if NetworkMonitor.shared.isConnected {
-                self?.outputNetworAvailable.value = true
-                self?.callTopicPhotoAPI()
-            }else{
-                self?.outputNetworAvailable.value = false
-            }
+            self?.callTopicPhotoAPI()
         }
         
         inputRetryButtonClick.bind { [weak self] _ in
-            if NetworkMonitor.shared.isConnected {
-                self?.outputNetworAvailable.value = true
-                self?.callTopicPhotoAPI()
-            }else{
-                self?.outputNetworAvailable.value = false
-            }
+            self?.callTopicPhotoAPI()
         }
     }
     
     private func callTopicPhotoAPI(){
         let group = DispatchGroup()
         var isFailed = false
-
+        
         let goldenHourWorkItem = DispatchWorkItem {
             let request = TopicPhotoRequest(topicID: TopicPhotoViewController.Section.goldenHour.topicID)
             

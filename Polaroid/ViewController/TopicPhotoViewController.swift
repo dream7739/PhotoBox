@@ -12,7 +12,6 @@ final class TopicPhotoViewController: BaseViewController {
     private let profileImage = RoundImageView(type: .highlight)
     private let titleLabel = UILabel()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
-    private let networkView = NetworkView()
     
     private let sectionHeader = "section-element-kind-header"
     private var dataSource: UICollectionViewDiffableDataSource<Section, PhotoResult>!
@@ -51,11 +50,11 @@ final class TopicPhotoViewController: BaseViewController {
         updateSnapshot()
     }
     
+    
     override func configureHierarchy() {
         view.addSubview(profileImage)
         view.addSubview(titleLabel)
         view.addSubview(collectionView)
-        view.addSubview(networkView)
     }
     
     override func configureLayout() {
@@ -73,10 +72,7 @@ final class TopicPhotoViewController: BaseViewController {
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
-        
-        networkView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
-        }
+    
     }
     
     override func configureUI() {
@@ -89,9 +85,6 @@ final class TopicPhotoViewController: BaseViewController {
         profileImage.addGestureRecognizer(tapGesture)
         
         collectionView.delegate = self
-        
-        networkView.isHidden = true
-        networkView.retryButton.addTarget(self, action: #selector(retryButtonClicked), for: .touchUpInside)
     }
     
     @objc private func profileImageClicked(){
@@ -127,9 +120,6 @@ extension TopicPhotoViewController {
     }
     
     private func bindData(){
-        viewModel.outputNetworAvailable.bind { [weak self] value in
-            self?.networkView.isHidden = value
-        }
         
         viewModel.inputViewDidLoadTrigger.value = ()
         

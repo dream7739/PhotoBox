@@ -22,7 +22,6 @@ final class SearchPhotoViewModel {
     var outputScrollTopTrigger = Observable(())
     var outputInitColorOptionTrigger = Observable(())
     var inputRetryButtonClick = Observable(())
-    var outputNetworAvailable = Observable(false)
     
     private var previousSearchWord = ""
     private var previousSortCondition = SearchCondition.relevant
@@ -87,29 +86,14 @@ extension SearchPhotoViewModel {
                 self?.deletePhotoFromRealm()
             }
         }
-        
-        inputRetryButtonClick.bind { [weak self] _ in
-            if NetworkMonitor.shared.isConnected {
-                self?.outputNetworAvailable.value = true
-            }else{
-                self?.outputNetworAvailable.value = false
-            }
-        }
+      
     }
 
 }
 
 extension SearchPhotoViewModel {
     private func callSearchPhotoAPI() {
-        print(#function)
-        if NetworkMonitor.shared.isConnected {
-            outputNetworAvailable.value = true
-        }else{
-            previousSearchWord = ""
-            outputNetworAvailable.value = false
-            return
-        }
-
+        
         let photoSearchRequest = PhotoSearchRequest(
             query: searchKeyword,
             page: page,
@@ -138,13 +122,6 @@ extension SearchPhotoViewModel {
     }
     
     private func callSearchPhotoColorAPI(_ color: String){
-        
-        if NetworkMonitor.shared.isConnected {
-            outputNetworAvailable.value = true
-        }else{
-            outputNetworAvailable.value = false
-            return
-        }
         
         let photoSearchColorRequest = PhotoSearchColorRequest(
             query: searchKeyword,
