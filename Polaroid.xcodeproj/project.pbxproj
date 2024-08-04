@@ -14,6 +14,7 @@
 		881A91F62C5DFFE900790808 /* NetworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881A91F52C5DFFE900790808 /* NetworkViewController.swift */; };
 		882290782C5787B1008A66DC /* NetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882290772C5787B1008A66DC /* NetworkView.swift */; };
 		8822907A2C5788AC008A66DC /* NetworkMornitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882290792C5788AC008A66DC /* NetworkMornitor.swift */; };
+		88387D6C2C5F7598005C0517 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88387D6B2C5F7598005C0517 /* UIApplication+.swift */; };
 		887A2DDE2C53475D001207A9 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 88E47ED02C4E46C30065527A /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		887A2DE22C538ADB001207A9 /* RealmRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE12C538ADB001207A9 /* RealmRepository.swift */; };
 		887A2DE42C538AEB001207A9 /* RealmLikeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE32C538AEB001207A9 /* RealmLikeModel.swift */; };
@@ -105,6 +106,7 @@
 		881A91F52C5DFFE900790808 /* NetworkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkViewController.swift; sourceTree = "<group>"; };
 		882290772C5787B1008A66DC /* NetworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkView.swift; sourceTree = "<group>"; };
 		882290792C5788AC008A66DC /* NetworkMornitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMornitor.swift; sourceTree = "<group>"; };
+		88387D6B2C5F7598005C0517 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		887A2DE12C538ADB001207A9 /* RealmRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmRepository.swift; sourceTree = "<group>"; };
 		887A2DE32C538AEB001207A9 /* RealmLikeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmLikeModel.swift; sourceTree = "<group>"; };
 		887A2DE52C53C71F001207A9 /* UICollectionViewLayout+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewLayout+.swift"; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 				887A2DE92C53C95E001207A9 /* UIButton.Configuration+.swift */,
 				888249F12C549B5F004AC5F0 /* String+.swift */,
 				881897192C552C570055593A /* UIButton+.swift */,
+				88387D6B2C5F7598005C0517 /* UIApplication+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -508,6 +511,7 @@
 				88E47EDB2C4E58A00065527A /* RoundButton.swift in Sources */,
 				8818971A2C552C570055593A /* UIButton+.swift in Sources */,
 				888249F22C549B5F004AC5F0 /* String+.swift in Sources */,
+				88387D6C2C5F7598005C0517 /* UIApplication+.swift in Sources */,
 				888698482C50E403003AEDC6 /* PolaroidTabBarController.swift in Sources */,
 				888698652C512EE2003AEDC6 /* APIKey.swift in Sources */,
 				888FE8742C5266DA00DB7046 /* TopicPhotoViewModel.swift in Sources */,

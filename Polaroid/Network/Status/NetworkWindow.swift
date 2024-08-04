@@ -8,7 +8,7 @@
 import UIKit
 
 final class NetworkWindow: UIWindow {
-    private let networkViewController = NetworkViewController()
+    let networkViewController = NetworkViewController()
     
     override init(windowScene: UIWindowScene) {
         super.init(windowScene: windowScene)

@@ -12,7 +12,7 @@ final class NetworkView: UIView {
     private let networkImage = UIImageView()
     private let titleLabel = UILabel()
     private let descriptionLabel = UILabel()
-    private let retryButton = UIButton()
+    let retryButton = UIButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -79,14 +79,5 @@ final class NetworkView: UIView {
         retryButton.backgroundColor = .black
         retryButton.setTitleColor(.white, for: .normal)
         retryButton.setTitle("다시 시도", for: .normal)
-        
-        retryButton.addTarget(self, action: #selector(retryButtonClicked), for: .touchUpInside)
     }
-    
-    @objc private func retryButtonClicked(){
-        if NetworkMonitor.shared.isConnected {
-            NetworkMonitor.shared.dismissNetworkWindow()
-        }
-    }
-
 }

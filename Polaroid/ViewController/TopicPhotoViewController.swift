@@ -50,7 +50,6 @@ final class TopicPhotoViewController: BaseViewController {
         updateSnapshot()
     }
     
-    
     override func configureHierarchy() {
         view.addSubview(profileImage)
         view.addSubview(titleLabel)
@@ -85,6 +84,10 @@ final class TopicPhotoViewController: BaseViewController {
         profileImage.addGestureRecognizer(tapGesture)
         
         collectionView.delegate = self
+    }
+    
+    override func retryNetworkCall() {
+        viewModel.inputRetryButtonClick.value = ()
     }
     
     @objc private func profileImageClicked(){

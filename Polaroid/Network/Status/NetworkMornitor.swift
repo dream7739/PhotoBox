@@ -37,12 +37,17 @@ final class NetworkMonitor {
     
     func presentNetworkWindow(){
         DispatchQueue.main.async {
+            guard let topVC = UIApplication.topViewController() as? BaseViewController else { return }
+
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
                 let networkWindow = NetworkWindow(windowScene: windowScene)
+                networkWindow.networkViewController.delegate = topVC
+
                 networkWindow.makeKeyAndVisible()
                 
                 let sceneDelegate = windowScene.delegate as? SceneDelegate
                 sceneDelegate?.networkWindow = networkWindow
+                
             }
         }
     }

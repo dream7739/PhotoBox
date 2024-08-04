@@ -8,7 +8,7 @@
 import UIKit
 import Toast
 
-class BaseViewController: UIViewController {
+class BaseViewController: UIViewController, NetworkDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,10 +29,11 @@ class BaseViewController: UIViewController {
             target: self,
             action: nil
         )
-        
+         
         backBarButtonItem.tintColor = .black
         navigationItem.backBarButtonItem = backBarButtonItem
     }
+    func retryNetworkCall() { }
 }
 
 
