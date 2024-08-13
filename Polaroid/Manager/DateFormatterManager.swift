@@ -12,9 +12,9 @@ enum DateFormatterManager {
         case yyyyMd = "yyyy년 M월 d일"
     }
     
-    static var basicDateFormatter: DateFormatter {
+    static let basicDateFormatter =  {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormat.yyyyMd.rawValue
         return dateFormatter
-    }
+    }()
 }
