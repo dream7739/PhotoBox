@@ -27,9 +27,9 @@ final class PhotoResultCollectionViewCell: BaseCollectionViewCell {
     var isClicked: Bool = false {
         didSet {
             if isClicked {
-                likeImage.image = ImageType.like_circle
+                likeImage.image = Design.ImageType.like_circle
             }else{
-                likeImage.image = ImageType.like_circle_inactive
+                likeImage.image = Design.ImageType.like_circle_inactive
             }
         }
     }
@@ -80,13 +80,13 @@ final class PhotoResultCollectionViewCell: BaseCollectionViewCell {
         starStackView.layer.cornerRadius = 10
         starStackView.backgroundColor = .deep_gray
         
-        starImage.image = ImageType.star
+        starImage.image = Design.ImageType.star
         starImage.tintColor = .systemYellow
         
         starCountLabel.textColor = .white
-        starCountLabel.font = FontType.quaternary
+        starCountLabel.font = Design.FontType.quaternary
         
-        likeImage.image = ImageType.like_circle_inactive
+        likeImage.image = Design.ImageType.like_circle_inactive
         
         likeButton.addTarget( self, action: #selector(likeButtonClicked), for: .touchUpInside)
 

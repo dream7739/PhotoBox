@@ -61,7 +61,7 @@ final class NetworkView: UIView {
     private func configureUI(){
         backgroundColor = .white
         
-        networkImage.image = ImageType.wifi
+        networkImage.image = Design.ImageType.wifi
         networkImage.tintColor = .dark_gray
         
         titleLabel.font = .systemFont(ofSize: 20)
@@ -69,7 +69,7 @@ final class NetworkView: UIView {
         titleLabel.textAlignment = .center
         titleLabel.text = "네트워크 연결이 원할하지 않습니다"
         
-        descriptionLabel.font = FontType.tertiary
+        descriptionLabel.font = Design.FontType.tertiary
         descriptionLabel.textColor = .dark_gray
         descriptionLabel.textAlignment = .center
         descriptionLabel.numberOfLines = 2

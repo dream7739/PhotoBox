@@ -19,9 +19,9 @@ final class FeedHeaderView: UIView {
     var isClicked: Bool = false {
         didSet {
             if isClicked {
-                likeImage.image = ImageType.like_selected
+                likeImage.image = Design.ImageType.like_selected
             }else{
-                likeImage.image = ImageType.like
+                likeImage.image = Design.ImageType.like
             }
         }
     }
@@ -85,9 +85,9 @@ final class FeedHeaderView: UIView {
     private func configureUI(){
         userProfileImage.clipsToBounds = true
         userProfileImage.contentMode = .scaleAspectFill
-        usernameLabel.font = FontType.tertiary
-        createDateLabel.font = FontType.quarternary_bold
-        likeImage.image = ImageType.like
+        usernameLabel.font = Design.FontType.tertiary
+        createDateLabel.font = Design.FontType.quarternary_bold
+        likeImage.image = Design.ImageType.like
     }
     
    

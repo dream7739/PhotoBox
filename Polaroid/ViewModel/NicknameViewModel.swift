@@ -36,7 +36,7 @@ extension NicknameViewModel {
     private func transform(){
         inputViewDidLoadTrigger.bind { [weak self] value in
             if UserManager.profileImage.isEmpty {
-                self?.outputProfileImage.value = ProfileType.randomTitle
+                self?.outputProfileImage.value = Design.ProfileType.randomTitle
             }else{
                 self?.outputProfileImage.value = UserManager.profileImage
             }

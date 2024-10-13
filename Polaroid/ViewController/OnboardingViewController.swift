@@ -48,9 +48,9 @@ final class OnboardingViewController: BaseViewController {
     
     override func configureUI() {
         titleImage.contentMode = .scaleAspectFill
-        titleImage.image = ImageType.launch
+        titleImage.image = Design.ImageType.launch
         launchImage.contentMode = .scaleAspectFill
-        launchImage.image = ImageType.launchImage
+        launchImage.image = Design.ImageType.launchImage
         nameLabel.text = "홍정민"
         nameLabel.font = .boldSystemFont(ofSize: 20)
         startButton.setTitle("시작하기", for: .normal)

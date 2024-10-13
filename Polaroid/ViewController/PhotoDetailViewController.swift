@@ -149,30 +149,30 @@ final class PhotoDetailViewController: BaseViewController {
         downloadStackView.axis = .horizontal
         
         infoLabel.text = "정보"
-        infoLabel.font = FontType.primary_bold
+        infoLabel.font = Design.FontType.primary_bold
         infoLabel.textColor = .black
         
         sizeLabel.text = "크기"
-        sizeLabel.font = FontType.tertiary_bold
+        sizeLabel.font = Design.FontType.tertiary_bold
         sizeLabel.textColor = .black
         
-        sizeTextLabel.font = FontType.tertiary_bold
+        sizeTextLabel.font = Design.FontType.tertiary_bold
         sizeTextLabel.textColor = .deep_gray
         sizeTextLabel.textAlignment = .right
         
         viewCountLabel.text = "조회수"
-        viewCountLabel.font = FontType.tertiary_bold
+        viewCountLabel.font = Design.FontType.tertiary_bold
         viewCountLabel.textColor = .black
         
-        viewCountTextLabel.font = FontType.tertiary_bold
+        viewCountTextLabel.font = Design.FontType.tertiary_bold
         viewCountTextLabel.textColor = .deep_gray
         viewCountTextLabel.textAlignment = .right
         
         downloadLabel.text = "다운로드"
-        downloadLabel.font = FontType.tertiary_bold
+        downloadLabel.font = Design.FontType.tertiary_bold
         downloadLabel.textColor = .black
         
-        downloadTextLabel.font = FontType.tertiary_bold
+        downloadTextLabel.font = Design.FontType.tertiary_bold
         downloadTextLabel.textColor = .deep_gray
         downloadTextLabel.textAlignment = .right
         
@@ -180,7 +180,7 @@ final class PhotoDetailViewController: BaseViewController {
         
         if #available(iOS 16.0, *) {
             chartLabel.text = "차트"
-            chartLabel.font = FontType.primary_bold
+            chartLabel.font = Design.FontType.primary_bold
             chartLabel.textColor = .black
             chartSegment.selectedSegmentIndex = 0
             chartSegment.addTarget(self, action: #selector(chartSegmentClicked), for: .valueChanged)
