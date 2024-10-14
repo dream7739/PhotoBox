@@ -12,7 +12,7 @@ final class PhotoLikeViewController: BaseViewController {
     private var sortButton: UIButton!
     private let colorOptionView = ColorOptionView()
     private let emptyView = EmptyView(type: .like)
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .createBasicLayout(view))
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: ZigzagFlowLayout())
     
     let viewModel = PhotoLikeViewModel()
     
@@ -75,6 +75,7 @@ final class PhotoLikeViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(PhotoResultCollectionViewCell.self, forCellWithReuseIdentifier: PhotoResultCollectionViewCell.identifier)
+        collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
     
     @objc private func colorOptionButtonClicked(sender: ColorOptionButton){
@@ -136,7 +137,7 @@ extension PhotoLikeViewController: ResultLikeDelegate {
     }
 }
 
-extension PhotoLikeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension PhotoLikeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.outputPhotoLikeResult.value?.count ?? 0
     }
@@ -154,6 +155,11 @@ extension PhotoLikeViewController: UICollectionViewDataSource, UICollectionViewD
         return cell
         
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+          let width = (collectionView.frame.width - 32) / 2
+          return CGSize(width: width, height: width * 1.5)
+      }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoDetailVC = PhotoDetailViewController()

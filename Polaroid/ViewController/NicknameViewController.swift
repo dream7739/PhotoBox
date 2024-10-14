@@ -99,7 +99,7 @@ final class NicknameViewController: BaseViewController {
     override func configureUI() {
         nicknameField.placeholder = "닉네임을 입력해주세요 :)"
         nicknameField.clearButtonMode = .whileEditing
-        validLabel.font = FontType.tertiary
+        validLabel.font = Design.FontType.tertiary
         mbtiLabel.text = "MBTI"
         mbtiLabel.font = .boldSystemFont(ofSize: 15)
         

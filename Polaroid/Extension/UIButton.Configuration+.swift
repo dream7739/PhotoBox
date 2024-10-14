@@ -10,7 +10,7 @@ import UIKit
 extension UIButton.Configuration {
     static var sortButtonConfig: UIButton.Configuration {
         var configuration = UIButton.Configuration.plain()
-        configuration.image = ImageType.sort
+        configuration.image = Design.ImageType.sort
         configuration.baseForegroundColor = .black
         configuration.background.cornerRadius = 14
         configuration.baseBackgroundColor = .white

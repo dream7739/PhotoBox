@@ -90,14 +90,14 @@ extension ProfileViewController {
 
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return ProfileType.allCases.count
+        return Design.ProfileType.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCollectionViewCell.identifier, for: indexPath) as? ProfileCollectionViewCell else { return UICollectionViewCell()
         }
         
-        let data = ProfileType.allCases[indexPath.row]
+        let data = Design.ProfileType.allCases[indexPath.row]
         
         cell.configureData(data: data)
         
@@ -120,7 +120,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        profileImage = ProfileType.allCases[indexPath.item].rawValue
+        profileImage = Design.ProfileType.allCases[indexPath.item].rawValue
         profileView.profileImage.image = UIImage(named: profileImage ?? "")
         selectedIndexPath = indexPath
         collectionView.reloadData()

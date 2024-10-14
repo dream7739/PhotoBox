@@ -18,3 +18,35 @@ extension UICollectionViewLayout {
         return layout
     }
 }
+
+class ZigzagFlowLayout: UICollectionViewFlowLayout {
+    override init() {
+        super.init()
+        self.scrollDirection = .vertical
+        self.minimumLineSpacing = 16
+        self.minimumInteritemSpacing = 8
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+        return true
+    }
+    
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        
+        let attributes = super.layoutAttributesForElements(in: rect)
+        
+        attributes?.forEach { layoutAttribute in
+            if layoutAttribute.representedElementCategory == .cell {
+                if layoutAttribute.indexPath.item % 2 != 0 {
+                    layoutAttribute.frame.origin.y += 20
+                }
+            }
+        }
+        return attributes
+    }
+    
+}

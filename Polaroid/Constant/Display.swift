@@ -21,11 +21,11 @@ enum Navigation {
         case .editProfile:
             "EDIT PROFILE"
         case .topicPhoto:
-            "OUR TOPIC"
+            "TREND PHOTO"
         case .searchPhoto:
             "SEARCH PHOTO"
         case .likePhoto:
-            "MY POLAROID"
+            "MY PHOTOBOX"
         }
     }
     

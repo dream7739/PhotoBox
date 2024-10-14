@@ -34,7 +34,7 @@ final class ProfileCollectionViewCell: BaseCollectionViewCell {
 }
 
 extension ProfileCollectionViewCell {
-    func configureData(data: ProfileType){
+    func configureData(data: Design.ProfileType){
         profileImage.image = UIImage(named: data.rawValue)
     }
 }
