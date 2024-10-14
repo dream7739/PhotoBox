@@ -707,7 +707,7 @@
 				DEVELOPMENT_TEAM = 6ZWU3ZJ8BG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Polaroid/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "홍정민";
+				INFOPLIST_KEY_CFBundleDisplayName = PhotoBox;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -741,7 +741,7 @@
 				DEVELOPMENT_TEAM = 6ZWU3ZJ8BG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Polaroid/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "홍정민";
+				INFOPLIST_KEY_CFBundleDisplayName = PhotoBox;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";

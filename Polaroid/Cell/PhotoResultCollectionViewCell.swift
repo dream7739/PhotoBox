@@ -19,6 +19,8 @@ final class PhotoResultCollectionViewCell: BaseCollectionViewCell {
     private let starStackView = UIStackView()
     private let starImage = UIImageView()
     private let starCountLabel = UILabel()
+    private let userImage = UIImageView()
+    private let usernameLabel = UILabel()
     private let likeImage = UIImageView()
     private let likeButton = UIButton()
     
@@ -39,6 +41,8 @@ final class PhotoResultCollectionViewCell: BaseCollectionViewCell {
     override func configureHierarchy() {
         contentView.addSubview(photoImage)
         contentView.addSubview(starStackView)
+        contentView.addSubview(userImage)
+        contentView.addSubview(usernameLabel)
         starStackView.addArrangedSubview(starImage)
         starStackView.addArrangedSubview(starCountLabel)
         contentView.addSubview(likeButton)
@@ -47,24 +51,41 @@ final class PhotoResultCollectionViewCell: BaseCollectionViewCell {
     
     override func configureLayout() {
         photoImage.snp.makeConstraints { make in
-            make.edges.equalTo(contentView.safeAreaLayoutGuide)
+            make.top.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide)
+            make.height.equalTo(contentView).multipliedBy(0.88)
         }
         
         starStackView.snp.makeConstraints { make in
-            make.leading.bottom.equalTo(contentView.safeAreaLayoutGuide).inset(8)
+            make.centerY.equalTo(usernameLabel)
+            make.trailing.equalTo(photoImage).offset(-2)
+        }
+
+        starImage.snp.makeConstraints { make in
+            make.size.equalTo(20)
         }
         
-        starImage.snp.makeConstraints { make in
-            make.size.equalTo(14)
+        userImage.snp.makeConstraints { make in
+            make.top.equalTo(photoImage.snp.bottom).offset(6)
+            make.leading.equalTo(contentView).offset(8)
+            make.size.equalTo(20)
         }
+        
+        usernameLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(userImage)
+            make.leading.equalTo(userImage.snp.trailing).offset(4)
+            make.trailing.equalTo(starStackView.snp.leading).offset(-8)
+        }
+        
+        usernameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        starStackView.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         likeButton.snp.makeConstraints { make in
-            make.bottom.trailing.equalTo(photoImage)
+            make.top.trailing.equalTo(photoImage)
             make.size.equalTo(50)
         }
         
         likeImage.snp.makeConstraints { make in
-            make.trailing.bottom.equalTo(contentView.safeAreaLayoutGuide).inset(8)
+            make.top.trailing.equalTo(contentView.safeAreaLayoutGuide).inset(8)
             make.size.equalTo(30)
         }
     }
@@ -73,22 +94,22 @@ final class PhotoResultCollectionViewCell: BaseCollectionViewCell {
         photoImage.contentMode = .scaleAspectFill
         photoImage.clipsToBounds = true
         
-        starStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8)
-        starStackView.isLayoutMarginsRelativeArrangement = true
+        userImage.contentMode = .scaleAspectFill
+        userImage.clipsToBounds = true
+        usernameLabel.textColor = .darkGray
+        usernameLabel.font = Design.FontType.quaternary
+        
         starStackView.axis = .horizontal
         starStackView.spacing = 4
-        starStackView.layer.cornerRadius = 10
-        starStackView.backgroundColor = .deep_gray
         
-        starImage.image = Design.ImageType.star
-        starImage.tintColor = .systemYellow
+        starImage.image = Design.ImageType.like
+        starImage.tintColor = .lightGray
         
-        starCountLabel.textColor = .white
+        starCountLabel.textColor = .lightGray
         starCountLabel.font = Design.FontType.quaternary
         
         likeImage.image = Design.ImageType.like_circle_inactive
-        
-        likeButton.addTarget( self, action: #selector(likeButtonClicked), for: .touchUpInside)
+        likeButton.addTarget(self, action: #selector(likeButtonClicked), for: .touchUpInside)
 
     }
     
@@ -103,33 +124,37 @@ extension PhotoResultCollectionViewCell {
     
     func configureData(_ enterPoint: EnterPoint, _ data: PhotoResult){
         switch enterPoint {
-        case .searchPhoto:
+        case .searchPhoto, .topicPhoto:
             if let url = URL(string: data.urls.small){
                 photoImage.kf.setImage(with: url)
             }else{
                 photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
             }
-            starCountLabel.text = data.likes.formatted(.number)
-            isClicked = repository.isExistLike(id: data.id)
+            
+            if let userImageURL = URL(string: data.user.profile_image.medium) {
+                userImage.kf.setImage(with: userImageURL)
+            } else{
+                userImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
+            }
+           
         case .likePhoto:
             if let image = ImageFileManager.loadImageToDocument(filename: data.id){
                 photoImage.image = image
             }else{
                 photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
             }
-            starCountLabel.text = data.likes.formatted(.number)
-            isClicked = repository.isExistLike(id: data.id)
-        case .topicPhoto:
-            if let url = URL(string: data.urls.small){
-                photoImage.kf.setImage(with: url)
-            }else{
-                photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
+            
+            if let userImageURL = URL(string: data.user.profile_image.medium) {
+                userImage.kf.setImage(with: userImageURL)
+            } else{
+                userImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
             }
-            photoImage.layer.cornerRadius = 10
-            likeImage.isHidden = true
-            starCountLabel.text = data.likes.formatted(.number)
-            isClicked = repository.isExistLike(id: data.id)
         }
+        userImage.layer.cornerRadius = 10
+        photoImage.layer.cornerRadius = 10
+        usernameLabel.text = data.user.name
+        starCountLabel.text = data.likes.formatted(.number)
+        isClicked = repository.isExistLike(id: data.id)
     }
     
     @objc func likeButtonClicked(){

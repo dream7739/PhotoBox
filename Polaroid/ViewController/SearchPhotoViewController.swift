@@ -13,7 +13,7 @@ final class SearchPhotoViewController: BaseViewController {
     private let colorOptionView = ColorOptionView()
     private let sortButton = SortOptionButton()
     private let emptyView = EmptyView(type: .searchInit)
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .createBasicLayout(view))
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: ZigzagFlowLayout())
     
     let viewModel = SearchPhotoViewModel()
     
@@ -66,6 +66,7 @@ final class SearchPhotoViewController: BaseViewController {
     override func configureUI() {
         searchBar.delegate = self
         searchBar.placeholder = "키워드 검색"
+        searchBar.searchBarStyle = .minimal
         
         sortButton.addTarget(self, action: #selector(sortButtonClicked), for: .touchUpInside)
         sortButton.throttle(delay: 1) { [weak self] in
@@ -86,6 +87,7 @@ final class SearchPhotoViewController: BaseViewController {
         collectionView.dataSource = self
         collectionView.prefetchDataSource = self
         collectionView.register(PhotoResultCollectionViewCell.self, forCellWithReuseIdentifier: PhotoResultCollectionViewCell.identifier)
+        collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
     }
     
@@ -184,7 +186,7 @@ extension SearchPhotoViewController: UISearchBarDelegate {
     }
 }
 
-extension SearchPhotoViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension SearchPhotoViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let response = viewModel.outputSearchFilterPhotoResult.value else { return 0 }
         return response.results.count
@@ -204,6 +206,12 @@ extension SearchPhotoViewController: UICollectionViewDataSource, UICollectionVie
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+          let width = (collectionView.frame.width - 32) / 2
+          return CGSize(width: width, height: width * 1.5)
+      }
+  
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photoDetailVC = PhotoDetailViewController()
