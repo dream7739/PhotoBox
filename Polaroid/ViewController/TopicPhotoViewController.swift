@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 
 final class TopicPhotoViewController: BaseViewController {
-    private let profileImage = RoundImageView(type: .highlight)
     private let titleLabel = UILabel()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
     
@@ -22,7 +21,7 @@ final class TopicPhotoViewController: BaseViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(200), heightDimension: .absolute(260))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(170), heightDimension: .absolute(200))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = .fixed(6)
         
@@ -51,20 +50,14 @@ final class TopicPhotoViewController: BaseViewController {
     }
     
     override func configureHierarchy() {
-        view.addSubview(profileImage)
         view.addSubview(titleLabel)
         view.addSubview(collectionView)
     }
     
     override func configureLayout() {
-        profileImage.snp.makeConstraints { make in
-            make.size.equalTo(40)
-            make.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(10)
-        }
-        
+       
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(profileImage.snp.bottom).offset(4)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.top.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
         
         collectionView.snp.makeConstraints { make in
@@ -77,28 +70,13 @@ final class TopicPhotoViewController: BaseViewController {
     override func configureUI() {
         titleLabel.font = .systemFont(ofSize: 30, weight: .bold)
         titleLabel.text = Navigation.topicPhoto.title
-        
-        profileImage.image = UIImage(named: UserManager.profileImage)
-        profileImage.isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileImageClicked))
-        profileImage.addGestureRecognizer(tapGesture)
-        
         collectionView.delegate = self
     }
     
     override func retryNetworkCall() {
         viewModel.inputRetryButtonClick.value = ()
     }
-    
-    @objc private func profileImageClicked(){
-        let nicknameVC = NicknameViewController()
-        nicknameVC.viewModel.viewType = .edit
-        nicknameVC.viewModel.profileUpdateTrigger = { [weak self] in
-            self?.profileImage.image = UIImage(named: UserManager.profileImage)
-        }
-        navigationController?.pushViewController(nicknameVC, animated: true)
-    }
-    
+
     @objc private func retryButtonClicked(){
         viewModel.inputRetryButtonClick.value = ()
     }
@@ -106,9 +84,9 @@ final class TopicPhotoViewController: BaseViewController {
 
 extension TopicPhotoViewController {
     enum Section: String, CaseIterable {
-        case goldenHour = "골든아워"
-        case businessWork = "비지니스 및 업무"
-        case architectureInterior = "건축 및 인테리어"
+        case goldenHour = "Golden Hour"
+        case businessWork = "Busniness Work"
+        case architectureInterior = "Architecture & Interior"
         
         var topicID: String {
             switch self {
