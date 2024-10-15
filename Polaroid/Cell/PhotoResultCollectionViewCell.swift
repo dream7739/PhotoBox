@@ -124,7 +124,7 @@ extension PhotoResultCollectionViewCell {
     
     func configureData(_ enterPoint: EnterPoint, _ data: PhotoResult){
         switch enterPoint {
-        case .searchPhoto, .topicPhoto:
+        case .topicPhoto: 
             if let url = URL(string: data.urls.small){
                 photoImage.kf.setImage(with: url)
             }else{
@@ -136,7 +136,22 @@ extension PhotoResultCollectionViewCell {
             } else{
                 userImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
             }
-           
+            
+            likeImage.isHidden = true
+            likeButton.isHidden = true
+        case .searchPhoto:
+            if let url = URL(string: data.urls.small){
+                photoImage.kf.setImage(with: url)
+            }else{
+                photoImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
+            }
+            
+            if let userImageURL = URL(string: data.user.profile_image.medium) {
+                userImage.kf.setImage(with: userImageURL)
+            } else{
+                userImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
+            }
+            
         case .likePhoto:
             if let image = ImageFileManager.loadImageToDocument(filename: data.id){
                 photoImage.image = image
@@ -149,6 +164,7 @@ extension PhotoResultCollectionViewCell {
             } else{
                 userImage.backgroundColor = .deep_gray.withAlphaComponent(0.2)
             }
+            
         }
         userImage.layer.cornerRadius = 10
         photoImage.layer.cornerRadius = 10
