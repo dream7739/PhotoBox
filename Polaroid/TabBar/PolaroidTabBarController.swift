@@ -17,6 +17,7 @@ final class PolaroidTabBarController: UITabBarController {
     
     private func configureTabBar(){
         let topicPhotoVC = UINavigationController(rootViewController: TopicPhotoViewController())
+        let randomPhotoVC = UINavigationController(rootViewController: RandomPhotoViewController(viewModel: RandomPhotoViewModel()))
         let searchPhotoVC = UINavigationController(rootViewController: SearchPhotoViewController())
         let likePhotoVC = UINavigationController(rootViewController: PhotoLikeViewController())
         
@@ -24,15 +25,27 @@ final class PolaroidTabBarController: UITabBarController {
         topic.selectedImage = Design.TabImage.tab_trend
         topicPhotoVC.tabBarItem = topic
         
-        let search = UITabBarItem(title: nil, image: Design.TabImage.tab_search_inactive, tag: 1)
+        let random = UITabBarItem(title: nil, image: Design.TabImage.tab_random_inactive, tag: 1)
+        random.selectedImage = Design.TabImage.tab_random
+        randomPhotoVC.tabBarItem = random
+        
+        let search = UITabBarItem(title: nil, image: Design.TabImage.tab_search_inactive, tag: 2)
         search.selectedImage = Design.TabImage.tab_search
         searchPhotoVC.tabBarItem = search
         
-        let like = UITabBarItem(title: nil, image: Design.TabImage.tab_like_inactive, tag: 2)
+        let like = UITabBarItem(title: nil, image: Design.TabImage.tab_like_inactive, tag: 3)
         like.selectedImage = Design.TabImage.tab_like
         likePhotoVC.tabBarItem = like
         
-        setViewControllers([topicPhotoVC, searchPhotoVC, likePhotoVC], animated: true)
+        setViewControllers(
+            [
+                topicPhotoVC,
+                randomPhotoVC,
+                searchPhotoVC,
+                likePhotoVC
+            ],
+            animated: true
+        )
     }
     
     private func configureTabBarAppearance(){

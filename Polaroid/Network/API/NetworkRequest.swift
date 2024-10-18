@@ -13,6 +13,7 @@ enum NetworkRequest {
     case photoSearchColor(_ request: PhotoSearchColorRequest)
     case topicPhoto(_ request: TopicPhotoRequest)
     case photoStatistics(_ request: PhotoStatRequest)
+    case randomPhoto
 
     private enum RequestCondition: String {
         case query
@@ -23,6 +24,7 @@ enum NetworkRequest {
         case topicID
         case clientId = "client_id"
         case imageID
+        case count
     }
     
     var baseURL: String {
@@ -37,12 +39,14 @@ enum NetworkRequest {
             return baseURL + "/topics/\(request.topicID)/photos"
         case .photoStatistics(let request):
             return baseURL + "/photos/\(request.imageID)/statistics"
+        case .randomPhoto:
+            return baseURL + "/photos/random"
         }
     }
     
     var method: HTTPMethod {
         switch self {
-        case .photoSearch, .photoSearchColor, .topicPhoto, .photoStatistics:
+        case .photoSearch, .photoSearchColor, .topicPhoto, .photoStatistics, .randomPhoto:
             return .get
         }
     }
@@ -73,6 +77,11 @@ enum NetworkRequest {
                 RequestCondition.pageCount.rawValue: "\(request.per_page)",
                 RequestCondition.orderBy.rawValue: request.order_by,
                 RequestCondition.color.rawValue: request.color,
+                RequestCondition.clientId.rawValue: APIKey.unsplash
+            ]
+        case .randomPhoto:
+            return [
+                RequestCondition.count.rawValue: "10",
                 RequestCondition.clientId.rawValue: APIKey.unsplash
             ]
         }

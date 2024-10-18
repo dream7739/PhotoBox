@@ -45,7 +45,6 @@ struct ImageFileManager {
     }
     
     static func saveImageToDocument(image: UIImage, filename: String) {
-        print("FILE", Thread.current.qualityOfService.rawValue)
 
         guard let documentDirectory = FileManager.default.urls(
             for: .documentDirectory,

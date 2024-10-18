@@ -23,7 +23,7 @@ final class NetworkManager {
                    encoding: URLEncoding.queryString)
         .validate(statusCode: 200...500)
         .responseDecodable(of: T.self) { response in
-            guard let statusCode = response.response?.statusCode else { return}
+            guard let statusCode = response.response?.statusCode else { return }
             switch statusCode {
             case 200:
                 switch response.result {

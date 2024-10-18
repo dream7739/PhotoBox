@@ -34,6 +34,8 @@ enum Design {
     enum TabImage {
         static let tab_trend_inactive = UIImage(named: "tap_trend_inactive")!
         static let tab_trend = UIImage(named: "tab_trend")!
+        static let tab_random_inactive = UIImage(named: "tab_random_inactive")!
+        static let tab_random = UIImage(named: "tab_random")!
         static let tab_search_inactive = UIImage(named: "tab_search_inactive")!
         static let tab_search = UIImage(named: "tab_search")!
         static let tab_like_inactive = UIImage(named: "tab_like_inactive")!

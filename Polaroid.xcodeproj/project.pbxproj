@@ -15,6 +15,9 @@
 		882290782C5787B1008A66DC /* NetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882290772C5787B1008A66DC /* NetworkView.swift */; };
 		8822907A2C5788AC008A66DC /* NetworkMornitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882290792C5788AC008A66DC /* NetworkMornitor.swift */; };
 		88387D6C2C5F7598005C0517 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88387D6B2C5F7598005C0517 /* UIApplication+.swift */; };
+		8843B5382CC2357400E2EEC8 /* RandomPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8843B5372CC2357400E2EEC8 /* RandomPhotoViewController.swift */; };
+		8843B53A2CC237F200E2EEC8 /* RandomCollectionVeiwCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8843B5392CC237F200E2EEC8 /* RandomCollectionVeiwCell.swift */; };
+		8843B53C2CC23C3800E2EEC8 /* RandomPhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8843B53B2CC23C3800E2EEC8 /* RandomPhotoViewModel.swift */; };
 		887A2DDE2C53475D001207A9 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 88E47ED02C4E46C30065527A /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		887A2DE22C538ADB001207A9 /* RealmRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE12C538ADB001207A9 /* RealmRepository.swift */; };
 		887A2DE42C538AEB001207A9 /* RealmLikeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887A2DE32C538AEB001207A9 /* RealmLikeModel.swift */; };
@@ -107,6 +110,9 @@
 		882290772C5787B1008A66DC /* NetworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkView.swift; sourceTree = "<group>"; };
 		882290792C5788AC008A66DC /* NetworkMornitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMornitor.swift; sourceTree = "<group>"; };
 		88387D6B2C5F7598005C0517 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
+		8843B5372CC2357400E2EEC8 /* RandomPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPhotoViewController.swift; sourceTree = "<group>"; };
+		8843B5392CC237F200E2EEC8 /* RandomCollectionVeiwCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomCollectionVeiwCell.swift; sourceTree = "<group>"; };
+		8843B53B2CC23C3800E2EEC8 /* RandomPhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPhotoViewModel.swift; sourceTree = "<group>"; };
 		887A2DE12C538ADB001207A9 /* RealmRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmRepository.swift; sourceTree = "<group>"; };
 		887A2DE32C538AEB001207A9 /* RealmLikeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmLikeModel.swift; sourceTree = "<group>"; };
 		887A2DE52C53C71F001207A9 /* UICollectionViewLayout+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewLayout+.swift"; sourceTree = "<group>"; };
@@ -251,6 +257,7 @@
 			children = (
 				888698562C50EAFC003AEDC6 /* ProfileCollectionViewCell.swift */,
 				8886985F2C511953003AEDC6 /* PhotoResultCollectionViewCell.swift */,
+				8843B5392CC237F200E2EEC8 /* RandomCollectionVeiwCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -362,6 +369,7 @@
 				8886984F2C50E5A7003AEDC6 /* TopicPhotoViewController.swift */,
 				888698532C50EAD2003AEDC6 /* ProfileViewController.swift */,
 				888FE87B2C527B8F00DB7046 /* PhotoDetailViewController.swift */,
+				8843B5372CC2357400E2EEC8 /* RandomPhotoViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -382,6 +390,7 @@
 				888FE8732C5266DA00DB7046 /* TopicPhotoViewModel.swift */,
 				888FE8852C528BA300DB7046 /* PhotoDetailViewModel.swift */,
 				887A2DE72C53C84E001207A9 /* PhotoLikeViewModel.swift */,
+				8843B53B2CC23C3800E2EEC8 /* RandomPhotoViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -496,6 +505,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8843B53C2CC23C3800E2EEC8 /* RandomPhotoViewModel.swift in Sources */,
 				8822907A2C5788AC008A66DC /* NetworkMornitor.swift in Sources */,
 				888FE8882C52961C00DB7046 /* RoundToggleButton.swift in Sources */,
 				8886985E2C510D66003AEDC6 /* SearchPhotoViewModel.swift in Sources */,
@@ -511,6 +521,7 @@
 				88E47EDB2C4E58A00065527A /* RoundButton.swift in Sources */,
 				8818971A2C552C570055593A /* UIButton+.swift in Sources */,
 				888249F22C549B5F004AC5F0 /* String+.swift in Sources */,
+				8843B53A2CC237F200E2EEC8 /* RandomCollectionVeiwCell.swift in Sources */,
 				88387D6C2C5F7598005C0517 /* UIApplication+.swift in Sources */,
 				888698482C50E403003AEDC6 /* PolaroidTabBarController.swift in Sources */,
 				888698652C512EE2003AEDC6 /* APIKey.swift in Sources */,
@@ -530,6 +541,7 @@
 				8886984E2C50E4EA003AEDC6 /* Design.swift in Sources */,
 				881A91F62C5DFFE900790808 /* NetworkViewController.swift in Sources */,
 				88E936D32C4E440A0079DF68 /* ReusableProtocol.swift in Sources */,
+				8843B5382CC2357400E2EEC8 /* RandomPhotoViewController.swift in Sources */,
 				882290782C5787B1008A66DC /* NetworkView.swift in Sources */,
 				88855E2E2C569BE4003C2B15 /* ColorOptionButton.swift in Sources */,
 				88E47EDD2C4E598F0065527A /* NicknameViewController.swift in Sources */,
